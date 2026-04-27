@@ -47,7 +47,7 @@ export const servicesData: ServicePage[] = [
     ],
     gallery: [
       {
-        url: "/images/realisations/residentiel-avant.png",
+        url: "/images/realisations/residentiel-avant.jpg",
         alt: "Cuisine résidentielle avant nettoyage — Montréal",
         caption: "Avant — Cuisine Montréal",
         quote: "Ma cuisine était dans un état déplorable après les fêtes. L'équipe KC est intervenue le lendemain matin. Plan de travail, électroménagers, carrelage : tout avait l'air neuf en moins de 3 heures.",
@@ -55,7 +55,7 @@ export const servicesData: ServicePage[] = [
         clientCity: "Montréal",
       },
       {
-        url: "/images/realisations/residentiel-apres.png",
+        url: "/images/realisations/residentiel-apres.jpg",
         alt: "Cuisine résidentielle après nettoyage professionnel — Montréal",
         caption: "Après — Cuisine Montréal",
         quote: "L'équipe de KC a transformé ma cuisine en moins de 2 heures. Des recoins que je n'avais pas nettoyés depuis des années sont maintenant impeccables. Je ne changerais pour rien au monde.",
@@ -93,7 +93,7 @@ export const servicesData: ServicePage[] = [
     ],
     gallery: [
       {
-        url: "/images/realisations/commercial-avant.png",
+        url: "/images/realisations/commercial-avant.jpg",
         alt: "Bureaux commerciaux avant nettoyage — Longueuil",
         caption: "Avant — Bureaux Longueuil",
         quote: "Nos locaux accumulaient la poussière depuis la dernière prestataire qui avait lâché sans préavis. KC est intervenu en urgence le soir même pour une remise en état complète.",
@@ -101,7 +101,7 @@ export const servicesData: ServicePage[] = [
         clientCity: "Longueuil",
       },
       {
-        url: "/images/realisations/commercial-apres.png",
+        url: "/images/realisations/commercial-apres.jpg",
         alt: "Bureaux commerciaux après entretien professionnel KC",
         caption: "Après — Bureaux Longueuil",
         quote: "Nos bureaux sont nettoyés chaque semaine. L'équipe est discrète, efficace et toujours ponctuelle. Le résultat parle de lui-même — nos clients le remarquent à chaque visite.",
@@ -163,7 +163,7 @@ export const servicesData: ServicePage[] = [
     ],
     gallery: [
       {
-        url: "/images/realisations/construction-avant.png",
+        url: "/images/realisations/construction-avant.jpg",
         alt: "Espace après travaux avant nettoyage post-construction",
         caption: "Avant — Chantier Varennes",
         quote: "Après notre rénovation complète, l'état de la maison était catastrophique. Poussière de plâtre partout, résidus de colle, traces de peinture sur les vitres. KC est arrivé le lendemain matin.",
@@ -171,7 +171,7 @@ export const servicesData: ServicePage[] = [
         clientCity: "Varennes",
       },
       {
-        url: "/images/realisations/construction-apres.png",
+        url: "/images/realisations/construction-apres.jpg",
         alt: "Espace propre après nettoyage post-construction KC",
         caption: "Après — Chantier Varennes",
         quote: "KC a remis la maison à neuf en une journée. Aucune trace des travaux, tout brillait. On a pu emménager le soir même. Un travail remarquable !",
@@ -233,7 +233,7 @@ export const servicesData: ServicePage[] = [
     ],
     gallery: [
       {
-        url: "/images/realisations/medical-avant.png",
+        url: "/images/realisations/medical-avant.jpg",
         alt: "Clinique médicale avant désinfection KC",
         caption: "Avant — Clinique Sorel-Tracy",
         quote: "Notre clinique avait un prestataire peu rigoureux. Les zones critiques n'étaient pas traitées correctement. Nous avons contacté KC après avoir vu leur travail chez un confrère.",
@@ -241,7 +241,7 @@ export const servicesData: ServicePage[] = [
         clientCity: "Sorel-Tracy",
       },
       {
-        url: "/images/realisations/medical-apres.png",
+        url: "/images/realisations/medical-apres.jpg",
         alt: "Clinique médicale après désinfection complète KC",
         caption: "Après — Clinique Sorel-Tracy",
         quote: "Notre clinique est entretenue par KC depuis 8 mois. Protocoles rigoureux, rapport de désinfection fourni à chaque passage. Exactement ce que la réglementation exige.",
@@ -282,8 +282,8 @@ export const servicesData: ServicePage[] = [
     tagline: "Entrepôts, usines et ateliers — on gère tout",
     description:
       "Environnements exigeants, grandes surfaces, équipements lourds. Notre équipe est formée et équipée pour les défis du nettoyage industriel.",
-    heroImage: "/images/realisations/industriel-apres.png",
-    cardImage: "/images/realisations/industriel-apres.png",
+    heroImage: "/images/realisations/industriel-apres.jpg",
+    cardImage: "/images/realisations/industriel-apres.jpg",
     iconColor: "text-cyan-600",
     bgColor: "bg-cyan-50",
     howItWorks: [
@@ -293,7 +293,7 @@ export const servicesData: ServicePage[] = [
     ],
     gallery: [
       {
-        url: "/images/realisations/industriel-avant.png",
+        url: "/images/realisations/industriel-avant.jpg",
         alt: "Entrepôt industriel avant nettoyage KC",
         caption: "Avant — Entrepôt Montérégie",
         quote: "L'entrepôt n'avait pas été nettoyé en profondeur depuis 2 ans. Huile de machine, poussière industrielle, sols collants. KC a pris en charge l'intervention complète pendant notre arrêt de production.",
@@ -301,7 +301,7 @@ export const servicesData: ServicePage[] = [
         clientCity: "Saint-Hyacinthe",
       },
       {
-        url: "/images/realisations/industriel-apres.png",
+        url: "/images/realisations/industriel-apres.jpg",
         alt: "Entrepôt industriel après nettoyage professionnel KC",
         caption: "Après — Entrepôt Montérégie",
         quote: "Résultat impressionnant. Les sols sont dégraissés et brillants, les allées sont dégagées et sécurisées. La production a repris dans un environnement de travail complètement transformé.",
@@ -326,8 +326,8 @@ export const servicesData: ServicePage[] = [
     tagline: "Récupérez votre dépôt. Accueillez votre nouveau foyer.",
     description:
       "Vous quittez un logement ou vous prenez possession d'un espace ? Notre équipe le remet à neuf pour garantir la restitution de votre dépôt ou un emménagement impeccable.",
-    heroImage: "/images/realisations/demenagement-apres.png",
-    cardImage: "/images/realisations/demenagement-apres.png",
+    heroImage: "/images/realisations/demenagement-apres.jpg",
+    cardImage: "/images/realisations/demenagement-apres.jpg",
     iconColor: "text-rose-600",
     bgColor: "bg-rose-50",
     howItWorks: [
@@ -337,7 +337,7 @@ export const servicesData: ServicePage[] = [
     ],
     gallery: [
       {
-        url: "/images/realisations/demenagement-avant.png",
+        url: "/images/realisations/demenagement-avant.jpg",
         alt: "Appartement avant nettoyage déménagement KC",
         caption: "Avant — Appartement Longueuil",
         quote: "L'appartement était dans un état difficile après 3 ans d'occupation. Murs marqués, cuisine grasse, salle de bain calcaire. On avait peur de perdre le dépôt.",
@@ -345,7 +345,7 @@ export const servicesData: ServicePage[] = [
         clientCity: "Longueuil",
       },
       {
-        url: "/images/realisations/demenagement-apres.png",
+        url: "/images/realisations/demenagement-apres.jpg",
         alt: "Appartement après nettoyage complet avant remise des clés",
         caption: "Après — Appartement Longueuil",
         quote: "KC a tout transformé en une journée. J'ai récupéré mon dépôt en entier — le propriétaire n'en revenait pas. Service rapide, résultat parfait.",

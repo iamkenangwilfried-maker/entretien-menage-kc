@@ -47,7 +47,7 @@ export default function FAQ() {
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
+          viewport={{ once: true, amount: 0.01 }}
           transition={{ duration: 0.7 }}
           className="mb-10"
         >
@@ -81,7 +81,7 @@ export default function FAQ() {
                   key={i}
                   initial={{ opacity: 0, y: 12 }}
                   whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true }}
+                  viewport={{ once: true, amount: 0.01 }}
                   transition={{ duration: 0.4, delay: 0.04 + i * 0.04 }}
                   className="border border-card-border rounded-xl overflow-hidden bg-white"
                 >

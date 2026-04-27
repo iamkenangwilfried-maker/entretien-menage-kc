@@ -9,13 +9,13 @@ export default function FinalCTA() {
         <motion.div
           initial={{ opacity: 0, y: 24 }}
           whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
+          viewport={{ once: true, amount: 0.01 }}
           transition={{ duration: 0.7 }}
           className="relative rounded-3xl overflow-hidden"
         >
           {/* Background image */}
           <img
-            src="/images/realisations/industriel-apres.png"
+            src="/images/realisations/industriel-apres.jpg"
             alt=""
             className="absolute inset-0 w-full h-full object-cover"
           />

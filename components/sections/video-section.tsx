@@ -9,7 +9,7 @@ export default function VideoSection() {
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
+          viewport={{ once: true, amount: 0.01 }}
           transition={{ duration: 0.7 }}
           className="text-center mb-10"
         >
@@ -27,7 +27,7 @@ export default function VideoSection() {
         <motion.div
           initial={{ opacity: 0, y: 24 }}
           whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
+          viewport={{ once: true, amount: 0.01 }}
           transition={{ duration: 0.7, delay: 0.15 }}
           className="relative rounded-2xl overflow-hidden aspect-video group cursor-pointer shadow-2xl"
         >

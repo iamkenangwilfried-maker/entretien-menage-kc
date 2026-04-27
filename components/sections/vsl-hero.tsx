@@ -87,6 +87,7 @@ export default function VSLHero() {
             poster="/images/vsl-thumbnail.jpeg"
             controls={playing}
             playsInline
+            preload="none"
             className="w-full h-full object-cover"
             onEnded={() => setPlaying(false)}
           />

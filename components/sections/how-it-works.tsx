@@ -58,7 +58,7 @@ export default function HowItWorks() {
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
+          viewport={{ once: true, amount: 0.01 }}
           transition={{ duration: 0.7 }}
           className="text-center mb-12"
         >
@@ -80,7 +80,7 @@ export default function HowItWorks() {
               key={s.step}
               initial={{ opacity: 0, y: 28 }}
               whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
+              viewport={{ once: true, amount: 0.01 }}
               transition={{ duration: 0.6, delay: 0.1 + i * 0.12 }}
             >
               <GlowCard glowColor={s.glowColor} className="h-full flex flex-col">

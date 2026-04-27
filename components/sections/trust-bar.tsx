@@ -19,7 +19,7 @@ export default function TrustBar() {
               key={b.label}
               initial={{ opacity: 0, y: 16 }}
               whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
+              viewport={{ once: true, amount: 0.01 }}
               transition={{ duration: 0.5, delay: i * 0.1 }}
               className="flex flex-col items-center text-center gap-2"
             >

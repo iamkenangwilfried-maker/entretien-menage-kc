@@ -44,7 +44,7 @@ const services = [
     icon: Factory,
     title: "Nettoyage industriel",
     desc: "Entrepôts, usines, ateliers. Équipe formée, matériel industriel, interventions planifiées selon vos cycles de production.",
-    image: "/images/realisations/industriel-apres.png",
+    image: "/images/realisations/industriel-apres.jpg",
     iconColor: "text-cyan-600",
     bgColor: "bg-cyan-50",
   },
@@ -66,7 +66,7 @@ export default function Services() {
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
+          viewport={{ once: true, amount: 0.01 }}
           transition={{ duration: 0.7 }}
           className="text-center mb-12"
         >
@@ -88,7 +88,7 @@ export default function Services() {
               key={s.slug}
               initial={{ opacity: 0, y: 28 }}
               whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
+              viewport={{ once: true, amount: 0.01 }}
               transition={{ duration: 0.5, delay: 0.08 * i }}
               className="group bg-white border border-card-border rounded-2xl overflow-hidden hover:shadow-lg hover:border-accent/30 transition-all duration-300"
             >

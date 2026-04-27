@@ -35,7 +35,7 @@ export default function ServiceAreas() {
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
+          viewport={{ once: true, amount: 0.01 }}
           transition={{ duration: 0.7 }}
           className="text-center mb-12"
         >
@@ -55,7 +55,7 @@ export default function ServiceAreas() {
         <motion.div
           initial={{ opacity: 0, y: 16 }}
           whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
+          viewport={{ once: true, amount: 0.01 }}
           transition={{ duration: 0.6, delay: 0.2 }}
           className="flex flex-wrap justify-center gap-3 mb-12"
         >
@@ -64,7 +64,7 @@ export default function ServiceAreas() {
               key={city.name}
               initial={{ opacity: 0, scale: 0.9 }}
               whileInView={{ opacity: 1, scale: 1 }}
-              viewport={{ once: true }}
+              viewport={{ once: true, amount: 0.01 }}
               transition={{ duration: 0.3, delay: 0.05 * i }}
               className={`flex items-center gap-2 rounded-full px-5 py-2.5 border text-sm font-medium transition-all cursor-default
                 ${city.primary
@@ -82,7 +82,7 @@ export default function ServiceAreas() {
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
+          viewport={{ once: true, amount: 0.01 }}
           transition={{ duration: 0.6, delay: 0.3 }}
           className="grid grid-cols-1 md:grid-cols-3 gap-4 max-w-4xl mx-auto"
         >

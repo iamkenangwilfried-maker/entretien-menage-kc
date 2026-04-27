@@ -105,7 +105,7 @@ export default function AboutPage() {
               <motion.div
                 initial={{ opacity: 0, x: -30 }}
                 whileInView={{ opacity: 1, x: 0 }}
-                viewport={{ once: true }}
+                viewport={{ once: true, amount: 0.01 }}
                 transition={{ duration: 0.7 }}
               >
                 <div className="inline-flex items-center bg-accent/10 text-accent text-xs font-bold uppercase tracking-widest px-4 py-1.5 rounded-full mb-5">
@@ -141,7 +141,7 @@ export default function AboutPage() {
               <motion.div
                 initial={{ opacity: 0, x: 30 }}
                 whileInView={{ opacity: 1, x: 0 }}
-                viewport={{ once: true }}
+                viewport={{ once: true, amount: 0.01 }}
                 transition={{ duration: 0.7 }}
                 className="relative"
               >
@@ -178,7 +178,7 @@ export default function AboutPage() {
                   key={s.label}
                   initial={{ opacity: 0, y: 20 }}
                   whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true }}
+                  viewport={{ once: true, amount: 0.01 }}
                   transition={{ duration: 0.5, delay: 0.1 * i }}
                   className="bg-white border border-card-border rounded-2xl p-6 text-center"
                 >
@@ -199,7 +199,7 @@ export default function AboutPage() {
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
+              viewport={{ once: true, amount: 0.01 }}
               className="text-center mb-12"
             >
               <div className="inline-flex items-center bg-accent/10 text-accent text-xs font-bold uppercase tracking-widest px-4 py-1.5 rounded-full mb-5">
@@ -216,7 +216,7 @@ export default function AboutPage() {
                   key={v.title}
                   initial={{ opacity: 0, y: 24 }}
                   whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true }}
+                  viewport={{ once: true, amount: 0.01 }}
                   transition={{ duration: 0.5, delay: 0.1 * i }}
                   className="bg-white border border-card-border rounded-2xl p-6 hover:shadow-md hover:border-accent/30 transition-all"
                 >
@@ -237,7 +237,7 @@ export default function AboutPage() {
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
+              viewport={{ once: true, amount: 0.01 }}
               className="text-center mb-12"
             >
               <div className="inline-flex items-center bg-accent/10 text-accent text-xs font-bold uppercase tracking-widest px-4 py-1.5 rounded-full mb-5">
@@ -257,7 +257,7 @@ export default function AboutPage() {
                   key={t.name}
                   initial={{ opacity: 0, y: 24 }}
                   whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true }}
+                  viewport={{ once: true, amount: 0.01 }}
                   transition={{ duration: 0.5, delay: 0.1 * i }}
                   className="bg-white border border-card-border rounded-2xl overflow-hidden hover:shadow-md transition-all"
                 >

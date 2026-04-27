@@ -40,7 +40,7 @@ export default function Stats() {
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
+          viewport={{ once: true, amount: 0.01 }}
           transition={{ duration: 0.7 }}
           className="text-center mb-12"
         >
@@ -58,7 +58,7 @@ export default function Stats() {
               key={s.label}
               initial={{ opacity: 0, y: 24 }}
               whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
+              viewport={{ once: true, amount: 0.01 }}
               transition={{ duration: 0.6, delay: 0.1 * i }}
               className="bg-white border border-card-border rounded-2xl p-6 text-center hover:shadow-md transition-shadow"
             >

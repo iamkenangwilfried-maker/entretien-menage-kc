@@ -18,7 +18,7 @@ export const blogPosts: BlogPost[] = [
     date: "2025-03-15",
     readTime: "7 min",
     category: "Conseils",
-    coverImage: "/images/realisations/residentiel-apres.png",
+    coverImage: "/images/realisations/residentiel-apres.jpg",
     content: `Vous cherchez un service d'entretien ménager à Montréal, mais vous ne savez pas par où commencer ? Vous n'êtes pas seul. La grande région montréalaise compte des centaines de compagnies de nettoyage, et choisir la bonne peut rapidement devenir un casse-tête.
 
 Pourtant, ce choix est important. C'est une question de confiance — vous laissez des inconnus entrer chez vous ou dans votre espace de travail. C'est aussi une question de qualité : un mauvais nettoyage s'accumule, et les résultats décevants aussi.
@@ -31,9 +31,9 @@ Dans cet article, nous vous guidons à travers les critères essentiels pour ide
 - Les pièges courants à éviter
 - Ce qui différencie les meilleurs prestataires
 
-[IMAGE:/images/realisations/residentiel-avant.png|Cuisine résidentielle avant nettoyage professionnel|L'état avant l'intervention d'une équipe professionnelle]
+[IMAGE:/images/realisations/residentiel-avant.jpg|Cuisine résidentielle avant nettoyage professionnel|L'état avant l'intervention d'une équipe professionnelle]
 
-[IMAGE:/images/realisations/residentiel-apres.png|Cuisine résidentielle après nettoyage — Montréal|Résultat après intervention de l'équipe KC : cuisine impeccable]
+[IMAGE:/images/realisations/residentiel-apres.jpg|Cuisine résidentielle après nettoyage — Montréal|Résultat après intervention de l'équipe KC : cuisine impeccable]
 
 ## Pourquoi confier son entretien ménager à un professionnel ?
 
@@ -97,9 +97,9 @@ Une entreprise qui répond lentement ou de façon approximative avant d'avoir vo
 
 Les meilleures entreprises de nettoyage à Montréal offrent une **garantie de satisfaction concrète** : si vous n'êtes pas entièrement satisfait du résultat, ils reviennent corriger le problème sans frais supplémentaires. C'est la marque d'une entreprise confiante dans la qualité de son travail et qui prend ses engagements au sérieux.
 
-[IMAGE:/images/realisations/residentiel-avant.png|État d'une cuisine avant nettoyage professionnel|L'état avant l'intervention — un contraste saisissant]
+[IMAGE:/images/realisations/residentiel-avant.jpg|État d'une cuisine avant nettoyage professionnel|L'état avant l'intervention — un contraste saisissant]
 
-[IMAGE:/images/realisations/residentiel-apres.png|Résultat après nettoyage professionnel KC|Le résultat après intervention : voilà ce qu'il faut viser]
+[IMAGE:/images/realisations/residentiel-apres.jpg|Résultat après nettoyage professionnel KC|Le résultat après intervention : voilà ce qu'il faut viser]
 
 ## Montréal vs Montérégie : des besoins différents ?
 
@@ -162,7 +162,7 @@ Chez Entretiens Ménager KC, nous répondons à chacun de ces critères. Notre �
     date: "2025-02-28",
     readTime: "6 min",
     category: "Conseils",
-    coverImage: "/images/realisations/residentiel-avant.png",
+    coverImage: "/images/realisations/residentiel-avant.jpg",
     content: `Le nettoyage résidentiel en Montérégie — que vous habitiez à Sorel-Tracy, Longueuil, Brossard, Saint-Hyacinthe ou Varennes — est une réalité du quotidien. Pourtant, même les ménagères et ménagers les plus assidus font des erreurs qui réduisent l'efficacité de leurs efforts, accélèrent l'usure des surfaces, ou créent sans le savoir des conditions propices aux bactéries et aux moisissures.
 
 Voici les 5 erreurs les plus fréquentes dans l'entretien résidentiel en Montérégie, et comment les éviter une fois pour toutes.
@@ -174,7 +174,7 @@ Voici les 5 erreurs les plus fréquentes dans l'entretien résidentiel en Monté
 - Pourquoi les zones à fort trafic sont souvent les plus négligées
 - L'impact d'un nettoyage trop espacé
 
-[IMAGE:/images/realisations/residentiel-avant.png|Cuisine résidentielle avant nettoyage|L'état avant l'intervention — l'importance du nettoyage régulier]
+[IMAGE:/images/realisations/residentiel-avant.jpg|Cuisine résidentielle avant nettoyage|L'état avant l'intervention — l'importance du nettoyage régulier]
 
 ## Erreur #1 : Nettoyer dans le mauvais ordre
 
@@ -252,7 +252,7 @@ C'est l'erreur la plus dangereuse. Certains mélanges de produits ménagers cour
 
 Si vous n'êtes pas certain de la compatibilité de deux produits, la règle est simple : utilisez-les séparément, rincez abondamment entre les deux applications, et ventilez la pièce.
 
-[IMAGE:/images/realisations/residentiel-apres.png|Résultat après nettoyage écologique professionnel|Des produits verts, un résultat impeccable]
+[IMAGE:/images/realisations/residentiel-apres.jpg|Résultat après nettoyage écologique professionnel|Des produits verts, un résultat impeccable]
 
 ## Erreur #5 : Laisser trop de temps entre les nettoyages
 
@@ -287,7 +287,7 @@ Si vous habitez en Montérégie — à Sorel-Tracy, Longueuil, Brossard, Saint-H
     date: "2025-02-10",
     readTime: "7 min",
     category: "Post-construction",
-    coverImage: "/images/realisations/construction-apres.png",
+    coverImage: "/images/realisations/construction-apres.jpg",
     content: `Vous venez de terminer une rénovation à Sorel-Tracy ou en Montérégie — une cuisine refaite à neuf, un sous-sol aménagé, une extension ajoutée à votre maison. Les entrepreneurs ont plié bagage, et vous êtes enfin seul maître à bord. Mais en jetant un coup d'œil autour de vous, la réalité vous frappe : la poussière est partout. Sur les planchers, les comptoirs, dans les armoires, dans les bouches de ventilation. Les vitres sont tachées de plâtre. Il reste des traces de colle sur la céramique, des éclats de bois dans les coins.
 
 Bienvenue dans la phase de nettoyage post-construction — l'étape que les entrepreneurs oublient toujours de mentionner dans leurs devis.
@@ -299,7 +299,7 @@ Bienvenue dans la phase de nettoyage post-construction — l'étape que les entr
 - Combien de temps ça prend et combien ça coûte
 - Pourquoi faire appel à un professionnel est souvent la meilleure décision
 
-[IMAGE:/images/realisations/construction-avant.png|Chantier après construction — état avant nettoyage|L'état typique d'un espace après travaux : résidus, poussière, débris]
+[IMAGE:/images/realisations/construction-avant.jpg|Chantier après construction — état avant nettoyage|L'état typique d'un espace après travaux : résidus, poussière, débris]
 
 ## Pourquoi le nettoyage post-construction est une spécialité à part entière
 
@@ -360,7 +360,7 @@ Chaque type de plancher nécessite un traitement différent :
 
 Désinfection des surfaces à fort contact (poignées, interrupteurs, robinetteries), vérification systématique pièce par pièce, et remise d'un rapport de nettoyage.
 
-[IMAGE:/images/realisations/construction-apres.png|Espace propre après nettoyage post-construction KC|Résultat après intervention de l'équipe KC : prêt à habiter]
+[IMAGE:/images/realisations/construction-apres.jpg|Espace propre après nettoyage post-construction KC|Résultat après intervention de l'équipe KC : prêt à habiter]
 
 ## Que se passe-t-il si vous ne nettoyez pas correctement ?
 
@@ -420,7 +420,7 @@ Entretiens Ménager KC intervient pour les nettoyages post-construction à Sorel
     date: "2025-01-20",
     readTime: "6 min",
     category: "Commercial",
-    coverImage: "/images/realisations/commercial-apres.png",
+    coverImage: "/images/realisations/commercial-apres.jpg",
     content: `Nombreuses sont les PME montréalaises qui confient encore l'entretien de leurs locaux à leurs propres employés — ou qui gèrent ça en interne avec un produit quelconque et des chiffons sous l'évier. Cette approche semble économique de prime abord. Mais elle cache souvent des coûts cachés et une qualité insuffisante qui peuvent coûter bien plus cher à long terme.
 
 Externaliser l'entretien commercial de vos locaux à Montréal ou en Montérégie est une décision stratégique qui mérite d'être analysée sérieusement. Voici tout ce que vous devez savoir pour prendre la meilleure décision pour votre entreprise.
@@ -432,7 +432,7 @@ Externaliser l'entretien commercial de vos locaux à Montréal ou en Montérégi
 - Comment choisir le bon prestataire commercial
 - Combien ça coûte réellement à Montréal
 
-[IMAGE:/images/realisations/commercial-avant.png|Bureau commercial avant entretien — état initial|L'état avant intervention : l'impact visible sur l'image professionnelle]
+[IMAGE:/images/realisations/commercial-avant.jpg|Bureau commercial avant entretien — état initial|L'état avant intervention : l'impact visible sur l'image professionnelle]
 
 ## Le vrai coût de l'entretien ménager interne
 
@@ -482,7 +482,7 @@ Dans certains secteurs réglementés (restauration, soins de santé, alimentatio
 
 Un prestataire professionnel peut s'adapter à vos besoins changeants : intensification avant un événement important, nettoyage spécial après des travaux, intervention d'urgence en cas d'incident. Votre personnel interne n'offre pas cette flexibilité.
 
-[IMAGE:/images/realisations/commercial-apres.png|Bureau commercial après entretien professionnel KC|Résultat après intervention : un espace de travail impeccable qui renforce votre image]
+[IMAGE:/images/realisations/commercial-apres.jpg|Bureau commercial après entretien professionnel KC|Résultat après intervention : un espace de travail impeccable qui renforce votre image]
 
 ## Les secteurs qui bénéficient le plus de l'externalisation à Montréal
 
@@ -566,7 +566,7 @@ Mais entre les promesses marketing, les certifications multiples et les prix par
 - Les économies réelles à long terme
 - Pourquoi c'est particulièrement important en Montérégie et à Montréal
 
-[IMAGE:/images/realisations/residentiel-avant.png|Espace avant nettoyage écologique — accumulation de saleté|Avant : l'état typique d'une surface traitée avec des produits chimiques agressifs qui laissent des résidus]
+[IMAGE:/images/realisations/residentiel-avant.jpg|Espace avant nettoyage écologique — accumulation de saleté|Avant : l'état typique d'une surface traitée avec des produits chimiques agressifs qui laissent des résidus]
 
 ## Ce que contiennent vraiment les nettoyants conventionnels
 
@@ -632,7 +632,7 @@ Des désinfectants écologiques homologués par Santé Canada (numéro DIN) exis
 
 Pour certains cas extrêmes — désinfection d'environnements médicaux, traitement de moisissures importantes, dégraissage industriel — des produits conventionnels spécialisés peuvent encore être nécessaires. C'est pourquoi les prestataires professionnels comme Entretiens Ménager KC choisissent leurs produits en fonction de chaque situation.
 
-[IMAGE:/images/realisations/residentiel-apres.png|Résultat après nettoyage 100% écologique|Après : propre, sain et respectueux de l'environnement — la preuve que les produits verts fonctionnent]
+[IMAGE:/images/realisations/residentiel-apres.jpg|Résultat après nettoyage 100% écologique|Après : propre, sain et respectueux de l'environnement — la preuve que les produits verts fonctionnent]
 
 ## Les bénéfices concrets pour votre famille au Québec
 

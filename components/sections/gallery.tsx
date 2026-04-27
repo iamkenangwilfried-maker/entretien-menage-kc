@@ -7,48 +7,48 @@ const slides = [
   {
     id: 1,
     category: "Résidentiel",
-    before: { url: "/images/realisations/residentiel-avant.png", label: "Avant" },
-    after:  { url: "/images/realisations/residentiel-apres.png",  label: "Après"  },
+    before: { url: "/images/realisations/residentiel-avant.jpg", label: "Avant" },
+    after:  { url: "/images/realisations/residentiel-apres.jpg",  label: "Après"  },
     title: "Cuisine résidentielle — Montréal",
     desc: "Nettoyage en profondeur : plan de travail, électroménagers, carrelage. Résultat impeccable en 3h.",
   },
   {
     id: 2,
     category: "Commercial",
-    before: { url: "/images/realisations/commercial-avant.png", label: "Avant" },
-    after:  { url: "/images/realisations/commercial-apres.png",  label: "Après"  },
+    before: { url: "/images/realisations/commercial-avant.jpg", label: "Avant" },
+    after:  { url: "/images/realisations/commercial-apres.jpg",  label: "Après"  },
     title: "Bureaux commerciaux — Longueuil",
     desc: "Entretien hebdomadaire. Espaces de travail, cuisine, toilettes, hall d'entrée.",
   },
   {
     id: 3,
     category: "Post-construction",
-    before: { url: "/images/realisations/construction-avant.png", label: "Avant" },
-    after:  { url: "/images/realisations/construction-apres.png",  label: "Après"  },
+    before: { url: "/images/realisations/construction-avant.jpg", label: "Avant" },
+    after:  { url: "/images/realisations/construction-apres.jpg",  label: "Après"  },
     title: "Post-rénovation — Varennes",
     desc: "Poussière de plâtre, résidus de chantier éliminés. Prêt à habiter dès le lendemain.",
   },
   {
     id: 4,
     category: "Médical",
-    before: { url: "/images/realisations/medical-avant.png", label: "Avant" },
-    after:  { url: "/images/realisations/medical-apres.png",  label: "Après"  },
+    before: { url: "/images/realisations/medical-avant.jpg", label: "Avant" },
+    after:  { url: "/images/realisations/medical-apres.jpg",  label: "Après"  },
     title: "Clinique médicale — Sorel-Tracy",
     desc: "Désinfection complète avec produits homologués Santé Canada. Traçabilité fournie.",
   },
   {
     id: 5,
     category: "Industriel",
-    before: { url: "/images/realisations/industriel-avant.png", label: "Avant" },
-    after:  { url: "/images/realisations/industriel-apres.png",  label: "Après"  },
+    before: { url: "/images/realisations/industriel-avant.jpg", label: "Avant" },
+    after:  { url: "/images/realisations/industriel-apres.jpg",  label: "Après"  },
     title: "Entrepôt logistique — Montérégie",
     desc: "Intervention pendant l'arrêt de production. Sols, allées, zones de stockage — tout remis à neuf.",
   },
   {
     id: 6,
     category: "Déménagement",
-    before: { url: "/images/realisations/demenagement-avant.png", label: "Avant" },
-    after:  { url: "/images/realisations/demenagement-apres.png",  label: "Après"  },
+    before: { url: "/images/realisations/demenagement-avant.jpg", label: "Avant" },
+    after:  { url: "/images/realisations/demenagement-apres.jpg",  label: "Après"  },
     title: "Appartement déménagement — Longueuil",
     desc: "Nettoyage complet avant remise des clés. Dépôt récupéré intégralement.",
   },
@@ -77,7 +77,7 @@ export default function Gallery() {
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
+          viewport={{ once: true, amount: 0.01 }}
           transition={{ duration: 0.7 }}
           className="text-center mb-10"
         >
