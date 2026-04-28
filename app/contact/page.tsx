@@ -31,14 +31,14 @@ export default function ContactPage() {
             </p>
           </motion.div>
 
-          <div className="grid grid-cols-1 lg:grid-cols-5 gap-10">
+          <div className="grid grid-cols-1 md:grid-cols-5 gap-10">
 
             {/* Left — info */}
             <motion.div
               initial={{ opacity: 0, x: -20 }}
               animate={{ opacity: 1, x: 0 }}
               transition={{ duration: 0.6, delay: 0.1 }}
-              className="lg:col-span-2 space-y-5"
+              className="md:col-span-2 space-y-5"
             >
               {[
                 { icon: Phone, label: "Téléphone", value: "(514) 591-6202", href: "tel:5145916202" },
@@ -69,7 +69,7 @@ export default function ContactPage() {
               initial={{ opacity: 0, x: 20 }}
               animate={{ opacity: 1, x: 0 }}
               transition={{ duration: 0.6, delay: 0.2 }}
-              className="lg:col-span-3"
+              className="md:col-span-3"
             >
               <iframe
                 src="https://link.nooviraai.com/widget/form/HzsyMl4PBCZ2b1myfjf4"
