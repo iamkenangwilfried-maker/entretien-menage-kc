@@ -1,7 +1,9 @@
 "use client";
 import { motion } from "framer-motion";
-import { useState, useRef } from "react";
+import { useState } from "react";
 import { Play, Phone, Star, CheckCircle } from "lucide-react";
+
+const YT_ID = "DW9ZrOSCsbI";
 
 const checks = [
   "Équipe assurée & vérifiée",
@@ -12,12 +14,6 @@ const checks = [
 
 export default function VSLHero() {
   const [playing, setPlaying] = useState(false);
-  const videoRef = useRef<HTMLVideoElement>(null);
-
-  const handlePlay = () => {
-    setPlaying(true);
-    videoRef.current?.play();
-  };
 
   return (
     <section className="relative overflow-hidden pt-24 sm:pt-28 pb-10 bg-background">
@@ -81,31 +77,34 @@ export default function VSLHero() {
           transition={{ duration: 0.7, delay: 0.15 }}
           className="relative rounded-2xl overflow-hidden shadow-2xl aspect-video mb-10 bg-navy"
         >
-          <video
-            ref={videoRef}
-            src="/vsl.mp4"
-            poster="/images/vsl-thumbnail.jpeg"
-            controls={playing}
-            playsInline
-            preload="none"
-            className="w-full h-full object-cover"
-            onEnded={() => setPlaying(false)}
-          />
-
-          {!playing && (
-            <button
-              onClick={handlePlay}
-              className="absolute inset-0 flex flex-col items-center justify-center gap-4 group"
-            >
-              {/* Thumbnail overlay */}
-              <div className="absolute inset-0 bg-navy/40" />
-              <div className="relative z-10 w-20 h-20 bg-accent rounded-full flex items-center justify-center group-hover:scale-110 transition-transform duration-300 shadow-2xl shadow-accent/50">
-                <Play size={30} className="text-white fill-white ml-1" />
-              </div>
-              <div className="relative z-10 bg-white/10 backdrop-blur border border-white/20 rounded-full px-5 py-2 text-white text-sm font-semibold">
-                Regardez comment on travaille
-              </div>
-            </button>
+          {playing ? (
+            <iframe
+              src={`https://www.youtube.com/embed/${YT_ID}?autoplay=1&rel=0&modestbranding=1&playsinline=1`}
+              title="Entretiens Ménager KC — comment on travaille"
+              allow="autoplay; encrypted-media; picture-in-picture"
+              allowFullScreen
+              className="absolute inset-0 w-full h-full"
+            />
+          ) : (
+            <>
+              <img
+                src="/images/vsl-thumbnail.jpeg"
+                alt="Aperçu vidéo Entretiens Ménager KC"
+                className="absolute inset-0 w-full h-full object-cover"
+              />
+              <button
+                onClick={() => setPlaying(true)}
+                className="absolute inset-0 flex flex-col items-center justify-center gap-4 group"
+              >
+                <div className="absolute inset-0 bg-navy/40" />
+                <div className="relative z-10 w-20 h-20 bg-accent rounded-full flex items-center justify-center group-hover:scale-110 transition-transform duration-300 shadow-2xl shadow-accent/50">
+                  <Play size={30} className="text-white fill-white ml-1" />
+                </div>
+                <div className="relative z-10 bg-white/10 backdrop-blur border border-white/20 rounded-full px-5 py-2 text-white text-sm font-semibold">
+                  Regardez comment on travaille
+                </div>
+              </button>
+            </>
           )}
         </motion.div>
 
