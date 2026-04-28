@@ -12,11 +12,11 @@ function InlineCTAForm() {
     <div className="my-10">
       <iframe
         src="https://link.nooviraai.com/widget/form/HzsyMl4PBCZ2b1myfjf4"
-        style={{ width: "100%", border: "none", minHeight: "640px" }}
-        scrolling="no"
+        style={{ width: "100%", border: "none", minHeight: "800px" }}
+        
         title="Formulaire de soumission gratuite"
       />
-      <Script src="https://link.nooviraai.com/js/form_embed.js" strategy="lazyOnload" />
+      <Script src="https://link.nooviraai.com/js/form_embed.js" strategy="afterInteractive" />
     </div>
   );
 }
