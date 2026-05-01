@@ -56,8 +56,20 @@ export default function QuickForm() {
           >
             <iframe
               src="https://link.nooviraai.com/widget/form/HzsyMl4PBCZ2b1myfjf4"
-              style={{ width: "100%", border: "none", minHeight: "900px" }}
-              title="Formulaire de soumission gratuite"
+              style={{ width: "100%", height: "100%", border: "none", borderRadius: "8px" }}
+              id="inline-HzsyMl4PBCZ2b1myfjf4"
+              data-layout="{'id':'INLINE'}"
+              data-trigger-type="alwaysShow"
+              data-trigger-value=""
+              data-activation-type="alwaysActivated"
+              data-activation-value=""
+              data-deactivation-type="neverDeactivate"
+              data-deactivation-value=""
+              data-form-name="1-Entretien KC fORM"
+              data-height="1087"
+              data-layout-iframe-id="inline-HzsyMl4PBCZ2b1myfjf4"
+              data-form-id="HzsyMl4PBCZ2b1myfjf4"
+              title="1-Entretien KC fORM"
             />
             <Script src="https://link.nooviraai.com/js/form_embed.js" strategy="afterInteractive" />
           </motion.div>
