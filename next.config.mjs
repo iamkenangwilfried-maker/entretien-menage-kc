@@ -10,7 +10,7 @@ const nextConfig = {
     return [
       {
         source: "/strategie-complete-entretien-menager-kc",
-        destination: "/strategie/",
+        destination: "/strategie/index.html",
         permanent: false,
       },
     ];
