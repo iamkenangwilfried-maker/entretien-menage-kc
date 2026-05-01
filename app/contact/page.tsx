@@ -1,9 +1,9 @@
 "use client";
 import Navbar from "@/components/sections/navbar";
 import Footer from "@/components/sections/footer";
+import ContactForm from "@/components/sections/contact-form";
 import { Phone, Mail, MapPin, Clock } from "lucide-react";
 import { motion } from "framer-motion";
-import Script from "next/script";
 
 export default function ContactPage() {
   return (
@@ -64,20 +64,14 @@ export default function ContactPage() {
               ))}
             </motion.div>
 
-            {/* Right — GHL form */}
+            {/* Right — formulaire */}
             <motion.div
               initial={{ opacity: 0, x: 20 }}
               animate={{ opacity: 1, x: 0 }}
               transition={{ duration: 0.6, delay: 0.2 }}
-              className="md:col-span-3"
+              className="md:col-span-3 bg-white border border-card-border rounded-2xl p-6 sm:p-8 shadow-sm"
             >
-              <iframe
-                src="https://link.nooviraai.com/widget/form/HzsyMl4PBCZ2b1myfjf4"
-                style={{ width: "100%", border: "none", minHeight: "800px" }}
-                
-                title="Formulaire de contact"
-              />
-              <Script src="https://link.nooviraai.com/js/form_embed.js" strategy="afterInteractive" />
+              <ContactForm />
             </motion.div>
 
           </div>
