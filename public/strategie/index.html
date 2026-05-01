@@ -1,0 +1,1009 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Récapitulatif Complet — Entretiens Ménager KC</title>
+<style>
+  :root {
+    --kc: #1f6996; --kc2: #185d82; --kc3: #e8f4fc;
+    --green: #16a34a; --green-bg: #f0fdf4; --green-bd: #bbf7d0;
+    --amber: #d97706; --amber-bg: #fffbeb; --amber-bd: #fde68a;
+    --red: #dc2626; --red-bg: #fef2f2; --red-bd: #fecaca;
+    --blue: #2563eb; --blue-bg: #eff6ff; --blue-bd: #bfdbfe;
+    --purple: #7c3aed; --purple-bg: #f5f3ff; --purple-bd: #ddd6fe;
+    --navy: #0f172a; --gray: #64748b; --light: #f8fafc; --white: #ffffff;
+    --r: 12px; --rl: 18px;
+    --s1: 0 1px 4px rgba(0,0,0,.07);
+    --s2: 0 4px 18px rgba(0,0,0,.1);
+    --s3: 0 8px 32px rgba(0,0,0,.13);
+  }
+  *{margin:0;padding:0;box-sizing:border-box;}
+  body{font-family:'Segoe UI',system-ui,sans-serif;background:#f0f4f8;color:var(--navy);line-height:1.6;}
+
+  /* ── HEADER ── */
+  .hdr{background:linear-gradient(135deg,#0c2f4a 0%,var(--kc) 55%,#3a9fd6 100%);
+    color:white;padding:60px 40px 50px;text-align:center;position:relative;overflow:hidden;}
+  .hdr::before{content:'';position:absolute;inset:0;
+    background:radial-gradient(circle at 75% 25%,rgba(255,255,255,.07),transparent 55%);}
+  .hdr .badge{display:inline-block;background:rgba(255,255,255,.15);border:1px solid rgba(255,255,255,.3);
+    padding:6px 20px;border-radius:50px;font-size:11px;letter-spacing:2.5px;text-transform:uppercase;margin-bottom:20px;}
+  .hdr h1{font-size:2.8em;font-weight:900;margin-bottom:8px;letter-spacing:-1px;}
+  .hdr .sub{font-size:1.1em;opacity:.75;margin-bottom:28px;}
+  .hdr-stats{display:flex;gap:20px;justify-content:center;flex-wrap:wrap;margin-top:10px;}
+  .hdr-stat{background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.2);
+    padding:12px 24px;border-radius:12px;text-align:center;}
+  .hdr-stat .n{font-size:2em;font-weight:900;display:block;line-height:1;}
+  .hdr-stat .l{font-size:11px;opacity:.75;text-transform:uppercase;letter-spacing:1px;}
+
+  /* ── NAV ── */
+  .nav{position:sticky;top:0;z-index:100;background:white;border-bottom:2px solid #e2e8f0;
+    padding:0 24px;display:flex;gap:4px;overflow-x:auto;}
+  .nav a{display:inline-block;padding:14px 16px;font-size:13px;font-weight:600;color:var(--gray);
+    text-decoration:none;white-space:nowrap;border-bottom:3px solid transparent;margin-bottom:-2px;transition:.2s;}
+  .nav a:hover,.nav a.active{color:var(--kc);border-bottom-color:var(--kc);}
+
+  /* ── LAYOUT ── */
+  .wrap{max-width:1180px;margin:0 auto;padding:40px 20px;}
+  .section{background:white;border-radius:var(--rl);padding:38px;margin-bottom:28px;box-shadow:var(--s1);}
+  .section-title{font-size:1.4em;font-weight:800;color:var(--kc);padding-bottom:14px;
+    border-bottom:3px solid var(--kc3);margin-bottom:26px;display:flex;align-items:center;gap:10px;}
+  .section-title .icon{width:36px;height:36px;border-radius:9px;background:var(--kc3);
+    display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0;}
+
+  /* ── GRIDS ── */
+  .g2{display:grid;grid-template-columns:1fr 1fr;gap:18px;}
+  .g3{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;}
+  .g4{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;}
+  @media(max-width:860px){.g3,.g4{grid-template-columns:1fr 1fr;}}
+  @media(max-width:600px){.g2,.g3,.g4{grid-template-columns:1fr;}}
+
+  /* ── CARDS ── */
+  .card{background:var(--light);border-radius:var(--r);padding:22px;border:1px solid #e2e8f0;}
+  .card h4{font-size:.92em;font-weight:700;color:var(--navy);margin-bottom:8px;}
+  .card p,.card li{font-size:.84em;color:#475569;line-height:1.65;}
+  .card ul{padding-left:15px;}
+
+  /* ── STATUS BADGES ── */
+  .badge-live{display:inline-flex;align-items:center;gap:5px;background:var(--green-bg);
+    color:var(--green);border:1px solid var(--green-bd);padding:3px 10px;border-radius:50px;
+    font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.5px;}
+  .badge-wip{background:var(--amber-bg);color:var(--amber);border:1px solid var(--amber-bd);}
+  .badge-todo{background:var(--red-bg);color:var(--red);border:1px solid var(--red-bd);}
+  .badge-live::before{content:'●';font-size:8px;}
+  .badge-wip::before,.badge-todo::before{content:'●';font-size:8px;}
+
+  /* ── WORKFLOW CARDS ── */
+  .wf-card{background:white;border-radius:var(--r);border:1px solid #e2e8f0;overflow:hidden;
+    box-shadow:var(--s1);transition:.2s;}
+  .wf-card:hover{box-shadow:var(--s2);transform:translateY(-1px);}
+  .wf-header{padding:18px 20px;display:flex;align-items:flex-start;justify-content:space-between;gap:12px;}
+  .wf-id{font-size:11px;font-weight:700;color:var(--gray);text-transform:uppercase;letter-spacing:1px;}
+  .wf-name{font-size:1.05em;font-weight:800;color:var(--navy);margin:4px 0;}
+  .wf-desc{font-size:.82em;color:var(--gray);}
+  .wf-body{padding:0 20px 18px;}
+  .wf-trigger{background:var(--blue-bg);border:1px solid var(--blue-bd);border-radius:8px;
+    padding:10px 14px;font-size:.82em;color:var(--blue);margin-bottom:12px;}
+  .wf-trigger span{font-weight:700;}
+  .wf-steps{list-style:none;display:flex;flex-direction:column;gap:6px;}
+  .wf-steps li{display:flex;align-items:flex-start;gap:8px;font-size:.82em;color:#475569;}
+  .wf-steps li::before{content:'→';color:var(--kc);font-weight:700;flex-shrink:0;margin-top:1px;}
+
+  /* ── PIPELINE ── */
+  .pipeline{display:flex;flex-wrap:wrap;gap:0;background:var(--light);border-radius:var(--r);
+    border:1px solid #e2e8f0;overflow:hidden;}
+  .pipe-stage{flex:1;min-width:100px;padding:14px 12px;text-align:center;
+    border-right:1px solid #e2e8f0;position:relative;}
+  .pipe-stage:last-child{border-right:none;}
+  .pipe-stage .num{font-size:10px;color:var(--gray);display:block;margin-bottom:4px;}
+  .pipe-stage .name{font-size:.79em;font-weight:700;color:var(--navy);}
+  .pipe-stage.lost{background:var(--red-bg);color:var(--red);}
+  .pipe-stage.lost .name{color:var(--red);}
+  @media(max-width:860px){.pipeline{flex-direction:column;} .pipe-stage{border-right:none;border-bottom:1px solid #e2e8f0;}}
+
+  /* ── TAGS ── */
+  .tag-group{margin-bottom:18px;}
+  .tag-group-title{font-size:.8em;font-weight:700;color:var(--gray);text-transform:uppercase;
+    letter-spacing:1.5px;margin-bottom:8px;padding-bottom:6px;border-bottom:1px solid #e2e8f0;}
+  .tags-wrap{display:flex;flex-wrap:wrap;gap:7px;}
+  .tag{display:inline-block;padding:5px 12px;border-radius:50px;font-size:.78em;font-weight:600;
+    font-family:'Courier New',monospace;}
+  .tag-src{background:#e0f2fe;color:#0369a1;}
+  .tag-status{background:#fef3c7;color:#92400e;}
+  .tag-svc{background:#f0fdf4;color:#15803d;}
+  .tag-freq{background:#faf5ff;color:#6d28d9;}
+  .tag-review{background:#fff7ed;color:#c2410c;}
+  .tag-client{background:#f0f9ff;color:#0369a1;}
+  .tag-reactiv{background:#fdf2f8;color:#9d174d;}
+
+  /* ── CUSTOM FIELDS TABLE ── */
+  .cf-table{width:100%;border-collapse:collapse;font-size:.85em;}
+  .cf-table th{background:var(--kc3);color:var(--kc);font-weight:700;padding:10px 14px;text-align:left;
+    border-bottom:2px solid #b3d9ee;}
+  .cf-table td{padding:10px 14px;border-bottom:1px solid #e2e8f0;vertical-align:top;}
+  .cf-table tr:hover td{background:var(--light);}
+  .cf-type{display:inline-block;padding:3px 9px;border-radius:6px;font-size:.78em;font-weight:600;}
+  .cf-text{background:#eff6ff;color:#1d4ed8;}
+  .cf-num{background:#f0fdf4;color:#15803d;}
+  .cf-date{background:#fff7ed;color:#c2410c;}
+  .cf-large{background:#faf5ff;color:#6d28d9;}
+
+  /* ── MARKETING ── */
+  .pillar{border-radius:var(--r);padding:20px;border:1px solid;}
+  .p-transform{background:#f0fdf4;border-color:#bbf7d0;}
+  .p-proof{background:#eff6ff;border-color:#bfdbfe;}
+  .p-local{background:#fff7ed;border-color:#fed7aa;}
+  .p-convert{background:#fdf4ff;border-color:#e9d5ff;}
+  .pillar h4{font-size:.95em;font-weight:800;margin-bottom:6px;}
+  .pillar .pct{font-size:2em;font-weight:900;float:right;opacity:.35;line-height:1;}
+  .pillar p{font-size:.82em;color:#475569;}
+
+  .funnel-level{display:grid;grid-template-columns:100px 1fr;gap:0;align-items:stretch;
+    border-radius:var(--r);overflow:hidden;border:1px solid #e2e8f0;margin-bottom:12px;}
+  .funnel-label{display:flex;align-items:center;justify-content:center;padding:16px 12px;
+    font-size:.8em;font-weight:700;text-transform:uppercase;letter-spacing:1px;text-align:center;}
+  .funnel-content{padding:16px;font-size:.83em;}
+  .funnel-content strong{display:block;font-weight:700;color:var(--navy);margin-bottom:4px;}
+  .fl-tofu .funnel-label{background:#dbeafe;color:#1e40af;}
+  .fl-mofu .funnel-label{background:#ede9fe;color:#5b21b6;}
+  .fl-bofu .funnel-label{background:#dcfce7;color:#15803d;}
+
+  /* ── AI BOTS ── */
+  .bot-card{background:var(--kc3);border:2px solid #b3d9ee;border-radius:var(--rl);padding:28px;}
+  .bot-card h3{font-size:1.2em;font-weight:800;color:var(--kc);margin-bottom:6px;}
+  .bot-card .role{font-size:.83em;color:var(--gray);margin-bottom:16px;}
+  .bot-feature{display:flex;align-items:flex-start;gap:8px;font-size:.84em;color:#334155;margin-bottom:6px;}
+  .bot-feature::before{content:'◆';color:var(--kc);flex-shrink:0;font-size:9px;margin-top:4px;}
+
+  /* ── PROGRESS ── */
+  .progress-bar{background:#e2e8f0;border-radius:50px;height:8px;overflow:hidden;}
+  .progress-fill{height:100%;border-radius:50px;background:linear-gradient(90deg,var(--kc),#3a9fd6);}
+
+  /* ── CHECKLIST ── */
+  .checklist{list-style:none;}
+  .checklist li{display:flex;align-items:flex-start;gap:10px;padding:10px 0;
+    border-bottom:1px solid #e2e8f0;font-size:.88em;}
+  .checklist li:last-child{border-bottom:none;}
+  .check-done{color:var(--green);}
+  .check-todo{color:var(--amber);}
+  .check-block{color:var(--red);}
+
+  /* ── SITE ── */
+  .site-url{background:var(--kc);color:white;padding:14px 20px;border-radius:var(--r);
+    font-family:'Courier New',monospace;font-size:.88em;display:flex;align-items:center;
+    justify-content:space-between;gap:10px;margin-bottom:16px;}
+  .site-url a{color:rgba(255,255,255,.8);font-size:.9em;}
+
+  /* ── WF CARD CLICKABLE ── */
+  .wf-card-link{display:block;text-decoration:none;color:inherit;}
+  .wf-card-link .wf-card{cursor:pointer;position:relative;}
+  .wf-card-link .wf-card::after{content:'Voir les détails →';position:absolute;bottom:14px;right:16px;
+    font-size:.75em;font-weight:700;color:var(--kc);opacity:0;transition:.2s;}
+  .wf-card-link:hover .wf-card{box-shadow:var(--s3);transform:translateY(-2px);border-color:#b3d9ee;}
+  .wf-card-link:hover .wf-card::after{opacity:1;}
+  .wf-card-link .wf-body{padding-bottom:32px;}
+
+  /* ── FOOTER ── */
+  .footer{text-align:center;padding:40px 20px;color:var(--gray);font-size:.82em;}
+  .footer strong{color:var(--kc);}
+
+  /* ── MISC ── */
+  .divider{height:1px;background:#e2e8f0;margin:24px 0;}
+  .info-box{background:var(--blue-bg);border:1px solid var(--blue-bd);border-radius:var(--r);
+    padding:16px 18px;font-size:.85em;color:#1e40af;margin-bottom:18px;}
+  .warn-box{background:var(--amber-bg);border:1px solid var(--amber-bd);border-radius:var(--r);
+    padding:16px 18px;font-size:.85em;color:#92400e;margin-bottom:18px;}
+  .dot-live{width:8px;height:8px;border-radius:50%;background:var(--green);display:inline-block;
+    box-shadow:0 0 0 3px rgba(22,163,74,.2);animation:pulse 2s infinite;}
+  @keyframes pulse{0%,100%{box-shadow:0 0 0 3px rgba(22,163,74,.2);}50%{box-shadow:0 0 0 6px rgba(22,163,74,.1);}}
+</style>
+</head>
+<body>
+
+<!-- ══════════════════════════════════════════════════════════ -->
+<!-- HEADER -->
+<!-- ══════════════════════════════════════════════════════════ -->
+<div class="hdr">
+  <div class="badge">Livrable Client — Noovira AI</div>
+  <h1>Entretiens Ménager KC</h1>
+  <p class="sub">Récapitulatif complet du système CRM, automatisations et stratégie marketing</p>
+  <div class="hdr-stats">
+    <div class="hdr-stat"><span class="n">7</span><span class="l">Workflows</span></div>
+    <div class="hdr-stat"><span class="n">40</span><span class="l">Tags CRM</span></div>
+    <div class="hdr-stat"><span class="n">14</span><span class="l">Champs Custom</span></div>
+    <div class="hdr-stat"><span class="n">10</span><span class="l">Étapes Pipeline</span></div>
+    <div class="hdr-stat"><span class="n">2</span><span class="l">VoiceBots IA</span></div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════════════════════ -->
+<!-- NAV -->
+<!-- ══════════════════════════════════════════════════════════ -->
+<nav class="nav">
+  <a href="#site">Site Web</a>
+  <a href="#voicebots">VoiceBots IA</a>
+  <a href="#pipeline">Pipeline CRM</a>
+  <a href="#workflows">Workflows</a>
+  <a href="#tags">Tags</a>
+  <a href="#fields">Champs Custom</a>
+  <a href="#marketing">Marketing</a>
+  <a href="#status">État du projet</a>
+</nav>
+
+<div class="wrap">
+
+<!-- ══════════════════════════════════════════════════════════ -->
+<!-- 1. SITE WEB -->
+<!-- ══════════════════════════════════════════════════════════ -->
+<section class="section" id="site">
+  <div class="section-title"><div class="icon">🌐</div>Site Web <span class="badge-live">Live</span></div>
+
+  <div class="site-url">
+    <span>🌐 Site principal</span>
+    <a href="https://entretien-menage-kc.vercel.app" target="_blank">entretien-menage-kc.vercel.app →</a>
+  </div>
+  <div class="site-url" style="background:#16a34a;margin-bottom:16px;">
+    <span>⭐ Page demande d'avis clients</span>
+    <a href="https://entretien-menage-kc.vercel.app/demande-avis" target="_blank">entretien-menage-kc.vercel.app/demande-avis →</a>
+  </div>
+
+  <div class="g3">
+    <div class="card">
+      <h4>🏠 Page principale (/)</h4>
+      <ul>
+        <li>Hero VSL + formulaire de soumission GHL</li>
+        <li>Section services (6 types)</li>
+        <li>Widget VoiceBot Jade intégré</li>
+        <li>Framer Motion animations</li>
+      </ul>
+    </div>
+    <div class="card">
+      <h4>📩 Demande d'avis (/demande-avis)</h4>
+      <ul>
+        <li>Notation 1–5 étoiles brandée KC</li>
+        <li>Gating : 4-5⭐ → Google Review</li>
+        <li>1-3⭐ → formulaire feedback → GHL webhook</li>
+        <li>Fond photo équipe KC</li>
+      </ul>
+      <a href="https://entretien-menage-kc.vercel.app/demande-avis" target="_blank" style="display:inline-block;margin-top:10px;padding:6px 14px;background:#16a34a;color:white;border-radius:8px;font-size:.78em;font-weight:700;text-decoration:none;">Voir la page →</a>
+    </div>
+    <div class="card">
+      <h4>📞 Contact (/contact)</h4>
+      <ul>
+        <li>Grille 5 colonnes</li>
+        <li>Iframe formulaire GHL embarqué</li>
+        <li>Tous les canaux de contact</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="divider"></div>
+
+  <div class="g2">
+    <div class="card">
+      <h4>Stack technique</h4>
+      <p>Next.js 14 App Router · Tailwind CSS · Framer Motion · Vercel (déploiement auto depuis GitHub)</p>
+    </div>
+    <div class="card">
+      <h4>GitHub &amp; Déploiement</h4>
+      <p>Repo : <code>iamkenangwilfried-maker/entretien-menage-kc</code><br>
+      Chaque push sur <code>main</code> → déploiement automatique Vercel</p>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════════════════════════ -->
+<!-- 2. VOICEBOTS IA -->
+<!-- ══════════════════════════════════════════════════════════ -->
+<section class="section" id="voicebots">
+  <div class="section-title"><div class="icon">🤖</div>VoiceBots IA</div>
+
+  <div class="g2">
+    <div class="bot-card">
+      <div style="display:flex;align-items:center;gap:10px;margin-bottom:6px;">
+        <h3>Jade</h3>
+        <span class="badge-live">Live — Appels entrants</span>
+      </div>
+      <p class="role">Réceptionniste virtuelle 24/7 — capte les leads entrants, qualifie les besoins</p>
+      <div class="bot-feature">Widget intégré sur le site web KC</div>
+      <div class="bot-feature">Formulaire pré-appel : Prénom, Nom, Email, Téléphone capturés AVANT l'appel</div>
+      <div class="bot-feature">Pendant l'appel : Jade collecte Ville, Type de service, Fréquence, Surface</div>
+      <div class="bot-feature">Disponible 24h/24 — l'équipe KC rappelle 8h-18h</div>
+      <div class="bot-feature">Bilingue FR/EN — accent québécois naturel</div>
+      <div class="bot-feature">Post-appel : WF-01b se déclenche automatiquement via trigger "Transcript Generated"</div>
+      <div class="divider"></div>
+      <p style="font-size:.78em;color:var(--gray);">Widget ID : 69f068c23dda131e2bb5bca7</p>
+    </div>
+
+    <div class="bot-card" style="background:#fdf4ff;border-color:#ddd6fe;">
+      <div style="display:flex;align-items:center;gap:10px;margin-bottom:6px;">
+        <h3 style="color:var(--purple);">Sofia</h3>
+        <span class="badge-live">Live — Appels sortants</span>
+      </div>
+      <p class="role">Prospecteur IA outbound — réactive les anciens leads, prospecte de nouveaux clients</p>
+      <div class="bot-feature" style="color:#334155;">Déclenché par le tag <code>KC_src-reactivation</code> via WF-04a</div>
+      <div class="bot-feature" style="color:#334155;">Script 190 mots — pitcher KC, qualifier, prendre rendez-vous</div>
+      <div class="bot-feature" style="color:#334155;">Après appel → WF-04b (gestion des non-réponses, 3 tentatives max)</div>
+      <div class="bot-feature" style="color:#334155;">Cibles : résidentiel, commercial, médical, post-construction</div>
+      <div style="background:var(--green-bg);border:1px solid var(--green-bd);border-radius:8px;padding:12px 16px;margin:12px 0 0 0;font-size:.83em;color:#15803d;">
+        ✅ Fonctionnelle — appels sortants confirmés.
+      </div>
+    </div>
+  </div>
+
+  <div class="info-box" style="margin-top:18px;">
+    <strong>Prompt Jade v2 :</strong> Version mise à jour supprimant la capture Nom/Téléphone/Email (déjà capturés par le formulaire pré-appel). À coller dans GHL → AI Agents → Voice AI → Jade → Build.
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════════════════════════ -->
+<!-- 3. PIPELINE CRM -->
+<!-- ══════════════════════════════════════════════════════════ -->
+<section class="section" id="pipeline">
+  <div class="section-title"><div class="icon">📊</div>Pipeline CRM — KC_Entretien</div>
+
+  <p style="font-size:.88em;color:var(--gray);margin-bottom:18px;">Chaque lead suit ce parcours dans GHL. Les workflows automatisent les transitions entre les étapes clés.</p>
+
+  <div class="pipeline">
+    <div class="pipe-stage"><span class="num">1</span><div class="name">Nouveau Lead</div></div>
+    <div class="pipe-stage"><span class="num">2</span><div class="name">Contacté</div></div>
+    <div class="pipe-stage"><span class="num">3</span><div class="name">Devis en cours</div></div>
+    <div class="pipe-stage"><span class="num">4</span><div class="name">Devis Envoyé</div></div>
+    <div class="pipe-stage"><span class="num">5</span><div class="name">Devis Accepté</div></div>
+    <div class="pipe-stage"><span class="num">6</span><div class="name">Service Planifié</div></div>
+    <div class="pipe-stage"><span class="num">7</span><div class="name">Service Complété</div></div>
+    <div class="pipe-stage"><span class="num">8</span><div class="name">Avis Demandé</div></div>
+    <div class="pipe-stage"><span class="num">9</span><div class="name">Client Fidèle</div></div>
+    <div class="pipe-stage lost"><span class="num">10</span><div class="name">PERDU</div></div>
+  </div>
+
+  <div class="divider"></div>
+  <div class="g3" style="margin-top:0;">
+    <div class="card">
+      <h4>Entrée automatique (Nouveau Lead)</h4>
+      <p>Widget live call · Formulaire site web · Appel entrant Jade · Lead Facebook Ads</p>
+    </div>
+    <div class="card">
+      <h4>Transitions automatisées</h4>
+      <p>Devis Envoyé → relances auto · Service Complété → demande d'avis · Feedback négatif → alerte interne</p>
+    </div>
+    <div class="card">
+      <h4>Sortie réactivation</h4>
+      <p>Lead inactif → tag KC_src-reactivation → Sofia appelle → retour dans pipeline ou PERDU</p>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════════════════════════ -->
+<!-- 4. WORKFLOWS -->
+<!-- ══════════════════════════════════════════════════════════ -->
+<section class="section" id="workflows">
+  <div class="section-title"><div class="icon">⚡</div>Workflows — 7 automatisations</div>
+
+  <div class="info-box" style="background:var(--green-bg);border-color:var(--green-bd);color:#15803d;">
+    <strong>✅ Système complet — 7/7 workflows construits.</strong> L'intégralité du parcours client est automatisé : capture du lead, relance des devis, réactivation outbound Sofia, demande d'avis Google et gestion des feedbacks négatifs.
+  </div>
+
+  <p style="font-size:.82em;color:var(--gray);margin-bottom:18px;">Cliquez sur un workflow pour voir tous les détails, l'explication complète et le visuel de l'automatisation.</p>
+
+  <div style="display:grid;grid-template-columns:1fr 1fr;gap:18px;">
+
+    <!-- WF-01a -->
+    <a href="KC_Detail_WF01a.html" class="wf-card-link">
+    <div class="wf-card">
+      <div class="wf-header">
+        <div>
+          <div class="wf-id">WF-01a</div>
+          <div class="wf-name">KC_Form_Inbound</div>
+          <div class="wf-desc">Capture lead depuis le formulaire site web</div>
+        </div>
+        <span class="badge-live">Live</span>
+      </div>
+      <div class="wf-body">
+        <div class="wf-trigger"><span>Déclencheur :</span> Formulaire soumis — widget live call / site web</div>
+        <ul class="wf-steps">
+          <li>Crée / met à jour le contact GHL</li>
+          <li>Ajoute tags : KC_src-widget + KC_live-widget-lead</li>
+          <li>Place dans pipeline KC_Entretien → Nouveau Lead</li>
+          <li>SMS de confirmation au client (FR)</li>
+          <li>Email de confirmation au client</li>
+          <li>Email de notification interne → kcglobalservice.inc@gmail.com</li>
+        </ul>
+      </div>
+    </div>
+    </a>
+
+    <!-- WF-01b -->
+    <a href="KC_Detail_WF01b.html" class="wf-card-link">
+    <div class="wf-card">
+      <div class="wf-header">
+        <div>
+          <div class="wf-id">WF-01b</div>
+          <div class="wf-name">KC_VoiceBot_Inbound</div>
+          <div class="wf-desc">Traite les appels Jade — sauvegarde les infos collectées</div>
+        </div>
+        <span class="badge-live">Live</span>
+      </div>
+      <div class="wf-body">
+        <div class="wf-trigger"><span>Déclencheur :</span> Transcript Generated — quelques secondes après l'appel</div>
+        <ul class="wf-steps">
+          <li>Ajoute tags : KC_src-voicebot + KC_live-widget-lead</li>
+          <li>Place dans pipeline KC_Entretien → Nouveau Lead</li>
+          <li>Enregistre les champs KC : Ville, Type de service, Fréquence, Surface</li>
+          <li>SMS de confirmation + Email au client</li>
+          <li>Email de notification interne</li>
+        </ul>
+      </div>
+    </div>
+    </a>
+
+    <!-- WF-Devis -->
+    <a href="KC_Detail_WFDevis.html" class="wf-card-link">
+    <div class="wf-card">
+      <div class="wf-header">
+        <div>
+          <div class="wf-id">WF-Devis</div>
+          <div class="wf-name">KC_DevisEnvoye_Relances</div>
+          <div class="wf-desc">Séquence de relance automatique après envoi de devis</div>
+        </div>
+        <span class="badge-live">Live</span>
+      </div>
+      <div class="wf-body">
+        <div class="wf-trigger"><span>Déclencheur :</span> Étape pipeline → Devis Envoyé</div>
+        <ul class="wf-steps">
+          <li>J+1 : SMS de relance douce</li>
+          <li>J+3 : Email de suivi</li>
+          <li>J+7 : SMS d'urgence légère</li>
+          <li>J+14 : SMS final + Email d'alerte interne</li>
+          <li>Stop automatique si devis accepté</li>
+        </ul>
+      </div>
+    </div>
+    </a>
+
+    <!-- WF-05a -->
+    <a href="KC_Detail_WF05a.html" class="wf-card-link">
+    <div class="wf-card">
+      <div class="wf-header">
+        <div>
+          <div class="wf-id">WF-05a</div>
+          <div class="wf-name">KC_ReviewRequest_Sequence</div>
+          <div class="wf-desc">Sollicitation automatique des avis Google</div>
+        </div>
+        <span class="badge-live">Live</span>
+      </div>
+      <div class="wf-body">
+        <div class="wf-trigger"><span>Déclencheur :</span> Étape pipeline → Service Complété</div>
+        <ul class="wf-steps">
+          <li>5 SMS en séquence avec Trigger Link vers /demande-avis</li>
+          <li>Stop automatique si le client clique le lien</li>
+          <li>4-5⭐ → redirection directe vers Google Reviews</li>
+          <li>1-3⭐ → formulaire feedback → WF-05b</li>
+        </ul>
+      </div>
+    </div>
+    </a>
+
+    <!-- WF-05b -->
+    <a href="KC_Detail_WF05b.html" class="wf-card-link">
+    <div class="wf-card">
+      <div class="wf-header">
+        <div>
+          <div class="wf-id">WF-05b</div>
+          <div class="wf-name">KC_NegativeFeedback_Handler</div>
+          <div class="wf-desc">Gestion des feedbacks négatifs — alerte immédiate</div>
+        </div>
+        <span class="badge-live">Publié</span>
+      </div>
+      <div class="wf-body">
+        <div class="wf-trigger"><span>Déclencheur :</span> Webhook entrant depuis /api/feedback (site web)</div>
+        <ul class="wf-steps">
+          <li>Crée / met à jour contact avec note + feedback texte</li>
+          <li>Ajoute tag KC_avis-negatif</li>
+          <li>Retire de la séquence WF-05a</li>
+          <li>Email d'alerte immédiat → équipe KC</li>
+          <li>Email de remerciement au client</li>
+        </ul>
+      </div>
+    </div>
+    </a>
+
+    <!-- WF-04b -->
+    <a href="KC_Detail_WF04b.html" class="wf-card-link">
+    <div class="wf-card">
+      <div class="wf-header">
+        <div>
+          <div class="wf-id">WF-04b</div>
+          <div class="wf-name">KC_CallManagement</div>
+          <div class="wf-desc">Gestion des non-réponses aux appels Sofia</div>
+        </div>
+        <span class="badge-live">Construit</span>
+      </div>
+      <div class="wf-body">
+        <div class="wf-trigger"><span>Déclencheur :</span> Call-End Workflow de Sofia (sur non-réponse)</div>
+        <ul class="wf-steps">
+          <li>Tentative 1 → attente 3h → Tentative 2</li>
+          <li>Tentative 2 → attente 24h → Tentative 3</li>
+          <li>Après 3 non-réponses → SMS de dernier recours au client</li>
+          <li>Tag KC_reactiv-retry-final → pipeline PERDU</li>
+          <li>Maximum 3 tentatives (anti-boucle infinie)</li>
+        </ul>
+      </div>
+    </div>
+    </a>
+
+    <!-- WF-04a -->
+    <a href="KC_Detail_WF04a.html" class="wf-card-link">
+    <div class="wf-card">
+      <div class="wf-header">
+        <div>
+          <div class="wf-id">WF-04a</div>
+          <div class="wf-name">KC_Outbound_Caller</div>
+          <div class="wf-desc">Lancement des appels sortants Sofia</div>
+        </div>
+        <span class="badge-live">Construit</span>
+      </div>
+      <div class="wf-body">
+        <div class="wf-trigger"><span>Déclencheur :</span> Tag ajouté → KC_src-reactivation</div>
+        <ul class="wf-steps">
+          <li>Envoie un appel IA via Sofia (KC_Outbound_Prospector)</li>
+          <li>Qualifié → Nouveau Lead dans pipeline</li>
+          <li>Pas intéressé → tag KC_reactiv-no-response</li>
+          <li>Pas de réponse → WF-04b (retry management)</li>
+        </ul>
+      </div>
+    </div>
+    </a>
+
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════════════════════════ -->
+<!-- 5. TAGS CRM -->
+<!-- ══════════════════════════════════════════════════════════ -->
+<section class="section" id="tags">
+  <div class="section-title"><div class="icon">🏷️</div>Tags CRM — 40 tags KC_</div>
+
+  <p style="font-size:.87em;color:var(--gray);margin-bottom:22px;">Tous les tags portent le préfixe <code>KC_</code> pour éviter tout conflit avec d'autres comptes GHL. Ils permettent de filtrer, segmenter et déclencher des automatisations précises.</p>
+
+  <div class="tag-group">
+    <div class="tag-group-title">📥 Source du Lead — 7 tags</div>
+    <div class="tags-wrap">
+      <span class="tag tag-src">KC_src-widget</span>
+      <span class="tag tag-src">KC_src-formulaire</span>
+      <span class="tag tag-src">KC_src-appel-manque</span>
+      <span class="tag tag-src">KC_src-reactivation</span>
+      <span class="tag tag-src">KC_src-referral</span>
+      <span class="tag tag-src">KC_src-voicebot</span>
+      <span class="tag tag-src">KC_src-outbound</span>
+    </div>
+  </div>
+
+  <div class="tag-group">
+    <div class="tag-group-title">📋 Statut du Lead — 10 tags</div>
+    <div class="tags-wrap">
+      <span class="tag tag-status">KC_live-widget-lead</span>
+      <span class="tag tag-status">KC_devis-en-cours</span>
+      <span class="tag tag-status">KC_devis-envoye</span>
+      <span class="tag tag-status">KC_devis-accepte</span>
+      <span class="tag tag-status">KC_service-confirme</span>
+      <span class="tag tag-status">KC_service-complete</span>
+      <span class="tag tag-status">KC_relance-48h</span>
+      <span class="tag tag-status">KC_perdu</span>
+      <span class="tag tag-status">KC_dnd</span>
+      <span class="tag tag-status">KC_opted-out</span>
+    </div>
+  </div>
+
+  <div class="tag-group">
+    <div class="tag-group-title">🧹 Services Demandés — 6 tags</div>
+    <div class="tags-wrap">
+      <span class="tag tag-svc">KC_svc-residentiel</span>
+      <span class="tag tag-svc">KC_svc-commercial</span>
+      <span class="tag tag-svc">KC_svc-industriel</span>
+      <span class="tag tag-svc">KC_svc-medical</span>
+      <span class="tag tag-svc">KC_svc-post-construction</span>
+      <span class="tag tag-svc">KC_svc-demenagement</span>
+    </div>
+  </div>
+
+  <div class="tag-group">
+    <div class="tag-group-title">🔁 Fréquence — 4 tags</div>
+    <div class="tags-wrap">
+      <span class="tag tag-freq">KC_freq-unique</span>
+      <span class="tag tag-freq">KC_freq-bihebdo</span>
+      <span class="tag tag-freq">KC_freq-mensuel</span>
+      <span class="tag tag-freq">KC_freq-regulier</span>
+    </div>
+  </div>
+
+  <div class="tag-group">
+    <div class="tag-group-title">⭐ Google Review — 5 tags</div>
+    <div class="tags-wrap">
+      <span class="tag tag-review">KC_avis-demande</span>
+      <span class="tag tag-review">KC_avis-recu</span>
+      <span class="tag tag-review">KC_avis-5etoiles</span>
+      <span class="tag tag-review">KC_avis-negatif</span>
+      <span class="tag tag-review">KC_review-link-clicked</span>
+    </div>
+  </div>
+
+  <div class="tag-group">
+    <div class="tag-group-title">👤 Client — 3 tags</div>
+    <div class="tags-wrap">
+      <span class="tag tag-client">KC_client-actif</span>
+      <span class="tag tag-client">KC_client-fidelise</span>
+      <span class="tag tag-client">KC_client-inactif</span>
+    </div>
+  </div>
+
+  <div class="tag-group">
+    <div class="tag-group-title">📞 Réactivation — 5 tags</div>
+    <div class="tags-wrap">
+      <span class="tag tag-reactiv">KC_reactiv-contacte</span>
+      <span class="tag tag-reactiv">KC_reactiv-interesse</span>
+      <span class="tag tag-reactiv">KC_reactiv-no-response</span>
+      <span class="tag tag-reactiv">KC_reactiv-no-answer</span>
+      <span class="tag tag-reactiv">KC_reactiv-retry-final</span>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════════════════════════ -->
+<!-- 6. CUSTOM FIELDS -->
+<!-- ══════════════════════════════════════════════════════════ -->
+<section class="section" id="fields">
+  <div class="section-title"><div class="icon">🗂️</div>Champs Personnalisés — 14 custom fields KC_</div>
+
+  <p style="font-size:.87em;color:var(--gray);margin-bottom:18px;">Ces champs sont propres à KC — ils stockent toutes les informations spécifiques au service de nettoyage dans la fiche contact GHL.</p>
+
+  <table class="cf-table">
+    <thead>
+      <tr>
+        <th>Champ</th>
+        <th>Type</th>
+        <th>Utilisation</th>
+        <th>Valeurs exemples</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><code>KC_Ville</code></td>
+        <td><span class="cf-type cf-text">TEXT</span></td>
+        <td>Ville du client pour confirmer la zone de service</td>
+        <td>Sorel-Tracy, Brossard, Longueuil</td>
+      </tr>
+      <tr>
+        <td><code>KC_Type_de_service</code></td>
+        <td><span class="cf-type cf-text">TEXT</span></td>
+        <td>Catégorie de nettoyage demandée</td>
+        <td>Résidentiel · Commercial · Médical · Post-construction · Déménagement</td>
+      </tr>
+      <tr>
+        <td><code>KC_Frequence</code></td>
+        <td><span class="cf-type cf-text">TEXT</span></td>
+        <td>Régularité souhaitée du service</td>
+        <td>Unique · Bihebdomadaire · Mensuel · Régulier</td>
+      </tr>
+      <tr>
+        <td><code>KC_Surface_m2</code></td>
+        <td><span class="cf-type cf-num">NUMERICAL</span></td>
+        <td>Superficie approximative pour calcul du devis</td>
+        <td>85 · 200 · 1500</td>
+      </tr>
+      <tr>
+        <td><code>KC_Nb_pieces</code></td>
+        <td><span class="cf-type cf-num">NUMERICAL</span></td>
+        <td>Nombre de pièces ou locaux (résidentiel)</td>
+        <td>3 · 6 · 10</td>
+      </tr>
+      <tr>
+        <td><code>KC_Date_service</code></td>
+        <td><span class="cf-type cf-date">DATE</span></td>
+        <td>Date prévue ou souhaitée du service</td>
+        <td>2026-05-15</td>
+      </tr>
+      <tr>
+        <td><code>KC_Montant_devis</code></td>
+        <td><span class="cf-type cf-num">NUMERICAL</span></td>
+        <td>Montant de la soumission en $ CAD</td>
+        <td>350 · 1200 · 4500</td>
+      </tr>
+      <tr>
+        <td><code>KC_Source_lead</code></td>
+        <td><span class="cf-type cf-text">TEXT</span></td>
+        <td>Origine du lead pour analytics</td>
+        <td>Widget · Formulaire · Appel · FB Ads</td>
+      </tr>
+      <tr>
+        <td><code>KC_Notes_service</code></td>
+        <td><span class="cf-type cf-large">LARGE_TEXT</span></td>
+        <td>Détails supplémentaires collectés par Jade ou l'équipe</td>
+        <td>Instructions spéciales, accès, animaux, etc.</td>
+      </tr>
+      <tr>
+        <td><code>KC_Statut_review</code></td>
+        <td><span class="cf-type cf-text">TEXT</span></td>
+        <td>Suivi de la demande d'avis Google</td>
+        <td>Non demandé · Demandé · Reçu</td>
+      </tr>
+      <tr>
+        <td><code>KC_Technicien_assigne</code></td>
+        <td><span class="cf-type cf-text">TEXT</span></td>
+        <td>Nom de l'équipe ou technicien assigné au service</td>
+        <td>Équipe A · Jean-Pierre</td>
+      </tr>
+      <tr>
+        <td><code>KC_Zone_service</code></td>
+        <td><span class="cf-type cf-text">TEXT</span></td>
+        <td>Région géographique pour routage des équipes</td>
+        <td>Montérégie · Montréal · Autre</td>
+      </tr>
+      <tr>
+        <td><code>KC_rate_us</code></td>
+        <td><span class="cf-type cf-num">NUMERICAL</span></td>
+        <td>Note donnée par le client sur /demande-avis (1–5)</td>
+        <td>1 · 2 · 3 · 4 · 5</td>
+      </tr>
+      <tr>
+        <td><code>KC_your_feedback</code></td>
+        <td><span class="cf-type cf-large">LARGE_TEXT</span></td>
+        <td>Commentaire textuel du client insatisfait</td>
+        <td>"Le plancher de la cuisine n'a pas été..."</td>
+      </tr>
+    </tbody>
+  </table>
+</section>
+
+<!-- ══════════════════════════════════════════════════════════ -->
+<!-- 7. STRATÉGIE MARKETING -->
+<!-- ══════════════════════════════════════════════════════════ -->
+<section class="section" id="marketing">
+  <div class="section-title"><div class="icon">📣</div>Stratégie Marketing Social Media</div>
+
+  <div class="info-box">
+    <strong>Principe fondamental :</strong> Le service EST le contenu. 80% vidéo/photo terrain filmés par l'équipe KC, 20% visuels designés maximum. Ce qui fonctionne dans le nettoyage : les transformations avant/après, pas les flyers.
+  </div>
+
+  <!-- 4 Piliers -->
+  <h3 style="font-size:1em;font-weight:700;color:var(--navy);margin-bottom:14px;">4 Piliers de Contenu</h3>
+  <div class="g4" style="margin-bottom:26px;">
+    <div class="pillar p-transform">
+      <div class="pct">50%</div>
+      <h4 style="color:#15803d;">Transformation</h4>
+      <p>Vidéos avant/après, ASMR nettoyage, time-lapse. Format TikTok vertical 60–90s. Le plus viral.</p>
+    </div>
+    <div class="pillar p-proof">
+      <div class="pct">25%</div>
+      <h4 style="color:#1e40af;">Preuve Sociale</h4>
+      <p>Google Reviews, témoignages WhatsApp capture, réactions clients en temps réel.</p>
+    </div>
+    <div class="pillar p-local">
+      <div class="pct">15%</div>
+      <h4 style="color:#c2410c;">Ancrage Local</h4>
+      <p>Tags Sorel-Tracy, Brossard, Longueuil. Groupes Facebook Montérégie. Références locales.</p>
+    </div>
+    <div class="pillar p-convert">
+      <div class="pct">10%</div>
+      <h4 style="color:#6d28d9;">Conversion</h4>
+      <p>Plages disponibles, offres ponctuelles. Maximum 1 post de conversion par mois.</p>
+    </div>
+  </div>
+
+  <!-- Plateformes -->
+  <h3 style="font-size:1em;font-weight:700;color:var(--navy);margin-bottom:14px;">Plateformes Prioritaires</h3>
+  <div class="g3" style="margin-bottom:26px;">
+    <div class="card" style="border-left:4px solid #FF0050;">
+      <h4>TikTok — Viralité</h4>
+      <p>Format principal de production. Vidéos avant/après. Hashtags nettoyage en FR. Potentiel viral organique élevé.</p>
+    </div>
+    <div class="card" style="border-left:4px solid #1877F2;">
+      <h4>Facebook — Leads 35+</h4>
+      <p>Partage des TikToks dans les groupes locaux Montérégie. Facebook Ads pour génération de leads B2B et résidentiel.</p>
+    </div>
+    <div class="card" style="border-left:4px solid #E1306C;">
+      <h4>Instagram — Repurpose</h4>
+      <p>Republication automatique des TikToks. Reels + Stories. Vitrine visuelle du portefeuille KC.</p>
+    </div>
+  </div>
+
+  <!-- Facebook Ads -->
+  <h3 style="font-size:1em;font-weight:700;color:var(--navy);margin-bottom:14px;">Entonnoir Facebook Ads — Budget mensuel ~960$/mois</h3>
+
+  <div class="funnel-level fl-tofu">
+    <div class="funnel-label">TOFU<br>Notoriété</div>
+    <div class="funnel-content">
+      <strong>5$/jour · Vidéo transformation · Audience froide · Objectif ThruPlay</strong>
+      Cibler toute la Montérégie + Montréal. Vidéo avant/après la plus performante. Objectif : générer des vues 25%+ pour alimenter le MOFU.
+    </div>
+  </div>
+
+  <div class="funnel-level fl-mofu">
+    <div class="funnel-label">MOFU<br>Intérêt</div>
+    <div class="funnel-content">
+      <strong>7$/jour · Témoignage + avant/après · Retargeting vidéo viewers 25%+</strong>
+      Personnes ayant regardé les vidéos TOFU. Message : preuve sociale + offre de soumission gratuite.
+    </div>
+  </div>
+
+  <div class="funnel-level fl-bofu" style="margin-bottom:8px;">
+    <div class="funnel-label">BOFU<br>Résidentiel</div>
+    <div class="funnel-content">
+      <strong>10$/jour · Formulaire Lead Meta → GHL · Tag KC_src-fb-ads</strong>
+      Propriétaires Montérégie/Montréal. Formulaire pré-rempli → déclenche WF-02 GHL → soumission automatique.
+    </div>
+  </div>
+
+  <div class="funnel-level fl-bofu">
+    <div class="funnel-label">BOFU<br>B2B</div>
+    <div class="funnel-content">
+      <strong>10$/jour · Gestionnaires d'immeubles · Cliniques · Entrepreneurs</strong>
+      Ciblage par titre : Property Manager, Office Manager, Directeur des opérations, Médecin propriétaire.
+    </div>
+  </div>
+
+  <div class="info-box" style="margin-top:18px;">
+    <strong>Plan de démarrage :</strong> Mois 1 → TOFU seulement (5$/j). Semaine 3 → ajouter BOFU résidentiel (10$/j). Objectif : 25 leads/mois → 8-10 contrats signés. ROI cible : 960$ de budget → 8000$+ de revenus.
+  </div>
+
+  <!-- Calendrier -->
+  <div class="divider"></div>
+  <h3 style="font-size:1em;font-weight:700;color:var(--navy);margin-bottom:14px;">Cadence de Publication — 5-6 posts/semaine</h3>
+  <div class="g4">
+    <div class="card">
+      <h4>Lundi</h4>
+      <p>Transformation avant/après (mission récente)</p>
+    </div>
+    <div class="card">
+      <h4>Mardi</h4>
+      <p>Témoignage client ou Google Review</p>
+    </div>
+    <div class="card">
+      <h4>Mercredi</h4>
+      <p>Contenu terrain : ASMR ou time-lapse</p>
+    </div>
+    <div class="card">
+      <h4>Jeudi</h4>
+      <p>Ancrage local (ville + mission)</p>
+    </div>
+    <div class="card">
+      <h4>Vendredi</h4>
+      <p>Transformation ou before/after</p>
+    </div>
+    <div class="card">
+      <h4>Samedi</h4>
+      <p>Récap semaine ou poste équipe</p>
+    </div>
+    <div class="card">
+      <h4>Dimanche</h4>
+      <p style="color:var(--gray);">Repos — pas de publication</p>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════════════════════════ -->
+<!-- 8. ÉTAT DU PROJET -->
+<!-- ══════════════════════════════════════════════════════════ -->
+<section class="section" id="status">
+  <div class="section-title"><div class="icon">📍</div>État du projet — Au 1er mai 2026</div>
+
+  <div class="g2" style="margin-bottom:24px;">
+    <div>
+      <h3 style="font-size:.95em;font-weight:700;color:var(--navy);margin-bottom:12px;">Progression globale</h3>
+      <div style="margin-bottom:12px;">
+        <div style="display:flex;justify-content:space-between;font-size:.82em;margin-bottom:4px;">
+          <span>Site Web</span><span style="color:var(--green);font-weight:700;">100%</span>
+        </div>
+        <div class="progress-bar"><div class="progress-fill" style="width:100%"></div></div>
+      </div>
+      <div style="margin-bottom:12px;">
+        <div style="display:flex;justify-content:space-between;font-size:.82em;margin-bottom:4px;">
+          <span>Pipeline CRM + Tags + Custom Fields</span><span style="color:var(--green);font-weight:700;">100%</span>
+        </div>
+        <div class="progress-bar"><div class="progress-fill" style="width:100%"></div></div>
+      </div>
+      <div style="margin-bottom:12px;">
+        <div style="display:flex;justify-content:space-between;font-size:.82em;margin-bottom:4px;">
+          <span>Workflows (7/7 construits)</span><span style="color:var(--green);font-weight:700;">100%</span>
+        </div>
+        <div class="progress-bar"><div class="progress-fill" style="width:100%"></div></div>
+      </div>
+      <div style="margin-bottom:12px;">
+        <div style="display:flex;justify-content:space-between;font-size:.82em;margin-bottom:4px;">
+          <span>VoiceBots IA (Jade + Sofia live)</span><span style="color:var(--green);font-weight:700;">100%</span>
+        </div>
+        <div class="progress-bar"><div class="progress-fill" style="width:100%"></div></div>
+      </div>
+      <div>
+        <div style="display:flex;justify-content:space-between;font-size:.82em;margin-bottom:4px;">
+          <span>Stratégie marketing</span><span style="color:var(--green);font-weight:700;">100%</span>
+        </div>
+        <div class="progress-bar"><div class="progress-fill" style="width:100%"></div></div>
+      </div>
+    </div>
+
+    <div>
+      <h3 style="font-size:.95em;font-weight:700;color:var(--navy);margin-bottom:12px;">Finitions restantes</h3>
+      <ul class="checklist">
+        <li>
+          <span class="check-todo">⚡</span>
+          <span><strong>WF-04b</strong> → connecter à Sofia comme Call-End Workflow</span>
+        </li>
+        <li>
+          <span class="check-todo">⚡</span>
+          <span><strong>WF-01b</strong> → retirer du Post-Call Jade + renommer dans GHL</span>
+        </li>
+        <li>
+          <span class="check-todo">⚡</span>
+          <span><strong>Jade prompt v2</strong> → coller dans GHL Build (fichier jade_prompt_v2.txt prêt)</span>
+        </li>
+        <li>
+          <span class="check-todo">⚡</span>
+          <span><strong>Lien Google Review</strong> → remplacer LIEN_GOOGLE_REVIEW_KC dans AvisClient.tsx</span>
+        </li>
+        <li>
+          <span class="check-todo">📌</span>
+          <span><strong>Domaine personnalisé</strong> → connecter domaine KC à Vercel</span>
+        </li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="divider"></div>
+
+  <!-- Faits accomplis -->
+  <h3 style="font-size:.95em;font-weight:700;color:var(--navy);margin-bottom:14px;">✅ Ce qui est fait et fonctionnel</h3>
+  <div class="g3">
+    <div class="card">
+      <h4>Site Web KC — Live</h4>
+      <p>entretien-menage-kc.vercel.app · 3 pages · formulaire GHL · widget Jade · page avis brandée · déploiement auto</p>
+    </div>
+    <div class="card">
+      <h4>Jade — Live 24/7</h4>
+      <p>Réceptionniste IA inbound · widget intégré · formulaire pré-appel · trigger Transcript Generated (secondes)</p>
+    </div>
+    <div class="card">
+      <h4>CRM KC_Entretien</h4>
+      <p>Pipeline 10 étapes · 40 tags KC_ · 14 custom fields · toutes les données de service structurées</p>
+    </div>
+    <div class="card">
+      <h4>7 Workflows — Système complet</h4>
+      <p>Form Inbound · VoiceBot Inbound · Relances Devis · Outbound Caller · Call Management · Review Request · Negative Feedback</p>
+    </div>
+    <div class="card">
+      <h4>Système Review KC</h4>
+      <p>Trigger Link → /demande-avis → gating 4-5⭐ → Google · 1-3⭐ → alerte interne</p>
+    </div>
+    <div class="card">
+      <h4>Stratégie Marketing</h4>
+      <p>4 piliers contenu · TikTok/FB/IG · Facebook Ads 3 niveaux · 25 leads/mois cible · ROI calculé</p>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<div class="footer">
+  <p>Produit par <strong>Noovira AI</strong> pour <strong>Entretiens Ménager KC</strong></p>
+  <p style="margin-top:6px;">Sorel-Tracy, Québec · (514) 591-6202 · kcglobalservice.inc@gmail.com</p>
+  <p style="margin-top:6px;opacity:.6;">Document généré le 1er mai 2026 · Version 1.0</p>
+</div>
+
+</div><!-- /wrap -->
+
+<script>
+// Active nav on scroll
+const sections = document.querySelectorAll('section[id]');
+const navLinks = document.querySelectorAll('.nav a');
+const obs = new IntersectionObserver(entries => {
+  entries.forEach(e => {
+    if (e.isIntersecting) {
+      navLinks.forEach(l => l.classList.remove('active'));
+      const active = document.querySelector(`.nav a[href="#${e.target.id}"]`);
+      if (active) active.classList.add('active');
+    }
+  });
+}, {threshold: 0.4});
+sections.forEach(s => obs.observe(s));
+</script>
+</body>
+</html>

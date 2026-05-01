@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<title>KC WF-03 — AppelManque_Handler</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; background: #f0f2f5; padding: 40px 20px; }
+  h1 { text-align: center; color: #1a1a2e; font-size: 22px; margin-bottom: 4px; }
+  .subtitle { text-align: center; color: #888; font-size: 13px; margin-bottom: 40px; }
+
+  .flow { display: flex; flex-direction: column; align-items: center; gap: 0; }
+  .row { display: flex; align-items: center; justify-content: center; gap: 12px; }
+
+  .node { border-radius: 10px; padding: 10px 18px; font-size: 13px; font-weight: 600; text-align: center; min-width: 220px; max-width: 260px; box-shadow: 0 2px 8px rgba(0,0,0,0.10); position: relative; }
+  .node small { display: block; font-size: 11px; font-weight: 400; margin-top: 3px; opacity: 0.8; }
+
+  .trigger   { background: #1a1a2e; color: #fff; border-radius: 30px; min-width: 300px; }
+  .tag-add   { background: #e8f5e9; color: #2e7d32; border: 2px solid #a5d6a7; }
+  .opp       { background: #e3f2fd; color: #1565c0; border: 2px solid #90caf9; }
+  .sms       { background: #f3e5f5; color: #6a1b9a; border: 2px solid #ce93d8; }
+  .email-node{ background: #fff8e1; color: #e65100; border: 2px solid #ffcc02; }
+  .wait      { background: #fafafa; color: #555; border: 2px dashed #ccc; }
+  .condition { background: #fff; color: #5c35d4; border: 2px solid #5c35d4; min-width: 280px; max-width: 340px; }
+  .condition small { color: #888; }
+  .end-node  { background: #455a64; color: #fff; border-radius: 30px; min-width: 70px; max-width: 80px; padding: 6px 16px; font-size: 12px; text-align: center; }
+  .urgent    { background: #fbe9e7; color: #bf360c; border: 2px solid #ffab91; }
+
+  .instr { background: #fffde7; border: 1.5px solid #f9a825; border-radius: 8px; padding: 8px 12px; font-size: 11.5px; color: #5d4037; min-width: 220px; max-width: 300px; line-height: 1.6; }
+  .instr strong { display: block; font-size: 11px; color: #e65100; text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 4px; }
+  .instr code { background: #fff3cd; padding: 1px 5px; border-radius: 4px; font-family: monospace; font-size: 11px; word-break: break-all; }
+
+  .arrow { width: 2px; height: 20px; background: #bbb; margin: 0 auto; }
+  .arrow-c { display: flex; justify-content: center; }
+  .yes-b { background: #2e7d32; color: #fff; font-size: 10px; font-weight: 700; padding: 2px 8px; border-radius: 10px; display: inline-block; }
+  .no-b  { background: #c62828; color: #fff; font-size: 10px; font-weight: 700; padding: 2px 8px; border-radius: 10px; display: inline-block; }
+
+  .split-wrap { display: flex; gap: 24px; justify-content: center; align-items: flex-start; }
+  .branch { display: flex; flex-direction: column; align-items: center; }
+  .divider { width: 600px; height: 2px; background: linear-gradient(to right, transparent, #ddd, transparent); margin: 16px auto; }
+  .step-label { font-size: 10px; font-weight: 700; color: #999; text-transform: uppercase; letter-spacing: 1px; background: #f0f2f5; padding: 2px 12px; border-radius: 6px; border: 1px dashed #ccc; margin: 4px auto; display: inline-block; }
+  .node-num { position: absolute; top: -8px; left: -8px; background: #1a1a2e; color: #fff; font-size: 9px; font-weight: 700; width: 18px; height: 18px; border-radius: 50%; display: flex; align-items: center; justify-content: center; }
+  .speed-badge { background: #c62828; color: #fff; font-size: 10px; font-weight: 700; padding: 2px 10px; border-radius: 10px; display: inline-block; margin-left: 8px; }
+</style>
+</head>
+<body>
+
+<h1>WF-03 — KC_AppelManque_Handler</h1>
+<p class="subtitle">Déclencheur : appel entrant non répondu — Réponse SMS automatique en moins de 60 secondes</p>
+
+<div class="flow">
+
+  <!-- TRIGGER -->
+  <div class="row">
+    <div class="node trigger">📞 TRIGGER<small>Missed Call — Appel entrant non répondu</small></div>
+    <div class="instr"><strong>Créer le trigger</strong>Type : <code>Missed Call</code> ou <code>Inbound Call — No Answer</code><br>Aucun filtre — s'active pour tout appel manqué</div>
+  </div>
+  <div class="arrow-c"><div class="arrow"></div></div>
+
+  <div class="step-label">RÉPONSE IMMÉDIATE — &lt; 60 secondes</div>
+  <div class="arrow-c"><div class="arrow" style="height:8px;"></div></div>
+
+  <!-- NODE 1 -->
+  <div class="row">
+    <div class="node tag-add"><div class="node-num">1</div>🏷 Add Tag<small>KC_src-appel-manque</small></div>
+    <div class="instr"><strong>+ → Add Tag</strong>Tag : <code>KC_src-appel-manque</code></div>
+  </div>
+  <div class="arrow-c"><div class="arrow"></div></div>
+
+  <!-- NODE 2 -->
+  <div class="row">
+    <div class="node opp"><div class="node-num">2</div>🔄 Create Opportunity<small>Pipeline: KC_Entretien → Nouveau Lead</small></div>
+    <div class="instr"><strong>+ → Create/Update Opportunity</strong>Pipeline : <code>KC_Entretien</code><br>Stage : <code>Nouveau Lead</code><br>Status : <code>Open</code><br>Ne pas écraser si déjà existant</div>
+  </div>
+  <div class="arrow-c"><div class="arrow"></div></div>
+
+  <!-- NODE 3 -->
+  <div class="row">
+    <div class="node sms" style="border-color:#c62828;"><div class="node-num">3</div>💬 Send SMS → Client <span class="speed-badge">⚡ URGENT</span><small>Réponse automatique immédiate</small></div>
+    <div class="instr"><strong>+ → Send SMS</strong>From : <code>Business phone number</code><br>To : <code>{{contact.phone}}</code><br><br>Message :<br><code>Bonjour! Vous avez tenté de joindre Entretiens Ménager KC. Nous avons bien noté votre appel et un membre de notre équipe vous rappelle très bientôt. Besoin urgent? Écrivez-nous ici ou au (514) 591-6202.</code></div>
+  </div>
+  <div class="arrow-c"><div class="arrow"></div></div>
+
+  <!-- NODE 4 -->
+  <div class="row">
+    <div class="node email-node"><div class="node-num">4</div>✉️ Send Email → Responsable<small>Notification interne appel manqué</small></div>
+    <div class="instr"><strong>+ → Send Email</strong>To : <code>kcglobalservice.inc@gmail.com</code><br>Subject : <code>📞 Appel manqué — {{contact.first_name}} {{contact.last_name}} — {{contact.phone}}</code><br>Corps : Nom, Téléphone, Heure appel + "Un SMS auto a été envoyé. Rappeler ASAP."</div>
+  </div>
+  <div class="arrow-c"><div class="arrow"></div></div>
+
+  <div class="divider"></div>
+
+  <!-- NODE 5 -->
+  <div class="step-label">SUIVI — 30 minutes sans rappel</div>
+  <div class="arrow-c"><div class="arrow" style="height:8px;"></div></div>
+
+  <div class="row">
+    <div class="node wait"><div class="node-num">5</div>⏱ Wait — 30 minutes</div>
+    <div class="instr"><strong>+ → Wait</strong>Durée : <code>30 minutes</code><br>Laisse le temps à l'équipe de rappeler</div>
+  </div>
+  <div class="arrow-c"><div class="arrow"></div></div>
+
+  <!-- NODE 6 -->
+  <div class="row">
+    <div class="node condition"><div class="node-num">6</div>◆ IF/ELSE — Toujours non traité?<small>Opportunity Stage encore "Nouveau Lead"</small></div>
+    <div class="instr"><strong>+ → IF/ELSE Condition</strong>Champ : <code>Opportunity Stage</code><br>Opérateur : <code>is</code><br>Valeur : <code>Nouveau Lead</code><br>Pipeline : <code>KC_Entretien</code><br>Nommer : "Appel non rappelé 30min?"</div>
+  </div>
+
+  <div class="split-wrap" style="margin-top:0; width:1000px;">
+
+    <!-- OUI — Non rappelé -->
+    <div class="branch" style="flex:1.2;">
+      <div class="arrow-c"><div class="arrow"></div></div>
+      <span class="yes-b">OUI — Pas encore rappelé</span>
+      <div class="arrow-c"><div class="arrow"></div></div>
+
+      <div class="row">
+        <div class="node sms"><div class="node-num" style="background:#f57f17;">6a</div>💬 Send SMS → Client<small>2ème contact doux</small></div>
+        <div class="instr"><strong>+ → Send SMS</strong>Message : <code>Bonjour {{contact.first_name}}! Notre équipe tente de vous joindre. Si vous souhaitez discuter de vos besoins en nettoyage répondez simplement à ce message et on s'occupe de vous.</code></div>
+      </div>
+      <div class="arrow-c"><div class="arrow"></div></div>
+
+      <div class="row">
+        <div class="node urgent"><div class="node-num" style="background:#c62828;">6b</div>✉️ Alerte Email → Responsable<small>⚠️ Rappel non effectué 30min</small></div>
+        <div class="instr"><strong>+ → Send Email</strong>To : <code>kcglobalservice.inc@gmail.com</code><br>Subject : <code>⚠️ 30min — Appel manqué non rappelé — {{contact.phone}}</code><br>Corps : "Ce contact attend depuis 30 minutes. Rappeler immédiatement."</div>
+      </div>
+      <div class="arrow-c"><div class="arrow"></div></div>
+      <div class="end-node">END</div>
+    </div>
+
+    <!-- NON — Déjà rappelé -->
+    <div class="branch" style="flex:0.8; padding-top:10px;">
+      <div class="arrow-c"><div class="arrow"></div></div>
+      <span class="no-b">NON — Déjà rappelé</span>
+      <div style="font-size:11px;color:#aaa;margin-top:8px;text-align:center;">L'équipe a rappelé<br>et traité le contact.<br>Aucune action.</div>
+      <div class="arrow-c"><div class="arrow" style="height:30px;"></div></div>
+      <div class="end-node">END</div>
+    </div>
+
+  </div>
+
+  <div style="height:60px;"></div>
+</div>
+
+<!-- LEGEND -->
+<div style="max-width:680px;margin:0 auto 40px;background:#fff;border-radius:12px;padding:20px;box-shadow:0 2px 8px rgba(0,0,0,0.08);">
+  <div style="font-size:11px;font-weight:700;color:#999;text-transform:uppercase;letter-spacing:1px;margin-bottom:12px;">Légende</div>
+  <div style="display:flex;flex-wrap:wrap;gap:10px;">
+    <div style="display:flex;align-items:center;gap:6px;"><div style="width:14px;height:14px;border-radius:3px;background:#e8f5e9;border:1px solid #a5d6a7;"></div><span style="font-size:12px;">Add Tag</span></div>
+    <div style="display:flex;align-items:center;gap:6px;"><div style="width:14px;height:14px;border-radius:3px;background:#e3f2fd;border:1px solid #90caf9;"></div><span style="font-size:12px;">Update Opportunity</span></div>
+    <div style="display:flex;align-items:center;gap:6px;"><div style="width:14px;height:14px;border-radius:3px;background:#f3e5f5;border:1px solid #ce93d8;"></div><span style="font-size:12px;">Send SMS</span></div>
+    <div style="display:flex;align-items:center;gap:6px;"><div style="width:14px;height:14px;border-radius:3px;background:#fff8e1;border:1px solid #ffcc02;"></div><span style="font-size:12px;">Send Email</span></div>
+    <div style="display:flex;align-items:center;gap:6px;"><div style="width:14px;height:14px;border-radius:3px;background:#fafafa;border:2px dashed #ccc;"></div><span style="font-size:12px;">Wait</span></div>
+    <div style="display:flex;align-items:center;gap:6px;"><div style="width:14px;height:14px;border-radius:3px;background:#fff;border:2px solid #5c35d4;"></div><span style="font-size:12px;">IF/ELSE Condition</span></div>
+    <div style="display:flex;align-items:center;gap:6px;"><div style="width:14px;height:14px;border-radius:3px;background:#fbe9e7;border:1px solid #ffab91;"></div><span style="font-size:12px;">Alerte urgente</span></div>
+  </div>
+</div>
+
+<div style="height:40px;"></div>
+</body>
+</html>

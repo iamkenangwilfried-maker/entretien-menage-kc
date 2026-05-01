@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<title>KC WF-01a — Form Inbound</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; background: #f0f2f5; padding: 40px 20px; }
+  h1 { text-align: center; color: #1a1a2e; font-size: 22px; margin-bottom: 4px; }
+  .subtitle { text-align: center; color: #888; font-size: 13px; margin-bottom: 8px; }
+  .badge-source { text-align: center; margin-bottom: 36px; }
+  .badge-source span { background: #1565c0; color: #fff; font-size: 11px; font-weight: 700; padding: 4px 14px; border-radius: 20px; letter-spacing: 0.5px; }
+
+  .flow { display: flex; flex-direction: column; align-items: center; gap: 0; }
+  .row { display: flex; align-items: flex-start; justify-content: center; gap: 12px; }
+
+  .node { border-radius: 10px; padding: 10px 18px; font-size: 13px; font-weight: 600; text-align: center; min-width: 220px; max-width: 260px; box-shadow: 0 2px 8px rgba(0,0,0,0.10); position: relative; }
+  .node small { display: block; font-size: 11px; font-weight: 400; margin-top: 3px; opacity: 0.8; }
+
+  .trigger   { background: #1a1a2e; color: #fff; border-radius: 30px; min-width: 300px; }
+  .tag-add   { background: #e8f5e9; color: #2e7d32; border: 2px solid #a5d6a7; }
+  .opp       { background: #e3f2fd; color: #1565c0; border: 2px solid #90caf9; }
+  .sms       { background: #f3e5f5; color: #6a1b9a; border: 2px solid #ce93d8; }
+  .email-node{ background: #fff8e1; color: #e65100; border: 2px solid #ffcc02; }
+  .email-int { background: #fce4ec; color: #880e4f; border: 2px solid #f48fb1; }
+  .wait      { background: #fafafa; color: #555; border: 2px dashed #ccc; }
+  .condition { background: #fff; color: #5c35d4; border: 2px solid #5c35d4; min-width: 280px; max-width: 340px; }
+  .condition small { color: #888; }
+  .end-node  { background: #455a64; color: #fff; border-radius: 30px; min-width: 70px; max-width: 80px; padding: 6px 16px; font-size: 12px; text-align: center; }
+  .urgent    { background: #fbe9e7; color: #bf360c; border: 2px solid #ffab91; }
+
+  .instr { background: #fffde7; border: 1.5px solid #f9a825; border-radius: 8px; padding: 10px 14px; font-size: 11.5px; color: #5d4037; min-width: 260px; max-width: 360px; line-height: 1.7; }
+  .instr strong { display: block; font-size: 11px; color: #e65100; text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 6px; }
+  .instr code { background: #fff3cd; padding: 2px 6px; border-radius: 4px; font-family: monospace; font-size: 10.5px; word-break: break-all; display: block; margin-top: 3px; white-space: pre-line; }
+
+  .arrow { width: 2px; height: 20px; background: #bbb; margin: 0 auto; }
+  .arrow-c { display: flex; justify-content: center; }
+  .yes-b { background: #2e7d32; color: #fff; font-size: 10px; font-weight: 700; padding: 2px 10px; border-radius: 10px; display: inline-block; }
+  .no-b  { background: #c62828; color: #fff; font-size: 10px; font-weight: 700; padding: 2px 10px; border-radius: 10px; display: inline-block; }
+
+  .split-wrap { display: flex; gap: 32px; justify-content: center; align-items: flex-start; }
+  .branch { display: flex; flex-direction: column; align-items: center; }
+  .divider { width: 680px; height: 2px; background: linear-gradient(to right, transparent, #ddd, transparent); margin: 18px auto; }
+  .step-label { font-size: 10px; font-weight: 700; color: #999; text-transform: uppercase; letter-spacing: 1px; background: #f0f2f5; padding: 2px 12px; border-radius: 6px; border: 1px dashed #ccc; margin: 4px auto; display: inline-block; }
+  .node-num { position: absolute; top: -8px; left: -8px; background: #1a1a2e; color: #fff; font-size: 9px; font-weight: 700; width: 18px; height: 18px; border-radius: 50%; display: flex; align-items: center; justify-content: center; }
+</style>
+</head>
+<body>
+
+<h1>WF-01a — KC_Form_Inbound</h1>
+<p class="subtitle">Source : Formulaire widget sur le site — Confirmation immédiate + Email interne avec tous les champs</p>
+<div class="badge-source"><span>📋 SOURCE : FORMULAIRE SITE WEB</span></div>
+
+<div class="flow">
+
+  <!-- TRIGGER -->
+  <div class="row">
+    <div class="node trigger">📋 TRIGGER<small>Form Submitted — Widget live call / formulaire site</small></div>
+    <div class="instr"><strong>Créer le trigger</strong>Type : <code>Form Submitted</code>Sélectionner : formulaire widget du site KC<br>Ce workflow se déclenche à chaque soumission du formulaire live call sur le site Vercel.</div>
+  </div>
+  <div class="arrow-c"><div class="arrow"></div></div>
+
+  <!-- NODE 1 -->
+  <div class="step-label">CLASSIFICATION</div>
+  <div class="arrow-c"><div class="arrow" style="height:8px;"></div></div>
+  <div class="row">
+    <div class="node tag-add"><div class="node-num">1</div>🏷 Add Tag<small>KC_src-widget</small></div>
+    <div class="instr"><strong>+ → Add Tag</strong>Tag : <code>KC_src-widget</code>Identifie ce lead comme provenant du formulaire site web.</div>
+  </div>
+  <div class="arrow-c"><div class="arrow"></div></div>
+
+  <!-- NODE 2 -->
+  <div class="row">
+    <div class="node opp"><div class="node-num">2</div>🔄 Create/Update Opportunity<small>KC_Entretien → Nouveau Lead</small></div>
+    <div class="instr"><strong>+ → Create/Update Opportunity</strong>Pipeline : <code>KC_Entretien</code>Stage : <code>Nouveau Lead</code>Status : <code>Open</code>Ne pas écraser si déjà existant.</div>
+  </div>
+  <div class="arrow-c"><div class="arrow"></div></div>
+
+  <!-- NODE 3 -->
+  <div class="step-label">RÉPONSE IMMÉDIATE AU CLIENT</div>
+  <div class="arrow-c"><div class="arrow" style="height:8px;"></div></div>
+  <div class="row">
+    <div class="node sms"><div class="node-num">3</div>💬 Send SMS → Client<small>Confirmation immédiate</small></div>
+    <div class="instr"><strong>+ → Send SMS</strong>From : <code>Business phone number</code>To : <code>{{contact.phone}}</code>Message :<code>Bonjour {{contact.first_name}}! Merci de nous avoir contactes. Notre equipe Entretiens Menager KC vous rappelle tres bientot. Des questions? Ecrivez-nous ici ou appelez le (514) 591-6202.</code></div>
+  </div>
+  <div class="arrow-c"><div class="arrow"></div></div>
+
+  <!-- NODE 4 -->
+  <div class="row">
+    <div class="node email-node"><div class="node-num">4</div>✉️ Send Email → Client<small>Confirmation de prise en charge</small></div>
+    <div class="instr"><strong>+ → Send Email</strong>From : <code>kcglobalservice.inc@gmail.com</code>To : <code>{{contact.email}}</code>Subject : <code>Votre demande a bien ete recue — Entretiens Menager KC</code>Corps :<code>Bonjour {{contact.first_name}},
+
+Merci de nous avoir contactes! Nous avons bien recu votre demande et un membre de notre equipe vous contactera tres bientot.
+
+Pour toute urgence : (514) 591-6202
+kcglobalservice.inc@gmail.com
+
+L'equipe Entretiens Menager KC</code></div>
+  </div>
+  <div class="arrow-c"><div class="arrow"></div></div>
+
+  <!-- NODE 5 -->
+  <div class="step-label">NOTIFICATION INTERNE — CHAMPS FORMULAIRE</div>
+  <div class="arrow-c"><div class="arrow" style="height:8px;"></div></div>
+  <div class="row">
+    <div class="node email-int"><div class="node-num">5</div>✉️ Email Interne — Formulaire<small>📋 Tous les champs du form</small></div>
+    <div class="instr"><strong>+ → Send Email</strong>From : <code>kcglobalservice.inc@gmail.com</code>To : <code>kcglobalservice.inc@gmail.com</code>Subject : <code>📋 Nouveau lead Formulaire — {{contact.first_name}} {{contact.last_name}}</code>Corps :<code>Un lead vient de soumettre le formulaire sur le site.
+
+CONTACT
+Nom : {{contact.first_name}} {{contact.last_name}}
+Tel : {{contact.phone}}
+Email : {{contact.email}}
+
+DETAILS DU SERVICE
+Ville : {{contact.KC_Ville}}
+Service : {{contact.KC_Type_de_service}}
+Frequence : {{contact.KC_Frequence}}
+Surface : {{contact.KC_Surface_m2}} m2
+Nb pieces : {{contact.KC_Nb_pieces}}
+Notes : {{contact.KC_Notes_service}}
+
+→ Envoyer la soumission dans les 24h.</code></div>
+  </div>
+  <div class="arrow-c"><div class="arrow"></div></div>
+
+  <div class="divider"></div>
+
+  <!-- NODE 6 -->
+  <div class="step-label">SUIVI — 48 HEURES SANS RÉPONSE</div>
+  <div class="arrow-c"><div class="arrow" style="height:8px;"></div></div>
+  <div class="row">
+    <div class="node wait"><div class="node-num">6</div>⏱ Wait — 48 heures</div>
+    <div class="instr"><strong>+ → Wait</strong>Durée : <code>48 heures</code>Laisse le temps à l'équipe de rappeler le lead.</div>
+  </div>
+  <div class="arrow-c"><div class="arrow"></div></div>
+
+  <!-- NODE 7 -->
+  <div class="row">
+    <div class="node condition"><div class="node-num">7</div>◆ IF/ELSE — Toujours non traité?<small>Opportunity Stage encore "Nouveau Lead"?</small></div>
+    <div class="instr"><strong>+ → IF/ELSE Condition</strong>Champ : <code>Opportunity Stage</code>Opérateur : <code>is</code>Valeur : <code>Nouveau Lead</code>Pipeline : <code>KC_Entretien</code>Nommer : "Non traite 48h?"</div>
+  </div>
+
+  <div class="split-wrap" style="margin-top:0; width:1080px;">
+
+    <div class="branch" style="flex:1.2;">
+      <div class="arrow-c"><div class="arrow"></div></div>
+      <span class="yes-b">OUI — Pas encore rappelé</span>
+      <div class="arrow-c"><div class="arrow"></div></div>
+      <div class="row">
+        <div class="node sms"><div class="node-num" style="background:#f57f17;">7a</div>💬 SMS Relance → Client<small>2ème contact doux</small></div>
+        <div class="instr"><strong>+ → Send SMS</strong>Message :<code>Bonjour {{contact.first_name}}! On voulait s'assurer que vous avez bien eu de nos nouvelles. On reste disponibles pour vos besoins en nettoyage. Repondez ici ou appelez le (514) 591-6202.</code></div>
+      </div>
+      <div class="arrow-c"><div class="arrow"></div></div>
+      <div class="row">
+        <div class="node urgent"><div class="node-num" style="background:#c62828;">7b</div>✉️ Alerte Email → Responsable<small>⚠️ Lead non traité 48h</small></div>
+        <div class="instr"><strong>+ → Send Email</strong>To : <code>kcglobalservice.inc@gmail.com</code>Subject : <code>⚠️ 48h — Lead Form non traite — {{contact.first_name}} {{contact.last_name}} — {{contact.phone}}</code>Corps :<code>Ce lead formulaire n'a pas ete traite depuis 48h.
+
+Nom : {{contact.first_name}} {{contact.last_name}}
+Tel : {{contact.phone}}
+Service : {{contact.KC_Type_de_service}}
+Ville : {{contact.KC_Ville}}
+
+Un SMS de relance a ete envoye.
+→ Prendre en charge immediatement.</code></div>
+      </div>
+      <div class="arrow-c"><div class="arrow"></div></div>
+      <div class="end-node">END</div>
+    </div>
+
+    <div class="branch" style="flex:0.8; padding-top:10px;">
+      <div class="arrow-c"><div class="arrow"></div></div>
+      <span class="no-b">NON — Déjà traité</span>
+      <div style="font-size:11px;color:#aaa;margin-top:10px;text-align:center;">L'équipe a rappelé<br>et pris en charge le contact.<br>Aucune action requise.</div>
+      <div class="arrow-c"><div class="arrow" style="height:36px;"></div></div>
+      <div class="end-node">END</div>
+    </div>
+
+  </div>
+  <div style="height:60px;"></div>
+</div>
+
+<!-- LEGEND -->
+<div style="max-width:760px;margin:0 auto 40px;background:#fff;border-radius:12px;padding:20px 24px;box-shadow:0 2px 8px rgba(0,0,0,0.08);">
+  <div style="font-size:11px;font-weight:700;color:#999;text-transform:uppercase;letter-spacing:1px;margin-bottom:12px;">Légende</div>
+  <div style="display:flex;flex-wrap:wrap;gap:12px;">
+    <div style="display:flex;align-items:center;gap:6px;"><div style="width:14px;height:14px;border-radius:3px;background:#1a1a2e;"></div><span style="font-size:12px;">Trigger</span></div>
+    <div style="display:flex;align-items:center;gap:6px;"><div style="width:14px;height:14px;border-radius:3px;background:#e8f5e9;border:1px solid #a5d6a7;"></div><span style="font-size:12px;">Add Tag</span></div>
+    <div style="display:flex;align-items:center;gap:6px;"><div style="width:14px;height:14px;border-radius:3px;background:#e3f2fd;border:1px solid #90caf9;"></div><span style="font-size:12px;">Update Opportunity</span></div>
+    <div style="display:flex;align-items:center;gap:6px;"><div style="width:14px;height:14px;border-radius:3px;background:#f3e5f5;border:1px solid #ce93d8;"></div><span style="font-size:12px;">Send SMS</span></div>
+    <div style="display:flex;align-items:center;gap:6px;"><div style="width:14px;height:14px;border-radius:3px;background:#fff8e1;border:1px solid #ffcc02;"></div><span style="font-size:12px;">Send Email → Client</span></div>
+    <div style="display:flex;align-items:center;gap:6px;"><div style="width:14px;height:14px;border-radius:3px;background:#fce4ec;border:1px solid #f48fb1;"></div><span style="font-size:12px;">Send Email → Interne</span></div>
+    <div style="display:flex;align-items:center;gap:6px;"><div style="width:14px;height:14px;border-radius:3px;background:#fafafa;border:2px dashed #ccc;"></div><span style="font-size:12px;">Wait</span></div>
+    <div style="display:flex;align-items:center;gap:6px;"><div style="width:14px;height:14px;border-radius:3px;background:#fff;border:2px solid #5c35d4;"></div><span style="font-size:12px;">IF/ELSE Condition</span></div>
+    <div style="display:flex;align-items:center;gap:6px;"><div style="width:14px;height:14px;border-radius:3px;background:#fbe9e7;border:1px solid #ffab91;"></div><span style="font-size:12px;">Alerte urgente</span></div>
+  </div>
+</div>
+<div style="height:40px;"></div>
+</body>
+</html>

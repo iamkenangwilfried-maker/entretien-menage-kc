@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<title>KC — Outbound Refus</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; background: #f0f2f5; padding: 40px 20px; }
+  h1 { text-align: center; color: #1a1a2e; font-size: 22px; margin-bottom: 4px; }
+  .subtitle { text-align: center; color: #888; font-size: 13px; margin-bottom: 8px; }
+  .badge { text-align: center; margin-bottom: 32px; }
+  .badge span { background: #c62828; color: #fff; font-size: 11px; font-weight: 700; padding: 4px 14px; border-radius: 20px; letter-spacing: 0.5px; }
+
+  .flow { display: flex; flex-direction: column; align-items: center; }
+  .row { display: flex; align-items: flex-start; justify-content: center; gap: 16px; width: 100%; max-width: 800px; margin: 0 auto; }
+
+  .node { border-radius: 10px; padding: 10px 18px; font-size: 13px; font-weight: 600; text-align: center; min-width: 220px; max-width: 250px; box-shadow: 0 2px 8px rgba(0,0,0,0.10); position: relative; flex-shrink: 0; }
+  .node small { display: block; font-size: 11px; font-weight: 400; margin-top: 3px; opacity: 0.85; line-height: 1.5; }
+
+  .trigger-sofia { background: #e8eaf6; color: #283593; border: 2px solid #9fa8da; border-radius: 30px; min-width: 320px; }
+  .tag-add  { background: #fce4ec; color: #880e4f; border: 2px solid #f48fb1; }
+  .tag-rem  { background: #f5f5f5; color: #555; border: 2px solid #bbb; }
+  .end-node { background: #455a64; color: #fff; border-radius: 30px; min-width: 70px; padding: 6px 16px; font-size: 12px; text-align: center; }
+
+  .instr { background: #fffde7; border: 1.5px solid #f9a825; border-radius: 8px; padding: 10px 14px; font-size: 11.5px; color: #5d4037; max-width: 380px; line-height: 1.7; flex: 1; }
+  .instr strong { display: block; font-size: 11px; color: #e65100; text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 5px; }
+  .instr code { background: #fff3cd; padding: 2px 6px; border-radius: 4px; font-family: monospace; font-size: 10.5px; display: block; margin-top: 4px; line-height: 1.6; }
+
+  .arrow-c { display: flex; justify-content: center; }
+  .arrow { width: 2px; height: 22px; background: #bbb; }
+  .node-num { position: absolute; top: -8px; left: -8px; background: #1a1a2e; color: #fff; font-size: 9px; font-weight: 700; width: 18px; height: 18px; border-radius: 50%; display: flex; align-items: center; justify-content: center; }
+
+  .info-box { max-width: 600px; margin: 0 auto 32px; background: #fce4ec; border: 1.5px solid #f48fb1; border-radius: 10px; padding: 14px 20px; font-size: 12px; color: #880e4f; line-height: 1.8; }
+  .info-box strong { display: block; font-size: 11px; text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 6px; }
+  .info-box code { background: #fce4ec; border: 1px solid #f48fb1; padding: 1px 6px; border-radius: 4px; font-family: monospace; font-size: 11px; }
+</style>
+</head>
+<body>
+
+<h1>KC_Outbound_Refus</h1>
+<p class="subtitle">Mini workflow — Clôture propre d'un refus pendant l'appel Sofia</p>
+<div class="badge"><span>🚫 DÉCLENCHÉ PAR SOFIA — ACTION "REFUS — FIN DE SÉQUENCE"</span></div>
+
+<div class="info-box">
+  <strong>⚙️ Comment ce workflow est déclenché</strong>
+  Ce workflow n'a <b>pas de trigger GHL</b> — il est lancé uniquement par Sofia (VoiceBot) via l'action <code>Trigger a workflow</code> configurée dans AI Agents → Sofia Outbound.<br>
+  Sofia le déclenche quand le contact refuse clairement pendant l'appel.
+</div>
+
+<div class="flow">
+
+  <!-- DÉCLENCHEUR SOFIA -->
+  <div class="row" style="justify-content:center;">
+    <div class="node trigger-sofia">
+      📞 Déclenché par Sofia
+      <small>Quand le contact refuse clairement<br>"Trigger a workflow → KC_Outbound_Refus"</small>
+    </div>
+  </div>
+  <div class="arrow-c"><div class="arrow"></div></div>
+
+  <!-- NODE 1 -->
+  <div class="row">
+    <div class="node tag-add">
+      <div class="node-num">1</div>
+      🏷 Add Tag
+      <small>KC_reactiv-no-response</small>
+    </div>
+    <div class="instr">
+      <strong>+ → Add Tag</strong>
+      Tag : <code>KC_reactiv-no-response</code>
+      Marque le contact comme ayant refusé le service — visible dans le CRM pour les filtres et rapports de campagne.
+    </div>
+  </div>
+  <div class="arrow-c"><div class="arrow"></div></div>
+
+  <!-- NODE 2 -->
+  <div class="row">
+    <div class="node tag-rem">
+      <div class="node-num">2</div>
+      🏷 Remove Tag
+      <small>KC_src-reactivation</small>
+    </div>
+    <div class="instr">
+      <strong>+ → Remove Tag</strong>
+      Tag : <code>KC_src-reactivation</code>
+      Retire le contact de la liste de réactivation — il ne sera plus jamais rappelé si la campagne est relancée sur la même liste.
+    </div>
+  </div>
+  <div class="arrow-c"><div class="arrow"></div></div>
+
+  <!-- END -->
+  <div class="end-node">END</div>
+  <div style="height:60px;"></div>
+
+</div>
+
+</body>
+</html>

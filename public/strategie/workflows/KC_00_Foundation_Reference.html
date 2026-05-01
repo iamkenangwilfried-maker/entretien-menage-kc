@@ -1,0 +1,544 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<title>KC — Foundation Reference — Tags + Custom Fields</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; background: #f0f2f5; padding: 40px 20px; }
+  h1 { text-align: center; color: #1a1a2e; font-size: 24px; margin-bottom: 4px; }
+  .subtitle { text-align: center; color: #888; font-size: 13px; margin-bottom: 40px; }
+
+  .section { max-width: 1100px; margin: 0 auto 40px; }
+  .section-title {
+    font-size: 13px; font-weight: 700; color: #fff; text-transform: uppercase;
+    letter-spacing: 1px; background: #1a1a2e; padding: 8px 16px;
+    border-radius: 8px 8px 0 0; display: flex; align-items: center; gap: 8px;
+  }
+  .table-wrap { background: #fff; border-radius: 0 0 10px 10px; overflow: hidden; box-shadow: 0 2px 8px rgba(0,0,0,0.08); }
+  table { width: 100%; border-collapse: collapse; font-size: 13px; }
+  th { background: #f8f9fa; color: #555; font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px; padding: 10px 16px; text-align: left; border-bottom: 2px solid #eee; }
+  td { padding: 10px 16px; border-bottom: 1px solid #f0f0f0; vertical-align: top; line-height: 1.5; }
+  tr:last-child td { border-bottom: none; }
+  tr:hover td { background: #fafafa; }
+
+  .tag-pill {
+    display: inline-block; padding: 3px 10px; border-radius: 20px;
+    font-family: monospace; font-size: 11.5px; font-weight: 600; white-space: nowrap;
+  }
+  .src    { background: #e3f2fd; color: #1565c0; border: 1px solid #90caf9; }
+  .status { background: #f3e5f5; color: #6a1b9a; border: 1px solid #ce93d8; }
+  .svc    { background: #e8f5e9; color: #2e7d32; border: 1px solid #a5d6a7; }
+  .freq   { background: #fff8e1; color: #f57f17; border: 1px solid #ffe082; }
+  .review { background: #fce4ec; color: #c62828; border: 1px solid #ef9a9a; }
+  .client { background: #e0f7fa; color: #00838f; border: 1px solid #80deea; }
+  .reactiv{ background: #f1f8e9; color: #558b2f; border: 1px solid #aed581; }
+  .danger { background: #fbe9e7; color: #bf360c; border: 1px solid #ffab91; }
+
+  .wf-badge {
+    display: inline-block; padding: 2px 8px; border-radius: 10px;
+    font-size: 10px; font-weight: 700; background: #e8eaf6; color: #3949ab;
+    border: 1px solid #c5cae9; margin: 2px;
+  }
+
+  .cf-type {
+    display: inline-block; padding: 2px 8px; border-radius: 6px;
+    font-size: 10px; font-weight: 700; background: #f0f2f5; color: #555;
+    border: 1px solid #ddd;
+  }
+
+  .pipeline-stage {
+    display: flex; gap: 0; flex-wrap: nowrap; overflow-x: auto;
+    padding: 20px; background: #fff; border-radius: 10px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.08); margin-top: 8px;
+  }
+  .stage {
+    flex: 1; min-width: 90px; text-align: center; padding: 10px 8px;
+    font-size: 12px; font-weight: 600; color: #333; position: relative;
+  }
+  .stage::after {
+    content: '→'; position: absolute; right: -8px; top: 50%; transform: translateY(-50%);
+    color: #bbb; font-size: 16px;
+  }
+  .stage:last-child::after { display: none; }
+  .stage-inner {
+    background: #f8f9fa; border: 2px solid #ddd; border-radius: 8px;
+    padding: 8px 4px; min-height: 50px; display: flex; align-items: center;
+    justify-content: center; font-size: 11px;
+  }
+  .s0 .stage-inner { background: #e3f2fd; border-color: #90caf9; color: #1565c0; }
+  .s1 .stage-inner { background: #f3e5f5; border-color: #ce93d8; color: #6a1b9a; }
+  .s2 .stage-inner { background: #fff8e1; border-color: #ffe082; color: #f57f17; }
+  .s3 .stage-inner { background: #fce4ec; border-color: #ef9a9a; color: #c62828; }
+  .s4 .stage-inner { background: #e8f5e9; border-color: #a5d6a7; color: #2e7d32; }
+  .s5 .stage-inner { background: #e0f7fa; border-color: #80deea; color: #00838f; }
+  .s6 .stage-inner { background: #f1f8e9; border-color: #aed581; color: #558b2f; }
+  .s7 .stage-inner { background: #fff3e0; border-color: #ffcc02; color: #e65100; }
+  .s8 .stage-inner { background: #e8eaf6; border-color: #c5cae9; color: #3949ab; }
+  .s9 .stage-inner { background: #fbe9e7; border-color: #ffab91; color: #bf360c; }
+</style>
+</head>
+<body>
+
+<h1>KC Entretien — Foundation Reference</h1>
+<p class="subtitle">Tags, Custom Fields & Pipeline — Référence complète pour les workflows GHL</p>
+
+<!-- ═══════════════════════════════════════════════════════════ -->
+<!-- PIPELINE -->
+<!-- ═══════════════════════════════════════════════════════════ -->
+<div class="section">
+  <div class="section-title">🔀 Pipeline — KC_Entretien (à créer manuellement dans GHL)</div>
+  <div class="table-wrap" style="padding:16px;">
+    <div style="font-size:12px;color:#888;margin-bottom:12px;">
+      GHL → Opportunities → Pipelines → <strong>+ Add Pipeline</strong> → Nom : <code style="background:#fff3cd;padding:1px 6px;border-radius:4px;">KC_Entretien</code> → Ajouter les étapes dans l'ordre ci-dessous
+    </div>
+    <div class="pipeline-stage">
+      <div class="stage s0"><div class="stage-inner">Nouveau Lead</div></div>
+      <div class="stage s1"><div class="stage-inner">Contacté</div></div>
+      <div class="stage s2"><div class="stage-inner">Devis en cours</div></div>
+      <div class="stage s3"><div class="stage-inner">Devis Envoyé</div></div>
+      <div class="stage s4"><div class="stage-inner">Devis Accepté</div></div>
+      <div class="stage s5"><div class="stage-inner">Service Planifié</div></div>
+      <div class="stage s6"><div class="stage-inner">Service Complété</div></div>
+      <div class="stage s7"><div class="stage-inner">Avis Demandé</div></div>
+      <div class="stage s8"><div class="stage-inner">Client Fidèle</div></div>
+      <div class="stage s9"><div class="stage-inner">PERDU</div></div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════════ -->
+<!-- TAGS — SOURCE -->
+<!-- ═══════════════════════════════════════════════════════════ -->
+<div class="section">
+  <div class="section-title">🏷 Tags — Source du lead (d'où il vient)</div>
+  <div class="table-wrap">
+    <table>
+      <tr><th>Tag</th><th>Ajouté par</th><th>Rôle</th><th>Workflow(s)</th></tr>
+      <tr>
+        <td><span class="tag-pill src">KC_src-widget</span></td>
+        <td>WF-01 automatiquement</td>
+        <td>Lead venu du widget live call / voiceboard sur le site</td>
+        <td><span class="wf-badge">WF-01</span></td>
+      </tr>
+      <tr>
+        <td><span class="tag-pill src">KC_src-formulaire</span></td>
+        <td>WF-02 automatiquement</td>
+        <td>Lead venu du formulaire de soumission sur le site web</td>
+        <td><span class="wf-badge">WF-02</span></td>
+      </tr>
+      <tr>
+        <td><span class="tag-pill src">KC_src-appel-manque</span></td>
+        <td>WF-03 automatiquement</td>
+        <td>Prospect qui a appelé mais n'a pas eu de réponse</td>
+        <td><span class="wf-badge">WF-03</span></td>
+      </tr>
+      <tr>
+        <td><span class="tag-pill src">KC_src-reactivation</span></td>
+        <td>Manuel ou import</td>
+        <td>Ancien client ou prospect réactivé via campagne DB</td>
+        <td><span class="wf-badge">WF-04</span></td>
+      </tr>
+      <tr>
+        <td><span class="tag-pill src">KC_src-referral</span></td>
+        <td>Manuel</td>
+        <td>Lead venu par recommandation d'un client existant</td>
+        <td>Manuel</td>
+      </tr>
+    </table>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════════ -->
+<!-- TAGS — STATUT DU LEAD -->
+<!-- ═══════════════════════════════════════════════════════════ -->
+<div class="section">
+  <div class="section-title">🏷 Tags — Statut du lead (où il en est)</div>
+  <div class="table-wrap">
+    <table>
+      <tr><th>Tag</th><th>Ajouté quand</th><th>Rôle</th><th>Workflow(s)</th></tr>
+      <tr>
+        <td><span class="tag-pill status">KC_live-widget-lead</span></td>
+        <td>À la soumission du widget</td>
+        <td>Identifie les leads du widget live — permet de filtrer/reporter</td>
+        <td><span class="wf-badge">WF-01</span></td>
+      </tr>
+      <tr>
+        <td><span class="tag-pill status">KC_devis-en-cours</span></td>
+        <td>Quand l'équipe prépare un devis</td>
+        <td>Marque que la soumission est en préparation</td>
+        <td><span class="wf-badge">WF-02</span></td>
+      </tr>
+      <tr>
+        <td><span class="tag-pill status">KC_devis-envoye</span></td>
+        <td>Quand le devis est envoyé au client</td>
+        <td>Déclenche le suivi automatique de devis (WF-05)</td>
+        <td><span class="wf-badge">WF-05</span></td>
+      </tr>
+      <tr>
+        <td><span class="tag-pill status">KC_devis-accepte</span></td>
+        <td>Quand le client accepte la soumission</td>
+        <td>Stop les relances de devis, déclenche planification</td>
+        <td>WF-05 stop condition</td>
+      </tr>
+      <tr>
+        <td><span class="tag-pill status">KC_service-confirme</span></td>
+        <td>Quand la date de service est fixée</td>
+        <td>Déclenche les rappels avant service (WF-06)</td>
+        <td><span class="wf-badge">WF-06</span></td>
+      </tr>
+      <tr>
+        <td><span class="tag-pill status">KC_service-complete</span></td>
+        <td>Après le service terminé</td>
+        <td>Déclenche la demande d'avis Google (WF-05 Google)</td>
+        <td><span class="wf-badge">WF-05</span></td>
+      </tr>
+      <tr>
+        <td><span class="tag-pill status">KC_relance-48h</span></td>
+        <td>Si aucune réponse en 48h</td>
+        <td>Marque qu'une relance automatique a été envoyée</td>
+        <td><span class="wf-badge">WF-01</span> <span class="wf-badge">WF-02</span></td>
+      </tr>
+      <tr>
+        <td><span class="tag-pill danger">KC_perdu</span></td>
+        <td>Quand un lead est perdu</td>
+        <td>Stage PERDU — stoppe toutes les automations actives</td>
+        <td>Tous</td>
+      </tr>
+      <tr>
+        <td><span class="tag-pill danger">KC_dnd</span></td>
+        <td>Manuel par l'équipe</td>
+        <td>Do Not Disturb — ce contact ne reçoit plus aucun message automatique</td>
+        <td>Stop condition de tous les WF</td>
+      </tr>
+      <tr>
+        <td><span class="tag-pill danger">KC_opted-out</span></td>
+        <td>Quand le contact répond STOP</td>
+        <td>Désabonnement — stoppe immédiatement toutes les séquences</td>
+        <td>Stop condition de tous les WF</td>
+      </tr>
+    </table>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════════ -->
+<!-- TAGS — SERVICES -->
+<!-- ═══════════════════════════════════════════════════════════ -->
+<div class="section">
+  <div class="section-title">🏷 Tags — Type de service demandé</div>
+  <div class="table-wrap">
+    <table>
+      <tr><th>Tag</th><th>Correspond à</th><th>Utilité</th></tr>
+      <tr>
+        <td><span class="tag-pill svc">KC_svc-residentiel</span></td>
+        <td>Nettoyage résidentiel (maisons, appartements)</td>
+        <td>Segmenter pour campagnes ciblées résidentiel, upsell fréquence</td>
+      </tr>
+      <tr>
+        <td><span class="tag-pill svc">KC_svc-commercial</span></td>
+        <td>Bureaux, commerces, espaces professionnels</td>
+        <td>Segmenter pour contrats commerciaux récurrents</td>
+      </tr>
+      <tr>
+        <td><span class="tag-pill svc">KC_svc-industriel</span></td>
+        <td>Entrepôts, usines, espaces industriels</td>
+        <td>Segmenter pour devis industriels (tarif différent)</td>
+      </tr>
+      <tr>
+        <td><span class="tag-pill svc">KC_svc-medical</span></td>
+        <td>Cliniques, cabinets, espaces stériles</td>
+        <td>Service premium — segmenter pour communication spécialisée</td>
+      </tr>
+      <tr>
+        <td><span class="tag-pill svc">KC_svc-post-construction</span></td>
+        <td>Après rénovations ou construction</td>
+        <td>Service occasionnel — upsell vers récurrent résidentiel</td>
+      </tr>
+      <tr>
+        <td><span class="tag-pill svc">KC_svc-demenagement</span></td>
+        <td>Avant ou après déménagement</td>
+        <td>Service unique — opportunité de référencement (agents immobiliers)</td>
+      </tr>
+    </table>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════════ -->
+<!-- TAGS — FRÉQUENCE -->
+<!-- ═══════════════════════════════════════════════════════════ -->
+<div class="section">
+  <div class="section-title">🏷 Tags — Fréquence du service</div>
+  <div class="table-wrap">
+    <table>
+      <tr><th>Tag</th><th>Correspond à</th><th>Utilité pour KC</th></tr>
+      <tr>
+        <td><span class="tag-pill freq">KC_freq-unique</span></td>
+        <td>Service ponctuel, une seule fois</td>
+        <td>Cible pour la campagne de fidélisation (WF futur) — convertir en récurrent</td>
+      </tr>
+      <tr>
+        <td><span class="tag-pill freq">KC_freq-bihebdo</span></td>
+        <td>Deux fois par mois</td>
+        <td>Client régulier — fidélisation prioritaire</td>
+      </tr>
+      <tr>
+        <td><span class="tag-pill freq">KC_freq-mensuel</span></td>
+        <td>Une fois par mois</td>
+        <td>Client régulier — proposer passage en bihebdo</td>
+      </tr>
+      <tr>
+        <td><span class="tag-pill freq">KC_freq-regulier</span></td>
+        <td>Contrat récurrent (toute fréquence)</td>
+        <td>Clients fidèles — priorité absolue pour la rétention</td>
+      </tr>
+    </table>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════════ -->
+<!-- TAGS — GOOGLE REVIEW -->
+<!-- ═══════════════════════════════════════════════════════════ -->
+<div class="section">
+  <div class="section-title">🏷 Tags — Google Review</div>
+  <div class="table-wrap">
+    <table>
+      <tr><th>Tag</th><th>Ajouté quand</th><th>Rôle</th></tr>
+      <tr>
+        <td><span class="tag-pill review">KC_avis-demande</span></td>
+        <td>Quand le WF-05 envoie la demande d'avis</td>
+        <td>Évite les doublons — ne pas re-demander si déjà envoyé</td>
+      </tr>
+      <tr>
+        <td><span class="tag-pill review">KC_avis-recu</span></td>
+        <td>Manuel ou via Reputation module GHL</td>
+        <td>Stop condition dans WF-05 — stoppe le rappel d'avis si reçu</td>
+      </tr>
+      <tr>
+        <td><span class="tag-pill review">KC_avis-5etoiles</span></td>
+        <td>Si avis 5 étoiles confirmé</td>
+        <td>Segmenter les meilleurs clients pour témoignages / referrals</td>
+      </tr>
+    </table>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════════ -->
+<!-- TAGS — CLIENT -->
+<!-- ═══════════════════════════════════════════════════════════ -->
+<div class="section">
+  <div class="section-title">🏷 Tags — Statut client</div>
+  <div class="table-wrap">
+    <table>
+      <tr><th>Tag</th><th>Ajouté quand</th><th>Rôle</th></tr>
+      <tr>
+        <td><span class="tag-pill client">KC_client-actif</span></td>
+        <td>Après premier service complété</td>
+        <td>Marque qu'il y a eu au moins un service — distingue des leads</td>
+      </tr>
+      <tr>
+        <td><span class="tag-pill client">KC_client-fidelise</span></td>
+        <td>Après 2e service ou contrat récurrent</td>
+        <td>Client récurrent — segmenter pour campagnes de fidélisation</td>
+      </tr>
+      <tr>
+        <td><span class="tag-pill client">KC_client-inactif</span></td>
+        <td>Si pas de service depuis 90+ jours</td>
+        <td>Déclencher la campagne de réactivation (WF-04)</td>
+      </tr>
+    </table>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════════ -->
+<!-- TAGS — RÉACTIVATION -->
+<!-- ═══════════════════════════════════════════════════════════ -->
+<div class="section">
+  <div class="section-title">🏷 Tags — Campagne de réactivation (WF-04)</div>
+  <div class="table-wrap">
+    <table>
+      <tr><th>Tag</th><th>Ajouté quand</th><th>Rôle</th></tr>
+      <tr>
+        <td><span class="tag-pill reactiv">KC_reactiv-contacte</span></td>
+        <td>Dès que le premier SMS de réactivation est envoyé</td>
+        <td>Marque que la séquence de réactivation a démarré</td>
+      </tr>
+      <tr>
+        <td><span class="tag-pill reactiv">KC_reactiv-interesse</span></td>
+        <td>Si le contact répond positivement</td>
+        <td>Stop condition WF-04 — stoppe la séquence, déclenche suivi humain</td>
+      </tr>
+      <tr>
+        <td><span class="tag-pill reactiv">KC_reactiv-no-response</span></td>
+        <td>Fin de séquence sans réponse</td>
+        <td>Marque les contacts qui n'ont jamais répondu après 10 jours</td>
+      </tr>
+    </table>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════════ -->
+<!-- CUSTOM FIELDS -->
+<!-- ═══════════════════════════════════════════════════════════ -->
+<div class="section">
+  <div class="section-title">📋 Custom Fields — Données capturées pour chaque contact</div>
+  <div class="table-wrap">
+    <table>
+      <tr><th>Champ</th><th>Type</th><th>Rôle</th><th>Capturé par</th></tr>
+      <tr>
+        <td><code style="font-size:12px;">KC_Ville</code></td>
+        <td><span class="cf-type">TEXT</span></td>
+        <td>Ville du client — permet de savoir si dans la zone de service (Montérégie / Montréal)</td>
+        <td>Widget, Formulaire, Manuel</td>
+      </tr>
+      <tr>
+        <td><code style="font-size:12px;">KC_Type_de_service</code></td>
+        <td><span class="cf-type">TEXT</span></td>
+        <td>Résidentiel / Commercial / Industriel / Médical / Post-construction / Déménagement</td>
+        <td>Widget, Formulaire</td>
+      </tr>
+      <tr>
+        <td><code style="font-size:12px;">KC_Frequence</code></td>
+        <td><span class="cf-type">TEXT</span></td>
+        <td>Unique / Bihebdomadaire / Mensuel / Régulier — clé pour la facturation récurrente</td>
+        <td>Formulaire, Manuel</td>
+      </tr>
+      <tr>
+        <td><code style="font-size:12px;">KC_Surface_m2</code></td>
+        <td><span class="cf-type">NUMERICAL</span></td>
+        <td>Surface à nettoyer — permet d'estimer le devis rapidement</td>
+        <td>Formulaire (optionnel)</td>
+      </tr>
+      <tr>
+        <td><code style="font-size:12px;">KC_Nb_pieces</code></td>
+        <td><span class="cf-type">NUMERICAL</span></td>
+        <td>Nombre de pièces ou locaux — alternative à la surface pour les résidentiels</td>
+        <td>Formulaire (optionnel)</td>
+      </tr>
+      <tr>
+        <td><code style="font-size:12px;">KC_Date_service</code></td>
+        <td><span class="cf-type">DATE</span></td>
+        <td>Date prévue du service — déclenche les rappels avant service (WF-06)</td>
+        <td>Manuel après confirmation</td>
+      </tr>
+      <tr>
+        <td><code style="font-size:12px;">KC_Montant_devis</code></td>
+        <td><span class="cf-type">NUMERICAL</span></td>
+        <td>Montant de la soumission en $ — suivi du chiffre d'affaires pipeline</td>
+        <td>Manuel à la création du devis</td>
+      </tr>
+      <tr>
+        <td><code style="font-size:12px;">KC_Source_lead</code></td>
+        <td><span class="cf-type">TEXT</span></td>
+        <td>Widget / Formulaire / Appel / Réactivation / Référral — reporting ROI par canal</td>
+        <td>Automatique via workflows</td>
+      </tr>
+      <tr>
+        <td><code style="font-size:12px;">KC_Notes_service</code></td>
+        <td><span class="cf-type">LARGE_TEXT</span></td>
+        <td>Informations spéciales : accès, codes, préférences, allergies produits</td>
+        <td>Manuel / Formulaire</td>
+      </tr>
+      <tr>
+        <td><code style="font-size:12px;">KC_Statut_review</code></td>
+        <td><span class="cf-type">TEXT</span></td>
+        <td>Non demandé / Demandé / Reçu — suivi des avis Google par client</td>
+        <td>WF-05 automatique</td>
+      </tr>
+      <tr>
+        <td><code style="font-size:12px;">KC_Technicien_assigne</code></td>
+        <td><span class="cf-type">TEXT</span></td>
+        <td>Nom de l'équipe ou technicien assigné — communication interne</td>
+        <td>Manuel après acceptation devis</td>
+      </tr>
+      <tr>
+        <td><code style="font-size:12px;">KC_Zone_service</code></td>
+        <td><span class="cf-type">TEXT</span></td>
+        <td>Montérégie / Montréal / Autre — planification par zone géographique</td>
+        <td>Automatique basé sur KC_Ville</td>
+      </tr>
+      <tr style="background:#fff8e1;">
+        <td><code style="font-size:12px;">KC_rate_us</code></td>
+        <td><span class="cf-type">NUMERICAL</span></td>
+        <td>Note donnée par le client (1 à 5 étoiles) — capturée via la page /demande-avis</td>
+        <td>WF-05b via Inbound Webhook</td>
+      </tr>
+      <tr style="background:#fff8e1;">
+        <td><code style="font-size:12px;">KC_your_feedback</code></td>
+        <td><span class="cf-type">LARGE_TEXT</span></td>
+        <td>Commentaire textuel du client insatisfait — capturé via le formulaire de la page /demande-avis</td>
+        <td>WF-05b via Inbound Webhook</td>
+      </tr>
+    </table>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════════ -->
+<!-- WORKFLOWS INDEX -->
+<!-- ═══════════════════════════════════════════════════════════ -->
+<div class="section">
+  <div class="section-title">🔁 Index des Workflows — Comment tout se connecte</div>
+  <div class="table-wrap">
+    <table>
+      <tr><th>Fichier</th><th>Workflow GHL</th><th>Déclencheur</th><th>Tag source</th><th>Stage départ</th><th>Stage fin</th></tr>
+      <tr>
+        <td><strong>KC_WF01</strong></td>
+        <td>KC_LiveWidget_Inbound</td>
+        <td>Form submitted — Widget live</td>
+        <td><span class="tag-pill src" style="font-size:10px;">KC_src-widget</span></td>
+        <td>Nouveau Lead</td>
+        <td>Nouveau Lead (→ Contacté manuel)</td>
+      </tr>
+      <tr>
+        <td><strong>KC_WF02</strong></td>
+        <td>KC_FormulaireDevis_Inbound</td>
+        <td>Form submitted — Formulaire site</td>
+        <td><span class="tag-pill src" style="font-size:10px;">KC_src-formulaire</span></td>
+        <td>Devis en cours</td>
+        <td>Devis en cours (→ Devis Envoyé manuel)</td>
+      </tr>
+      <tr>
+        <td><strong>KC_WF03</strong></td>
+        <td>KC_AppelManque_Handler</td>
+        <td>Missed inbound call</td>
+        <td><span class="tag-pill src" style="font-size:10px;">KC_src-appel-manque</span></td>
+        <td>Nouveau Lead</td>
+        <td>Nouveau Lead (→ Contacté manuel)</td>
+      </tr>
+      <tr>
+        <td><strong>KC_WF04</strong></td>
+        <td>KC_DatabaseReactivation</td>
+        <td>Tag added: KC_src-reactivation</td>
+        <td><span class="tag-pill src" style="font-size:10px;">KC_src-reactivation</span></td>
+        <td>Nouveau Lead</td>
+        <td>Nouveau Lead ou PERDU</td>
+      </tr>
+      <tr>
+        <td><strong>KC_WF05</strong></td>
+        <td>KC_GoogleReview_Request</td>
+        <td>Stage changed → Service Complété</td>
+        <td><span class="tag-pill svc" style="font-size:10px;">KC_service-complete</span></td>
+        <td>Service Complété</td>
+        <td>Avis Demandé → Client Fidèle</td>
+      </tr>
+    </table>
+  </div>
+</div>
+
+<!-- LEGEND -->
+<div style="max-width:1100px;margin:0 auto 40px;background:#fff;border-radius:10px;padding:20px;box-shadow:0 2px 8px rgba(0,0,0,0.08);">
+  <div style="font-size:11px;font-weight:700;color:#999;text-transform:uppercase;letter-spacing:1px;margin-bottom:12px;">Légende — Couleurs des tags</div>
+  <div style="display:flex;flex-wrap:wrap;gap:10px;">
+    <div style="display:flex;align-items:center;gap:6px;"><span class="tag-pill src" style="font-size:10px;">KC_src-*</span><span style="font-size:12px;">Source du lead</span></div>
+    <div style="display:flex;align-items:center;gap:6px;"><span class="tag-pill status" style="font-size:10px;">KC_*-statut</span><span style="font-size:12px;">Statut du lead</span></div>
+    <div style="display:flex;align-items:center;gap:6px;"><span class="tag-pill svc" style="font-size:10px;">KC_svc-*</span><span style="font-size:12px;">Type de service</span></div>
+    <div style="display:flex;align-items:center;gap:6px;"><span class="tag-pill freq" style="font-size:10px;">KC_freq-*</span><span style="font-size:12px;">Fréquence</span></div>
+    <div style="display:flex;align-items:center;gap:6px;"><span class="tag-pill review" style="font-size:10px;">KC_avis-*</span><span style="font-size:12px;">Google Review</span></div>
+    <div style="display:flex;align-items:center;gap:6px;"><span class="tag-pill client" style="font-size:10px;">KC_client-*</span><span style="font-size:12px;">Statut client</span></div>
+    <div style="display:flex;align-items:center;gap:6px;"><span class="tag-pill reactiv" style="font-size:10px;">KC_reactiv-*</span><span style="font-size:12px;">Réactivation</span></div>
+    <div style="display:flex;align-items:center;gap:6px;"><span class="tag-pill danger" style="font-size:10px;">KC_dnd / KC_opted-out</span><span style="font-size:12px;">Stop conditions</span></div>
+  </div>
+</div>
+
+<div style="height:40px;"></div>
+</body>
+</html>

@@ -6,6 +6,15 @@ const nextConfig = {
       { protocol: "https", hostname: "randomuser.me" },
     ],
   },
+  async redirects() {
+    return [
+      {
+        source: "/strategie-complete-entretien-menager-kc",
+        destination: "/strategie/",
+        permanent: false,
+      },
+    ];
+  },
 };
 
 export default nextConfig;

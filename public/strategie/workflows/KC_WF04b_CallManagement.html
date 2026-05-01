@@ -1,0 +1,331 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<title>KC WF-04b — CallManagement</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; background: #f0f2f5; padding: 40px 20px; }
+  h1 { text-align: center; color: #1a1a2e; font-size: 22px; margin-bottom: 4px; }
+  .subtitle { text-align: center; color: #888; font-size: 13px; margin-bottom: 8px; }
+  .badge { text-align: center; margin-bottom: 32px; }
+  .badge span { background: #1a1a2e; color: #fff; font-size: 11px; font-weight: 700; padding: 4px 14px; border-radius: 20px; letter-spacing: 0.5px; }
+
+  .flow { display: flex; flex-direction: column; align-items: center; }
+  .row { display: flex; align-items: flex-start; justify-content: center; gap: 16px; width: 100%; max-width: 900px; margin: 0 auto; }
+
+  .node { border-radius: 10px; padding: 10px 18px; font-size: 13px; font-weight: 600; text-align: center; min-width: 220px; max-width: 260px; box-shadow: 0 2px 8px rgba(0,0,0,0.10); position: relative; flex-shrink: 0; }
+  .node small { display: block; font-size: 11px; font-weight: 400; margin-top: 3px; opacity: 0.85; line-height: 1.5; }
+
+  .trigger   { background: #1a1a2e; color: #fff; border-radius: 30px; min-width: 300px; }
+  .ifelse    { background: #fff8e1; color: #5d4037; border: 2px solid #ffe082; min-width: 240px; }
+  .tag-node  { background: #fce4ec; color: #880e4f; border: 2px solid #f48fb1; }
+  .wait-node { background: #e3f2fd; color: #1565c0; border: 2px solid #90caf9; }
+  .voice-node{ background: #e8eaf6; color: #283593; border: 2px solid #9fa8da; }
+  .sms-node  { background: #e8f5e9; color: #1b5e20; border: 2px solid #a5d6a7; }
+  .tag-rem   { background: #f5f5f5; color: #555; border: 2px solid #bbb; }
+  .end-node  { background: #455a64; color: #fff; border-radius: 30px; min-width: 70px; padding: 6px 16px; font-size: 12px; text-align: center; }
+  .end-inline { background: #455a64; color: #fff; border-radius: 20px; padding: 4px 14px; font-size: 11px; display: inline-block; font-weight: 700; }
+
+  .instr { background: #fffde7; border: 1.5px solid #f9a825; border-radius: 8px; padding: 10px 14px; font-size: 11.5px; color: #5d4037; max-width: 380px; line-height: 1.7; flex: 1; }
+  .instr strong { display: block; font-size: 11px; color: #e65100; text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 5px; }
+  .instr code { background: #fff3cd; padding: 2px 6px; border-radius: 4px; font-family: monospace; font-size: 10.5px; display: block; margin-top: 4px; line-height: 1.6; }
+
+  .arrow-c { display: flex; justify-content: center; }
+  .arrow { width: 2px; height: 22px; background: #bbb; }
+  .node-num { position: absolute; top: -8px; left: -8px; background: #1a1a2e; color: #fff; font-size: 9px; font-weight: 700; width: 18px; height: 18px; border-radius: 50%; display: flex; align-items: center; justify-content: center; }
+
+  .branch-wrap { display: flex; gap: 32px; align-items: flex-start; max-width: 900px; margin: 0 auto; }
+  .branch { display: flex; flex-direction: column; align-items: center; }
+  .branch-label { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 10px; padding: 3px 10px; border-radius: 10px; }
+  .label-yes  { color: #1b5e20; background: #e8f5e9; border: 1px solid #a5d6a7; }
+  .label-no   { color: #c62828; background: #fce4ec; border: 1px solid #f48fb1; }
+  .label-blue { color: #1565c0; background: #e3f2fd; border: 1px solid #90caf9; }
+
+  .setup-box { max-width: 720px; margin: 0 auto 24px; background: #e8f5e9; border: 1.5px solid #a5d6a7; border-radius: 10px; padding: 16px 20px; font-size: 12px; color: #1b5e20; line-height: 1.9; }
+  .setup-box strong { display: block; font-size: 11px; color: #2e7d32; text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 8px; }
+  .setup-box code { background: #c8e6c9; padding: 1px 6px; border-radius: 4px; font-family: monospace; font-size: 11px; }
+
+  .new-tag { max-width: 720px; margin: 0 auto 24px; background: #fff3e0; border: 1.5px solid #ffcc80; border-radius: 10px; padding: 14px 20px; font-size: 12px; color: #5d4037; line-height: 1.8; }
+  .new-tag strong { display: block; font-size: 11px; color: #e65100; text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 6px; }
+  .new-tag code { background: #fff3cd; padding: 2px 6px; border-radius: 4px; font-family: monospace; font-size: 11px; }
+
+  .sms-content { max-width: 720px; margin: 32px auto 0; background: #fff; border-radius: 12px; padding: 20px 24px; box-shadow: 0 2px 8px rgba(0,0,0,0.08); }
+  .sms-title { font-size: 11px; font-weight: 700; color: #999; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 12px; }
+  .sms-bubble { background: #e8f5e9; border: 1.5px solid #a5d6a7; border-radius: 10px; padding: 12px 16px; font-size: 12.5px; color: #1b5e20; line-height: 1.8; font-family: monospace; }
+
+  .notes { max-width: 720px; margin: 24px auto 40px; background: #fff; border-radius: 12px; padding: 20px 24px; box-shadow: 0 2px 8px rgba(0,0,0,0.08); font-size: 11.5px; color: #5d4037; line-height: 1.9; }
+  .notes-title { font-size: 11px; font-weight: 700; color: #999; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 10px; }
+
+  .sequence-table { width: 100%; border-collapse: collapse; margin-top: 10px; font-size: 11.5px; }
+  .sequence-table th { background: #1a1a2e; color: #fff; padding: 7px 12px; text-align: left; font-size: 10px; text-transform: uppercase; letter-spacing: 0.5px; }
+  .sequence-table td { padding: 7px 12px; border-bottom: 1px solid #eee; color: #444; }
+  .sequence-table tr:last-child td { border-bottom: none; }
+</style>
+</head>
+<body>
+
+<h1>WF-04b — KC_CallManagement</h1>
+<p class="subtitle">Gestion des no-answer Sofia — 2 retentatives automatiques puis SMS fallback</p>
+<div class="badge"><span>⚡ TRIGGER : CALL-END WORKFLOW — Post-Call de Sofia Outbound</span></div>
+
+<div class="setup-box">
+  <strong>✅ Où configurer le trigger dans GHL</strong>
+  AI Agents → Voice AI → Sofia Outbound → <b>Post-Call → Call-End Workflow → KC_CallManagement</b><br>
+  Ce workflow se déclenche après chaque fin d'appel Sofia (qu'il soit répondu ou non).<br>
+  Les 4 premiers IF/ELSE filtrent les contacts déjà traités — seuls les vrais no-answer continuent.
+</div>
+
+<div class="new-tag">
+  <strong>⚠️ 1 nouveau tag à créer dans GHL avant de construire ce workflow</strong>
+  <code>KC_reactiv-retry-final</code> — marque la 2ème tentative de retry (empêche une boucle infinie).<br>
+  GHL → Contacts → Tags → Create tag → <code>KC_reactiv-retry-final</code>
+</div>
+
+<div class="flow">
+
+  <!-- TRIGGER -->
+  <div class="row" style="justify-content:center; margin-bottom:0;">
+    <div class="node trigger">
+      📞 Call-End Workflow
+      <small>Après chaque appel Sofia — répondu ou non</small>
+    </div>
+  </div>
+  <div class="arrow-c"><div class="arrow"></div></div>
+
+  <!-- NODE 1 -->
+  <div class="row">
+    <div class="node ifelse">
+      <div class="node-num">1</div>
+      🔀 IF/ELSE
+      <small>Tag KC_reactiv-interesse existe ?</small>
+    </div>
+    <div class="instr">
+      <strong>+ → IF/ELSE Condition</strong>
+      Contact Tag → <code>KC_reactiv-interesse</code> → Exists<br>
+      <b>YES</b> → END (lead qualifié — WF-01a gère déjà la suite)<br>
+      <b>NO</b> → continuer vers Node 2
+    </div>
+  </div>
+  <div class="branch-wrap" style="justify-content:center; margin: 8px 0;">
+    <div class="branch">
+      <span class="branch-label label-yes">YES</span>
+      <span class="end-inline">END</span>
+    </div>
+    <div class="branch" style="padding-top:30px;">
+      <span style="font-size:20px; color:#bbb;">↓</span>
+    </div>
+  </div>
+
+  <!-- NODE 2 -->
+  <div class="row">
+    <div class="node ifelse">
+      <div class="node-num">2</div>
+      🔀 IF/ELSE
+      <small>Tag KC_reactiv-no-response existe ?</small>
+    </div>
+    <div class="instr">
+      <strong>+ → IF/ELSE Condition</strong>
+      Contact Tag → <code>KC_reactiv-no-response</code> → Exists<br>
+      <b>YES</b> → END (refus — KC_Outbound_Refus a déjà clos le dossier)<br>
+      <b>NO</b> → continuer vers Node 3
+    </div>
+  </div>
+  <div class="branch-wrap" style="justify-content:center; margin: 8px 0;">
+    <div class="branch">
+      <span class="branch-label label-yes">YES</span>
+      <span class="end-inline">END</span>
+    </div>
+    <div class="branch" style="padding-top:30px;">
+      <span style="font-size:20px; color:#bbb;">↓</span>
+    </div>
+  </div>
+
+  <!-- NODE 3 -->
+  <div class="row">
+    <div class="node ifelse">
+      <div class="node-num">3</div>
+      🔀 IF/ELSE
+      <small>Tag KC_reactiv-retry-final existe ?</small>
+    </div>
+    <div class="instr">
+      <strong>+ → IF/ELSE Condition</strong>
+      Contact Tag → <code>KC_reactiv-retry-final</code> → Exists<br>
+      <b>YES</b> → 3ème no-answer consécutif → SMS fallback + clôture séquence<br>
+      <b>NO</b> → continuer vers Node 4
+    </div>
+  </div>
+
+</div>
+
+<!-- Branche YES Node 3 = SMS fallback -->
+<div class="branch-wrap" style="justify-content:center; margin: 16px auto; max-width:900px;">
+
+  <div class="branch" style="flex:1; max-width:400px;">
+    <span class="branch-label label-yes">YES — 3ème no-answer → Fermeture</span>
+    <div class="node sms-node" style="margin-bottom:8px; width:240px;">
+      <div class="node-num">4</div>
+      📱 Send SMS
+      <small>SMS fallback (voir contenu ci-dessous)</small>
+    </div>
+    <div class="arrow-c" style="width:240px;"><div class="arrow"></div></div>
+    <div class="node tag-node" style="margin-bottom:8px; width:240px;">
+      <div class="node-num">5</div>
+      🏷 Add Tag
+      <small>KC_reactiv-no-response</small>
+    </div>
+    <div class="arrow-c" style="width:240px;"><div class="arrow"></div></div>
+    <div class="node tag-rem" style="margin-bottom:8px; width:240px;">
+      <div class="node-num">6</div>
+      🏷 Remove Tag
+      <small>KC_src-reactivation</small>
+    </div>
+    <div class="arrow-c" style="width:240px;"><div class="arrow"></div></div>
+    <span class="end-inline">END</span>
+  </div>
+
+  <div style="width:40px; padding-top:30px; text-align:center; font-size:20px; color:#bbb;">↓ NO</div>
+
+</div>
+
+<!-- NODE 4 -->
+<div class="flow">
+  <div class="row">
+    <div class="node ifelse">
+      <div class="node-num">4</div>
+      🔀 IF/ELSE
+      <small>Tag KC_reactiv-no-answer existe ?</small>
+    </div>
+    <div class="instr">
+      <strong>+ → IF/ELSE Condition</strong>
+      Contact Tag → <code>KC_reactiv-no-answer</code> → Exists<br>
+      <b>NO</b> = 1er no-answer → Attendre 3h → Retry 1<br>
+      <b>YES</b> = 2ème no-answer → Attendre 24h → Retry final
+    </div>
+  </div>
+</div>
+
+<!-- Branches finales -->
+<div class="branch-wrap" style="justify-content:center; margin: 20px auto 0; max-width:900px;">
+
+  <!-- NO = 1er no-answer -->
+  <div class="branch" style="flex:1; max-width:400px;">
+    <span class="branch-label label-blue">NO — 1er no-answer → Retry 1 (3h)</span>
+    <div class="node tag-node" style="margin-bottom:8px; width:240px;">
+      <div class="node-num">5</div>
+      🏷 Add Tag
+      <small>KC_reactiv-no-answer</small>
+    </div>
+    <div class="arrow-c" style="width:240px;"><div class="arrow"></div></div>
+    <div class="node wait-node" style="margin-bottom:8px; width:240px;">
+      <div class="node-num">6</div>
+      ⏱ Wait
+      <small>3 heures</small>
+    </div>
+    <div class="arrow-c" style="width:240px;"><div class="arrow"></div></div>
+    <div class="node voice-node" style="margin-bottom:8px; width:240px;">
+      <div class="node-num">7</div>
+      📞 Send AI Voice Call
+      <small>Sofia Outbound<br>Tentative 2 / 3</small>
+    </div>
+    <div class="arrow-c" style="width:240px;"><div class="arrow"></div></div>
+    <span class="end-inline">END</span>
+    <p style="font-size:10px; color:#999; margin-top:8px; text-align:center;">WF-04b se relance auto si no-answer</p>
+  </div>
+
+  <div style="width:40px;"></div>
+
+  <!-- YES = 2ème no-answer -->
+  <div class="branch" style="flex:1; max-width:400px;">
+    <span class="branch-label label-no">YES — 2ème no-answer → Retry final (24h)</span>
+    <div class="node tag-node" style="margin-bottom:8px; width:240px;">
+      <div class="node-num">5</div>
+      🏷 Add Tag
+      <small>KC_reactiv-retry-final</small>
+    </div>
+    <div class="arrow-c" style="width:240px;"><div class="arrow"></div></div>
+    <div class="node wait-node" style="margin-bottom:8px; width:240px;">
+      <div class="node-num">6</div>
+      ⏱ Wait
+      <small>24 heures</small>
+    </div>
+    <div class="arrow-c" style="width:240px;"><div class="arrow"></div></div>
+    <div class="node voice-node" style="margin-bottom:8px; width:240px;">
+      <div class="node-num">7</div>
+      📞 Send AI Voice Call
+      <small>Sofia Outbound<br>Tentative 3 / 3 (finale)</small>
+    </div>
+    <div class="arrow-c" style="width:240px;"><div class="arrow"></div></div>
+    <span class="end-inline">END</span>
+    <p style="font-size:10px; color:#999; margin-top:8px; text-align:center;">WF-04b se relance → Node 3 YES → SMS fallback</p>
+  </div>
+
+</div>
+
+<!-- SÉQUENCE COMPLÈTE -->
+<div class="notes" style="margin-top:40px;">
+  <div class="notes-title">Séquence complète — Vue d'ensemble</div>
+  <table class="sequence-table">
+    <tr>
+      <th>Étape</th>
+      <th>Déclencheur</th>
+      <th>Action</th>
+      <th>Tags après</th>
+    </tr>
+    <tr>
+      <td><b>Appel 1</b></td>
+      <td>WF-04a (tag KC_src-reactivation)</td>
+      <td>Sofia appelle</td>
+      <td>KC_reactiv-contacte · KC_src-outbound</td>
+    </tr>
+    <tr>
+      <td><b>No-answer 1</b></td>
+      <td>WF-04b — Node 4 NO</td>
+      <td>Wait 3h → Appel 2</td>
+      <td>+ KC_reactiv-no-answer</td>
+    </tr>
+    <tr>
+      <td><b>No-answer 2</b></td>
+      <td>WF-04b — Node 4 YES</td>
+      <td>Wait 24h → Appel 3</td>
+      <td>+ KC_reactiv-retry-final</td>
+    </tr>
+    <tr>
+      <td><b>No-answer 3</b></td>
+      <td>WF-04b — Node 3 YES</td>
+      <td>SMS fallback + clôture</td>
+      <td>+ KC_reactiv-no-response · - KC_src-reactivation</td>
+    </tr>
+    <tr style="background:#e8f5e9;">
+      <td><b>Qualifié (n'importe quand)</b></td>
+      <td>WF-04b — Node 1 YES</td>
+      <td>END immédiat</td>
+      <td>KC_reactiv-interesse (mis par Sofia)</td>
+    </tr>
+    <tr style="background:#fce4ec;">
+      <td><b>Refus (n'importe quand)</b></td>
+      <td>WF-04b — Node 2 YES</td>
+      <td>END immédiat</td>
+      <td>KC_reactiv-no-response (mis par KC_Outbound_Refus)</td>
+    </tr>
+  </table>
+</div>
+
+<!-- SMS CONTENT -->
+<div class="sms-content">
+  <div class="sms-title">📱 Contenu SMS Fallback (Node 4 — Branche YES Node 3)</div>
+  <div class="sms-bubble">
+    Bonjour {{contact.first_name}}, on a essaye de vous rejoindre a plusieurs reprises. Pour une soumission gratuite, appelez-nous au (514) 591-6202. Merci! Equipe KC
+  </div>
+  <p style="font-size:11px; color:#999; margin-top:8px;">From : (514) 591-6202 — Pas de tirets ni em-dashes — ~150 caractères ✅</p>
+</div>
+
+<div class="notes">
+  <div class="notes-title">Notes importantes</div>
+  <b>Pas de boucle infinie :</b> Le tag KC_reactiv-retry-final agit comme disjoncteur — au 3ème no-answer, WF-04b détecte le tag au Node 3 et envoie le SMS fallback au lieu de rappeler.<br><br>
+  <b>Nœuds IF/ELSE sur tags :</b> Contrairement aux conditions sur les appels Voice AI, les conditions sur les tags sont pleinement supportées dans GHL — pas besoin de Custom Webhook.<br><br>
+  <b>Après construction :</b> Aller dans Sofia Outbound → Post-Call → Call-End Workflow → sélectionner KC_CallManagement → Save.
+</div>
+
+</body>
+</html>

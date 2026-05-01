@@ -1,0 +1,376 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Entretiens Ménager KC — Votre avis</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 24px;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .bg {
+    position: fixed;
+    inset: 0;
+    background-image: url('../website/public/images/team/equipe-kc-4k.jpeg');
+    background-size: cover;
+    background-position: center top;
+    filter: brightness(0.40) saturate(0.75);
+    z-index: 0;
+  }
+  .bg::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(
+      to bottom,
+      rgba(31,105,150,0.30) 0%,
+      rgba(26,26,46,0.50) 60%,
+      rgba(26,26,46,0.75) 100%
+    );
+  }
+
+  .wrap {
+    position: relative;
+    z-index: 1;
+    width: 100%;
+    max-width: 480px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .logo-block {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 22px;
+  }
+  .logo-img {
+    height: 54px;
+    width: auto;
+    filter: brightness(0) invert(1);
+    object-fit: contain;
+  }
+  .logo-tagline {
+    font-size: 11px;
+    font-weight: 600;
+    color: rgba(255,255,255,0.55);
+    letter-spacing: 2.5px;
+    text-transform: uppercase;
+  }
+
+  .card {
+    background: rgba(255,255,255,0.97);
+    border-radius: 24px;
+    box-shadow: 0 24px 64px rgba(0,0,0,0.35), 0 4px 16px rgba(0,0,0,0.15);
+    padding: 44px 36px 36px;
+    width: 100%;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+  }
+  .card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 4px;
+    background: linear-gradient(90deg, #1f6996, #3a9fd6, #1f6996);
+    background-size: 200% auto;
+    animation: shimmer 3s linear infinite;
+  }
+  @keyframes shimmer {
+    from { background-position: 0% center; }
+    to   { background-position: 200% center; }
+  }
+
+  h1 {
+    font-size: 23px;
+    font-weight: 800;
+    color: #1a1a2e;
+    line-height: 1.3;
+    margin-bottom: 8px;
+  }
+  .subtitle {
+    font-size: 14px;
+    color: #888;
+    line-height: 1.6;
+    margin-bottom: 30px;
+  }
+
+  .stars-wrap {
+    display: flex;
+    justify-content: center;
+    gap: 8px;
+    margin-bottom: 10px;
+  }
+  .star {
+    font-size: 48px;
+    cursor: pointer;
+    color: #e0e0e0;
+    transition: transform 0.13s ease, color 0.12s ease;
+    user-select: none;
+    line-height: 1;
+    -webkit-tap-highlight-color: transparent;
+  }
+  .star:hover, .star.highlight { color: #f9a825; transform: scale(1.18); }
+  .star.filled { color: #f9a825; }
+  .star-hint {
+    font-size: 12px;
+    color: #bbb;
+    min-height: 20px;
+    font-weight: 600;
+    transition: color 0.2s;
+  }
+
+  .state { display: none; }
+  .state.visible { display: block; animation: fadeUp 0.35s ease; }
+  .state-rating.hidden { display: none; }
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(14px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+
+  .big-icon    { font-size: 46px; margin: 6px 0 12px; }
+  .state-title { font-size: 21px; font-weight: 800; color: #1a1a2e; margin-bottom: 8px; }
+  .state-sub   { font-size: 14px; color: #666; line-height: 1.7; margin-bottom: 26px; }
+
+  /* Compteur de redirection */
+  .redirect-counter {
+    display: inline-block;
+    font-size: 12px;
+    color: #888;
+    background: #f5f5f5;
+    border-radius: 20px;
+    padding: 4px 14px;
+    margin-bottom: 18px;
+  }
+  .counter-num { font-weight: 800; color: #1f6996; }
+
+  .btn-primary {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    background: linear-gradient(135deg, #1f6996, #185d82);
+    color: #fff;
+    font-size: 15px;
+    font-weight: 700;
+    padding: 14px 26px;
+    border-radius: 50px;
+    text-decoration: none;
+    box-shadow: 0 6px 20px rgba(31,105,150,0.35);
+    transition: transform 0.15s, box-shadow 0.15s;
+    border: none;
+    cursor: pointer;
+    font-family: inherit;
+    width: 100%;
+  }
+  .btn-primary:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 10px 28px rgba(31,105,150,0.42);
+  }
+
+  .form-group { text-align: left; margin-bottom: 14px; }
+  .form-group label {
+    display: block; font-size: 11px; font-weight: 700; color: #777;
+    text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 5px;
+  }
+  .form-group textarea,
+  .form-group input {
+    width: 100%; border: 1.5px solid #e0e0e0; border-radius: 10px;
+    padding: 11px 13px; font-size: 14px; font-family: inherit; color: #333;
+    resize: none; transition: border-color 0.2s; background: #fafafa;
+  }
+  .form-group textarea:focus,
+  .form-group input:focus { outline: none; border-color: #1f6996; background: #fff; }
+
+  .btn-dark {
+    width: 100%;
+    background: #1a1a2e;
+    color: #fff;
+    font-size: 15px;
+    font-weight: 700;
+    padding: 14px 26px;
+    border-radius: 50px;
+    border: none;
+    cursor: pointer;
+    transition: background 0.2s, transform 0.15s;
+    font-family: inherit;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .btn-dark:hover { background: #2d2d50; transform: translateY(-1px); }
+
+  .footer-note {
+    font-size: 11px;
+    color: rgba(255,255,255,0.40);
+    margin-top: 18px;
+    text-align: center;
+  }
+
+  @media (max-width: 480px) {
+    .card { padding: 36px 22px 28px; }
+    h1 { font-size: 20px; }
+    .star { font-size: 42px; }
+  }
+</style>
+</head>
+<body>
+<div class="bg"></div>
+
+<div class="wrap">
+
+  <div class="logo-block">
+    <img class="logo-img" src="../website/public/logo.png" alt="Entretiens Ménager KC">
+    <span class="logo-tagline">Montérégie · Montréal</span>
+  </div>
+
+  <div class="card">
+
+    <!-- STATE 1 : Sélection étoiles -->
+    <div class="state-rating" id="stateRating">
+      <h1>Comment s'est passé votre service ?</h1>
+      <p class="subtitle">Votre avis nous aide à nous améliorer et à mieux vous servir.</p>
+      <div class="stars-wrap">
+        <span class="star" data-val="1" onclick="selectRating(1)">★</span>
+        <span class="star" data-val="2" onclick="selectRating(2)">★</span>
+        <span class="star" data-val="3" onclick="selectRating(3)">★</span>
+        <span class="star" data-val="4" onclick="selectRating(4)">★</span>
+        <span class="star" data-val="5" onclick="selectRating(5)">★</span>
+      </div>
+      <div class="star-hint" id="starHint">Touchez une étoile pour noter</div>
+    </div>
+
+    <!-- STATE 2a : Positif (4-5⭐) → redirection Google -->
+    <div class="state" id="statePositive">
+      <div class="big-icon">⭐</div>
+      <div class="state-title">Super ! Merci pour votre confiance</div>
+      <p class="state-sub">
+        Votre avis publié sur Google aide KC à se faire connaître<br>
+        dans votre région. Ça prend moins de 30 secondes !
+      </p>
+      <div class="redirect-counter" id="counterWrap">
+        Redirection vers Google dans <span class="counter-num" id="countNum">3</span>s…
+      </div>
+      <a class="btn-primary" href="LIEN_GOOGLE_REVIEW_KC" target="_blank" id="googleBtn">
+        ⭐ &nbsp;Laisser mon avis sur Google
+      </a>
+    </div>
+
+    <!-- STATE 2b : Négatif (1-3⭐) → formulaire KC interne -->
+    <div class="state" id="stateNegative">
+      <div class="big-icon">🙏</div>
+      <div class="state-title">Merci pour votre honnêteté</div>
+      <p class="state-sub">
+        On est vraiment désolé. Dites-nous ce qui s'est passé —<br>
+        notre responsable vous contactera rapidement.
+      </p>
+      <form onsubmit="submitNegative(event)">
+        <div class="form-group">
+          <label>Votre commentaire</label>
+          <textarea rows="4" id="negativeText" placeholder="Décrivez ce qui s'est passé..."></textarea>
+        </div>
+        <div class="form-group">
+          <label>Votre prénom (optionnel)</label>
+          <input type="text" id="negativeName" placeholder="Prénom">
+        </div>
+        <button type="submit" class="btn-dark">Envoyer mon feedback →</button>
+      </form>
+    </div>
+
+    <!-- STATE 3b : Merci négatif -->
+    <div class="state" id="stateThankyouNegative">
+      <div class="big-icon">✅</div>
+      <div class="state-title">Message bien reçu !</div>
+      <p class="state-sub">
+        Merci de nous avoir partagé votre expérience.<br>
+        Notre équipe va l'analyser et vous contacter très prochainement.<br><br>
+        Pour toute urgence : <strong>(514) 591-6202</strong>
+      </p>
+    </div>
+
+  </div>
+
+  <div class="footer-note">Entretiens Ménager KC · (514) 591-6202 · kcglobalservice.inc@gmail.com</div>
+</div>
+
+<script>
+  // ── À remplacer avant mise en ligne ──
+  const GOOGLE_REVIEW_URL = "LIEN_GOOGLE_REVIEW_KC";
+
+  const hints = ["Très insatisfait 😞", "Insatisfait 😕", "Moyen 😐", "Satisfait 😊", "Excellent ! 🤩"];
+  let selectedRating = 0;
+  let countdownTimer = null;
+
+  function selectRating(val) {
+    selectedRating = val;
+    document.querySelectorAll('.star').forEach((s, i) => {
+      s.classList.toggle('filled', i < val);
+      s.classList.remove('highlight');
+    });
+    document.getElementById('starHint').textContent = hints[val - 1];
+    document.getElementById('starHint').style.color = val >= 4 ? '#1f6996' : '#c62828';
+
+    setTimeout(() => {
+      document.getElementById('stateRating').classList.add('hidden');
+      if (val >= 4) {
+        document.getElementById('statePositive').classList.add('visible');
+        document.getElementById('googleBtn').href = GOOGLE_REVIEW_URL;
+        startCountdown();
+      } else {
+        document.getElementById('stateNegative').classList.add('visible');
+      }
+    }, 500);
+  }
+
+  function startCountdown() {
+    let count = 3;
+    countdownTimer = setInterval(() => {
+      count--;
+      document.getElementById('countNum').textContent = count;
+      if (count <= 0) {
+        clearInterval(countdownTimer);
+        document.getElementById('counterWrap').textContent = 'Page Google ouverte dans un nouvel onglet ↗';
+        window.open(GOOGLE_REVIEW_URL, '_blank');
+      }
+    }, 1000);
+  }
+
+  function submitNegative(e) {
+    e.preventDefault();
+    // Dans Next.js : POST vers webhook GHL pour déclencher WF-05b
+    // const data = { rating: selectedRating, comment: document.getElementById('negativeText').value, name: document.getElementById('negativeName').value };
+    // fetch('/api/feedback', { method: 'POST', body: JSON.stringify(data) });
+    document.getElementById('stateNegative').classList.remove('visible');
+    document.getElementById('stateThankyouNegative').classList.add('visible');
+  }
+
+  document.querySelectorAll('.star').forEach(star => {
+    const val = parseInt(star.getAttribute('data-val'));
+    star.addEventListener('mouseover', () => {
+      document.querySelectorAll('.star').forEach((s, i) => s.classList.toggle('highlight', i < val));
+      document.getElementById('starHint').textContent = hints[val - 1];
+    });
+    star.addEventListener('mouseout', () => {
+      document.querySelectorAll('.star').forEach(s => s.classList.remove('highlight'));
+      if (!selectedRating) {
+        document.getElementById('starHint').textContent = 'Touchez une étoile pour noter';
+        document.getElementById('starHint').style.color = '#bbb';
+      }
+    });
+  });
+</script>
+</body>
+</html>

@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<title>KC WF-05b — ReviewReceived Handler</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; background: #f0f2f5; padding: 40px 20px; }
+  h1 { text-align: center; color: #1a1a2e; font-size: 22px; margin-bottom: 4px; }
+  .subtitle { text-align: center; color: #888; font-size: 13px; margin-bottom: 8px; }
+  .badge-source { text-align: center; margin-bottom: 36px; }
+  .badge-source span { background: #f57c00; color: #fff; font-size: 11px; font-weight: 700; padding: 4px 14px; border-radius: 20px; letter-spacing: 0.5px; }
+
+  .flow { display: flex; flex-direction: column; align-items: center; gap: 0; }
+  .row { display: flex; align-items: flex-start; justify-content: center; gap: 12px; }
+
+  .node { border-radius: 10px; padding: 10px 18px; font-size: 13px; font-weight: 600; text-align: center; min-width: 220px; max-width: 260px; box-shadow: 0 2px 8px rgba(0,0,0,0.10); position: relative; }
+  .node small { display: block; font-size: 11px; font-weight: 400; margin-top: 3px; opacity: 0.8; }
+
+  .trigger   { background: #f57c00; color: #fff; border-radius: 30px; min-width: 320px; }
+  .tag-add   { background: #e8f5e9; color: #2e7d32; border: 2px solid #a5d6a7; }
+  .tag-remove { background: #fce4ec; color: #880e4f; border: 2px solid #f48fb1; }
+  .sms       { background: #f3e5f5; color: #6a1b9a; border: 2px solid #ce93d8; }
+  .email-node{ background: #fff8e1; color: #e65100; border: 2px solid #ffcc02; }
+  .email-int { background: #fce4ec; color: #880e4f; border: 2px solid #f48fb1; }
+  .condition { background: #fff; color: #5c35d4; border: 2px solid #5c35d4; min-width: 320px; max-width: 380px; }
+  .end-node  { background: #455a64; color: #fff; border-radius: 30px; min-width: 70px; max-width: 80px; padding: 6px 16px; font-size: 12px; text-align: center; }
+  .positive  { background: #e8f5e9; color: #1b5e20; border: 2px solid #66bb6a; }
+  .negative  { background: #fbe9e7; color: #bf360c; border: 2px solid #ffab91; }
+
+  .instr { background: #fffde7; border: 1.5px solid #f9a825; border-radius: 8px; padding: 10px 14px; font-size: 11.5px; color: #5d4037; min-width: 260px; max-width: 380px; line-height: 1.7; }
+  .instr strong { display: block; font-size: 11px; color: #e65100; text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 6px; }
+  .instr code { background: #fff3cd; padding: 2px 6px; border-radius: 4px; font-family: monospace; font-size: 10.5px; word-break: break-all; display: block; margin-top: 3px; white-space: pre-line; }
+
+  .arrow { width: 2px; height: 20px; background: #bbb; margin: 0 auto; }
+  .arrow-c { display: flex; justify-content: center; }
+  .yes-b { background: #2e7d32; color: #fff; font-size: 10px; font-weight: 700; padding: 2px 10px; border-radius: 10px; display: inline-block; }
+  .no-b  { background: #c62828; color: #fff; font-size: 10px; font-weight: 700; padding: 2px 10px; border-radius: 10px; display: inline-block; }
+
+  .check-wrap { display: flex; gap: 40px; justify-content: center; align-items: flex-start; width: 1100px; }
+  .branch-pos { display: flex; flex-direction: column; align-items: center; flex: 1; }
+  .branch-neg { display: flex; flex-direction: column; align-items: center; flex: 1; }
+
+  .divider { width: 680px; height: 2px; background: linear-gradient(to right, transparent, #ddd, transparent); margin: 18px auto; }
+  .node-num { position: absolute; top: -8px; left: -8px; background: #1a1a2e; color: #fff; font-size: 9px; font-weight: 700; width: 18px; height: 18px; border-radius: 50%; display: flex; align-items: center; justify-content: center; }
+  .star { color: #f9a825; }
+</style>
+</head>
+<body>
+
+<h1>WF-05b — KC_ReviewReceived_Handler</h1>
+<p class="subtitle">Traitement automatique de l'avis reçu — positif (4-5⭐) vers Google / négatif (1-3⭐) vers le responsable</p>
+<div class="badge-source"><span>⭐ TRIGGER : NOUVEL AVIS REÇU — REPUTATION MANAGEMENT</span></div>
+
+<div class="flow">
+
+  <div class="row">
+    <div class="node trigger">⭐ TRIGGER<small>Customer Review — Nouvel avis Google reçu</small></div>
+    <div class="instr"><strong>Créer le trigger</strong>Type : <code>Customer Review</code>(dans Reputation Management → Reviews)<br>GHL reçoit l'avis via Google Business Profile connecté.<br>Variable rating disponible : <code>{{review.rating}}</code></div>
+  </div>
+  <div class="arrow-c"><div class="arrow"></div></div>
+
+  <div class="row">
+    <div class="node tag-add"><div class="node-num">1</div>🏷 Add Tag<small>KC_avis-recu</small></div>
+    <div class="instr"><strong>+ → Add Tag</strong>Tag : <code>KC_avis-recu</code>Stop automatique de WF-05a — plus de relances envoyées.</div>
+  </div>
+  <div class="arrow-c"><div class="arrow"></div></div>
+
+  <!-- IF/ELSE rating -->
+  <div class="row">
+    <div class="node condition" style="min-width:360px;"><div class="node-num">2</div>◆ IF/ELSE — Avis positif ou négatif?<small>Rating ≥ 4 étoiles?</small></div>
+    <div class="instr"><strong>+ → IF/ELSE Condition</strong>Champ : <code>Review Rating</code>Opérateur : <code>greater than or equal to</code>Valeur : <code>4</code>Nom : "Avis positif?"<br><br>⚠️ Si GHL ne propose pas "Review Rating" directement, utiliser :<code>{{review.rating}} is greater than or equal to 4</code></div>
+  </div>
+
+  <div class="check-wrap">
+
+    <!-- BRANCHE POSITIVE 4-5 ⭐ -->
+    <div class="branch-pos">
+      <div class="arrow-c"><div class="arrow"></div></div>
+      <span class="yes-b">OUI — 4-5 ⭐ Avis positif</span>
+      <div class="arrow-c"><div class="arrow"></div></div>
+
+      <div class="node tag-add" style="min-width:220px;"><div class="node-num">3</div>🏷 Add Tag<small>KC_avis-5etoiles</small></div>
+      <div class="instr" style="margin-top:8px;"><strong>+ → Add Tag</strong>Tag : <code>KC_avis-5etoiles</code></div>
+      <div class="arrow-c"><div class="arrow"></div></div>
+
+      <div class="node sms positive" style="min-width:220px;"><div class="node-num">4</div>💬 SMS Merci → Client<small>Chaleureux + encouragement</small></div>
+      <div class="instr" style="margin-top:8px;"><strong>+ → Send SMS</strong><code>Bonjour {{contact.first_name}}! Merci infiniment pour votre avis! Ca fait vraiment chaud au coeur a toute notre equipe. On sera toujours la pour vous! Equipe KC (514) 591-6202.</code></div>
+      <div class="arrow-c"><div class="arrow"></div></div>
+
+      <div class="node email-node" style="min-width:220px;"><div class="node-num">5</div>✉️ Email Interne — Avis positif<small>Notifier l'équipe</small></div>
+      <div class="instr" style="margin-top:8px;"><strong>+ → Send Email</strong>To : <code>kcglobalservice.inc@gmail.com</code>Subject : <code>Nouvel avis {{review.rating}} etoiles — {{contact.first_name}} {{contact.last_name}}</code>Corps :<code>Super nouvelle! Un avis positif vient d'etre recu.
+
+Client : {{contact.first_name}} {{contact.last_name}}
+Note : {{review.rating}} / 5 etoiles
+Avis : {{review.body}}
+
+Ce client a le tag KC_avis-5etoiles dans le CRM.</code></div>
+      <div class="arrow-c"><div class="arrow"></div></div>
+      <div class="end-node">END</div>
+    </div>
+
+    <!-- BRANCHE NEGATIVE 1-3 ⭐ -->
+    <div class="branch-neg">
+      <div class="arrow-c"><div class="arrow"></div></div>
+      <span class="no-b">NON — 1-3 ⭐ Avis négatif</span>
+      <div class="arrow-c"><div class="arrow"></div></div>
+
+      <div class="node tag-add" style="background:#fce4ec;color:#880e4f;border:2px solid #f48fb1;min-width:220px;"><div class="node-num">6</div>🏷 Add Tag<small>KC_avis-negatif</small></div>
+      <div class="instr" style="margin-top:8px;"><strong>+ → Add Tag</strong>Tag : <code>KC_avis-negatif</code></div>
+      <div class="arrow-c"><div class="arrow"></div></div>
+
+      <div class="node negative" style="min-width:220px;"><div class="node-num">7</div>⚠️ Email Alerte Interne<small>Avis négatif → responsable</small></div>
+      <div class="instr" style="margin-top:8px;"><strong>+ → Send Email</strong>To : <code>kcglobalservice.inc@gmail.com</code>Subject : <code>AVIS NEGATIF {{review.rating}} etoile(s) — {{contact.first_name}} {{contact.last_name}} — ACTION REQUISE</code>Corps :<code>Avis negatif recu. Intervention recommandee rapidement.
+
+Client : {{contact.first_name}} {{contact.last_name}}
+Tel : {{contact.phone}}
+Note : {{review.rating}} / 5 etoiles
+Avis laisse :
+"{{review.body}}"
+
+Actions recommandees:
+1. Contacter le client rapidement pour comprendre le probleme
+2. Proposer une solution ou un service complementaire
+3. Si resolu: demander au client de modifier son avis
+4. Analyser avec l'equipe pour eviter la recurrence</code></div>
+      <div class="arrow-c"><div class="arrow"></div></div>
+
+      <div class="node sms negative" style="min-width:220px;"><div class="node-num">8</div>💬 SMS Rattrapage → Client<small>Réaction rapide + empathie</small></div>
+      <div class="instr" style="margin-top:8px;"><strong>+ → Send SMS</strong><code>Bonjour {{contact.first_name}}! On vient de voir votre avis et on tient a vous contacter personnellement. Votre satisfaction est notre priorite. Pouvez-vous nous rappeler au (514) 591-6202? Merci.</code></div>
+      <div class="arrow-c"><div class="arrow"></div></div>
+      <div class="end-node">END</div>
+    </div>
+
+  </div>
+
+  <div style="height:60px;"></div>
+</div>
+
+<div style="max-width:900px;margin:0 auto 40px;background:#fff;border-radius:12px;padding:20px 24px;box-shadow:0 2px 8px rgba(0,0,0,0.08);">
+  <div style="font-size:11px;font-weight:700;color:#999;text-transform:uppercase;letter-spacing:1px;margin-bottom:10px;">Prérequis et notes</div>
+  <div style="font-size:11.5px;color:#5d4037;line-height:1.9;">
+    <b>Prérequis :</b> connecter Google Business Profile de KC à GHL (Settings → Integrations → Google My Business) — sans ça, le trigger "Customer Review" ne reçoit rien.<br>
+    <b>{{review.rating}} :</b> variable GHL disponible dans les workflows déclenchés par un avis. Contient la note numérique (1 à 5).<br>
+    <b>{{review.body}} :</b> contenu textuel de l'avis laissé par le client.<br>
+    <b>Lien entre WF-05a et WF-05b :</b> quand WF-05b ajoute KC_avis-recu au contact, WF-05a stoppe automatiquement — plus aucune relance ne part.
+  </div>
+</div>
+<div style="height:40px;"></div>
+</body>
+</html>

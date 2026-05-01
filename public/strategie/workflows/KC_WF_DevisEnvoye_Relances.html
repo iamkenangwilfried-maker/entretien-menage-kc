@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<title>KC WF — DevisEnvoye Relances</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; background: #f0f2f5; padding: 40px 20px; }
+  h1 { text-align: center; color: #1a1a2e; font-size: 22px; margin-bottom: 4px; }
+  .subtitle { text-align: center; color: #888; font-size: 13px; margin-bottom: 8px; }
+  .badge-source { text-align: center; margin-bottom: 36px; }
+  .badge-source span { background: #e65100; color: #fff; font-size: 11px; font-weight: 700; padding: 4px 14px; border-radius: 20px; letter-spacing: 0.5px; }
+
+  .flow { display: flex; flex-direction: column; align-items: center; gap: 0; }
+  .row { display: flex; align-items: flex-start; justify-content: center; gap: 12px; }
+
+  .node { border-radius: 10px; padding: 10px 18px; font-size: 13px; font-weight: 600; text-align: center; min-width: 220px; max-width: 260px; box-shadow: 0 2px 8px rgba(0,0,0,0.10); position: relative; }
+  .node small { display: block; font-size: 11px; font-weight: 400; margin-top: 3px; opacity: 0.8; }
+
+  .trigger   { background: #e65100; color: #fff; border-radius: 30px; min-width: 320px; }
+  .tag-add   { background: #e8f5e9; color: #2e7d32; border: 2px solid #a5d6a7; }
+  .sms       { background: #f3e5f5; color: #6a1b9a; border: 2px solid #ce93d8; }
+  .email-node{ background: #fff8e1; color: #e65100; border: 2px solid #ffcc02; }
+  .email-int { background: #fce4ec; color: #880e4f; border: 2px solid #f48fb1; }
+  .wait      { background: #fafafa; color: #555; border: 2px dashed #ccc; }
+  .condition { background: #fff; color: #5c35d4; border: 2px solid #5c35d4; min-width: 300px; max-width: 360px; }
+  .condition small { color: #888; font-weight: 400; }
+  .end-node  { background: #455a64; color: #fff; border-radius: 30px; min-width: 70px; max-width: 80px; padding: 6px 16px; font-size: 12px; text-align: center; }
+  .urgent    { background: #fbe9e7; color: #bf360c; border: 2px solid #ffab91; }
+
+  .instr { background: #fffde7; border: 1.5px solid #f9a825; border-radius: 8px; padding: 10px 14px; font-size: 11.5px; color: #5d4037; min-width: 260px; max-width: 360px; line-height: 1.7; }
+  .instr strong { display: block; font-size: 11px; color: #e65100; text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 6px; }
+  .instr code { background: #fff3cd; padding: 2px 6px; border-radius: 4px; font-family: monospace; font-size: 10.5px; word-break: break-all; display: block; margin-top: 3px; white-space: pre-line; }
+
+  .arrow { width: 2px; height: 20px; background: #bbb; margin: 0 auto; }
+  .arrow-c { display: flex; justify-content: center; }
+  .yes-b { background: #2e7d32; color: #fff; font-size: 10px; font-weight: 700; padding: 2px 10px; border-radius: 10px; display: inline-block; }
+  .no-b  { background: #c62828; color: #fff; font-size: 10px; font-weight: 700; padding: 2px 10px; border-radius: 10px; display: inline-block; }
+
+  .check-wrap { display: flex; gap: 32px; justify-content: center; align-items: flex-start; }
+  .branch-yes { display: flex; flex-direction: column; align-items: center; flex: 1.4; }
+  .branch-no  { display: flex; flex-direction: column; align-items: center; flex: 0.6; padding-top: 6px; }
+
+  .divider { width: 680px; height: 2px; background: linear-gradient(to right, transparent, #ddd, transparent); margin: 18px auto; }
+  .step-label { font-size: 10px; font-weight: 700; color: #999; text-transform: uppercase; letter-spacing: 1px; background: #f0f2f5; padding: 2px 12px; border-radius: 6px; border: 1px dashed #ccc; margin: 4px auto; display: inline-block; }
+  .day-label { font-size: 11px; font-weight: 800; color: #e65100; background: #fff3e0; padding: 3px 14px; border-radius: 20px; border: 1.5px solid #ffcc02; display: inline-block; margin: 6px auto; }
+  .node-num { position: absolute; top: -8px; left: -8px; background: #1a1a2e; color: #fff; font-size: 9px; font-weight: 700; width: 18px; height: 18px; border-radius: 50%; display: flex; align-items: center; justify-content: center; }
+  .stop-note { font-size: 10px; color: #c62828; text-align: center; margin-top: 4px; font-style: italic; }
+</style>
+</head>
+<body>
+
+<h1>WF — KC_DevisEnvoye_Relances</h1>
+<p class="subtitle">Séquence de relance après envoi du devis — 4 touchpoints sur 14 jours avec stop automatique si devis accepté</p>
+<div class="badge-source"><span>📄 TRIGGER : DEVIS ENVOYÉ → PIPELINE KC_ENTRETIEN</span></div>
+
+<div class="flow">
+
+  <!-- TRIGGER -->
+  <div class="row">
+    <div class="node trigger">📄 TRIGGER<small>Opportunity Stage → "Devis Envoyé" — Pipeline KC_Entretien</small></div>
+    <div class="instr"><strong>Créer le trigger</strong>Type : <code>Opportunity Stage Changed</code>Pipeline : <code>KC_Entretien</code>Stage (nouveau) : <code>Devis Envoyé</code>Se déclenche dès que l'équipe déplace manuellement l'opportunité à cette étape.</div>
+  </div>
+  <div class="arrow-c"><div class="arrow"></div></div>
+
+  <!-- NODE 1 -->
+  <div class="row">
+    <div class="node tag-add"><div class="node-num">1</div>🏷 Add Tag<small>KC_devis-envoye</small></div>
+    <div class="instr"><strong>+ → Add Tag</strong>Tag : <code>KC_devis-envoye</code>Marque le contact comme ayant reçu une soumission.</div>
+  </div>
+  <div class="arrow-c"><div class="arrow"></div></div>
+
+  <div class="divider"></div>
+
+  <!-- ===== J+1 ===== -->
+  <div class="day-label">J + 1 — 24 heures</div>
+  <div class="arrow-c"><div class="arrow" style="height:8px;"></div></div>
+
+  <div class="row">
+    <div class="node wait"><div class="node-num">2</div>⏱ Wait — 24 heures</div>
+    <div class="instr"><strong>+ → Wait</strong>Durée : <code>24 heures</code>Laisse le temps au client de consulter la soumission.</div>
+  </div>
+  <div class="arrow-c"><div class="arrow"></div></div>
+
+  <div class="row">
+    <div class="node condition"><div class="node-num">3</div>◆ IF/ELSE — Devis toujours en attente?<small>Stage encore "Devis Envoyé" dans KC_Entretien</small></div>
+    <div class="instr"><strong>+ → IF/ELSE Condition</strong>Champ : <code>Opportunity Stage</code>Opérateur : <code>is</code>Valeur : <code>Devis Envoyé</code>Pipeline : <code>KC_Entretien</code>Nommer : "Attente J1?"</div>
+  </div>
+
+  <div class="check-wrap" style="width:1080px;">
+    <div class="branch-yes">
+      <div class="arrow-c"><div class="arrow"></div></div>
+      <span class="yes-b">OUI — Pas de réponse</span>
+      <div class="arrow-c"><div class="arrow"></div></div>
+      <div class="row">
+        <div class="node sms"><div class="node-num" style="background:#6a1b9a;">3a</div>💬 SMS Relance J+1 → Client<small>Ton doux — vérification</small></div>
+        <div class="instr"><strong>+ → Send SMS</strong>From : <code>Business phone number</code>To : <code>{{contact.phone}}</code>Message :<code>Bonjour {{contact.first_name}}! On voulait s'assurer que vous avez bien recu notre soumission. Des questions? On est la pour vous repondre. Ecrivez-nous ici ou appelez le (514) 591-6202.</code></div>
+      </div>
+      <div class="arrow-c"><div class="arrow"></div></div>
+      <span style="font-size:10px;color:#888;">↓ continue J+3</span>
+    </div>
+    <div class="branch-no">
+      <div class="arrow-c"><div class="arrow"></div></div>
+      <span class="no-b">NON — Devis accepté</span>
+      <div class="stop-note">Client a avancé dans le pipeline.<br>Stop automatique.</div>
+      <div class="arrow-c"><div class="arrow" style="height:24px;"></div></div>
+      <div class="end-node">END</div>
+    </div>
+  </div>
+
+  <div class="divider"></div>
+
+  <!-- ===== J+3 ===== -->
+  <div class="day-label">J + 3 — 2 jours plus tard</div>
+  <div class="arrow-c"><div class="arrow" style="height:8px;"></div></div>
+
+  <div class="row">
+    <div class="node wait"><div class="node-num">4</div>⏱ Wait — 2 jours</div>
+    <div class="instr"><strong>+ → Wait</strong>Durée : <code>2 jours</code></div>
+  </div>
+  <div class="arrow-c"><div class="arrow"></div></div>
+
+  <div class="row">
+    <div class="node condition"><div class="node-num">5</div>◆ IF/ELSE — Devis toujours en attente?<small>Stage encore "Devis Envoyé" dans KC_Entretien</small></div>
+    <div class="instr"><strong>+ → IF/ELSE Condition</strong>Champ : <code>Opportunity Stage</code>Opérateur : <code>is</code>Valeur : <code>Devis Envoyé</code>Pipeline : <code>KC_Entretien</code>Nommer : "Attente J3?"</div>
+  </div>
+
+  <div class="check-wrap" style="width:1080px;">
+    <div class="branch-yes">
+      <div class="arrow-c"><div class="arrow"></div></div>
+      <span class="yes-b">OUI — Toujours sans réponse</span>
+      <div class="arrow-c"><div class="arrow"></div></div>
+      <div class="row">
+        <div class="node email-node"><div class="node-num" style="background:#e65100;">5a</div>✉️ Email Relance J+3 → Client<small>Offre à répondre aux questions</small></div>
+        <div class="instr"><strong>+ → Send Email</strong>From : <code>kcglobalservice.inc@gmail.com</code>To : <code>{{contact.email}}</code>Subject : <code>Notre soumission est toujours disponible — Entretiens Menager KC</code>Corps :<code>Bonjour {{contact.first_name}},
+
+On espere que vous avez eu le temps de consulter notre soumission. Si vous avez des questions sur les services, les tarifs ou les disponibilites, on est la pour vous repondre rapidement.
+
+Il vous suffit de repondre a cet email ou de nous appeler au (514) 591-6202.
+
+On reste a votre disposition!
+
+L'equipe Entretiens Menager KC</code></div>
+      </div>
+      <div class="arrow-c"><div class="arrow"></div></div>
+      <span style="font-size:10px;color:#888;">↓ continue J+7</span>
+    </div>
+    <div class="branch-no">
+      <div class="arrow-c"><div class="arrow"></div></div>
+      <span class="no-b">NON — Devis accepté</span>
+      <div class="stop-note">Stop automatique.</div>
+      <div class="arrow-c"><div class="arrow" style="height:24px;"></div></div>
+      <div class="end-node">END</div>
+    </div>
+  </div>
+
+  <div class="divider"></div>
+
+  <!-- ===== J+7 ===== -->
+  <div class="day-label">J + 7 — 4 jours plus tard</div>
+  <div class="arrow-c"><div class="arrow" style="height:8px;"></div></div>
+
+  <div class="row">
+    <div class="node wait"><div class="node-num">6</div>⏱ Wait — 4 jours</div>
+    <div class="instr"><strong>+ → Wait</strong>Durée : <code>4 jours</code></div>
+  </div>
+  <div class="arrow-c"><div class="arrow"></div></div>
+
+  <div class="row">
+    <div class="node condition"><div class="node-num">7</div>◆ IF/ELSE — Devis toujours en attente?<small>Stage encore "Devis Envoyé" dans KC_Entretien</small></div>
+    <div class="instr"><strong>+ → IF/ELSE Condition</strong>Champ : <code>Opportunity Stage</code>Opérateur : <code>is</code>Valeur : <code>Devis Envoyé</code>Pipeline : <code>KC_Entretien</code>Nommer : "Attente J7?"</div>
+  </div>
+
+  <div class="check-wrap" style="width:1080px;">
+    <div class="branch-yes">
+      <div class="arrow-c"><div class="arrow"></div></div>
+      <span class="yes-b">OUI — Toujours sans réponse</span>
+      <div class="arrow-c"><div class="arrow"></div></div>
+      <div class="row">
+        <div class="node sms"><div class="node-num" style="background:#6a1b9a;">7a</div>💬 SMS Relance J+7 → Client<small>Urgence douce — créneau limité</small></div>
+        <div class="instr"><strong>+ → Send SMS</strong>Message :<code>Bonjour {{contact.first_name}}! On garde votre creneau disponible encore quelques jours. Si notre soumission vous convient ou si vous avez des ajustements a demander faites-nous signe. (514) 591-6202.</code></div>
+      </div>
+      <div class="arrow-c"><div class="arrow"></div></div>
+      <span style="font-size:10px;color:#888;">↓ continue J+14</span>
+    </div>
+    <div class="branch-no">
+      <div class="arrow-c"><div class="arrow"></div></div>
+      <span class="no-b">NON — Devis accepté</span>
+      <div class="stop-note">Stop automatique.</div>
+      <div class="arrow-c"><div class="arrow" style="height:24px;"></div></div>
+      <div class="end-node">END</div>
+    </div>
+  </div>
+
+  <div class="divider"></div>
+
+  <!-- ===== J+14 ===== -->
+  <div class="day-label">J + 14 — 7 jours plus tard — DERNIER CONTACT</div>
+  <div class="arrow-c"><div class="arrow" style="height:8px;"></div></div>
+
+  <div class="row">
+    <div class="node wait"><div class="node-num">8</div>⏱ Wait — 7 jours</div>
+    <div class="instr"><strong>+ → Wait</strong>Durée : <code>7 jours</code></div>
+  </div>
+  <div class="arrow-c"><div class="arrow"></div></div>
+
+  <div class="row">
+    <div class="node condition"><div class="node-num">9</div>◆ IF/ELSE — Devis toujours en attente?<small>Stage encore "Devis Envoyé" dans KC_Entretien</small></div>
+    <div class="instr"><strong>+ → IF/ELSE Condition</strong>Champ : <code>Opportunity Stage</code>Opérateur : <code>is</code>Valeur : <code>Devis Envoyé</code>Pipeline : <code>KC_Entretien</code>Nommer : "Attente J14?"</div>
+  </div>
+
+  <div class="check-wrap" style="width:1080px;">
+    <div class="branch-yes">
+      <div class="arrow-c"><div class="arrow"></div></div>
+      <span class="yes-b">OUI — 14 jours sans réponse</span>
+      <div class="arrow-c"><div class="arrow"></div></div>
+      <div class="row">
+        <div class="node sms"><div class="node-num" style="background:#bf360c;">9a</div>💬 SMS Final J+14 → Client<small>Dernier message — porte ouverte</small></div>
+        <div class="instr"><strong>+ → Send SMS</strong>Message :<code>Bonjour {{contact.first_name}}! C'est notre dernier message. Si vous avez besoin de nettoyage professionnel on sera toujours la pour vous quand vous serez pret. (514) 591-6202. Bonne continuation!</code></div>
+      </div>
+      <div class="arrow-c"><div class="arrow"></div></div>
+      <div class="row">
+        <div class="node urgent"><div class="node-num" style="background:#c62828;">9b</div>✉️ Alerte Interne — Lead Froid<small>⚠️ 14 jours sans validation</small></div>
+        <div class="instr"><strong>+ → Send Email</strong>To : <code>kcglobalservice.inc@gmail.com</code>Subject : <code>🥶 Lead froid — {{contact.first_name}} {{contact.last_name}} — 14j sans reponse</code>Corps :<code>Ce lead n'a pas valide sa soumission apres 14 jours.
+
+Nom : {{contact.first_name}} {{contact.last_name}}
+Tel : {{contact.phone}}
+Service : {{contact.KC_Type_de_service}}
+Ville : {{contact.KC_Ville}}
+
+4 relances effectuees (J1 SMS, J3 Email, J7 SMS, J14 SMS).
+→ Decider : fermer l'opportunite ou relancer manuellement plus tard.</code></div>
+      </div>
+      <div class="arrow-c"><div class="arrow"></div></div>
+      <div class="end-node">END</div>
+    </div>
+    <div class="branch-no">
+      <div class="arrow-c"><div class="arrow"></div></div>
+      <span class="no-b">NON — Devis accepté</span>
+      <div class="stop-note">Stop automatique.</div>
+      <div class="arrow-c"><div class="arrow" style="height:24px;"></div></div>
+      <div class="end-node">END</div>
+    </div>
+  </div>
+
+  <div style="height:60px;"></div>
+</div>
+
+<!-- LEGEND -->
+<div style="max-width:800px;margin:0 auto 40px;background:#fff;border-radius:12px;padding:20px 24px;box-shadow:0 2px 8px rgba(0,0,0,0.08);">
+  <div style="font-size:11px;font-weight:700;color:#999;text-transform:uppercase;letter-spacing:1px;margin-bottom:12px;">Légende</div>
+  <div style="display:flex;flex-wrap:wrap;gap:12px;">
+    <div style="display:flex;align-items:center;gap:6px;"><div style="width:14px;height:14px;border-radius:3px;background:#e65100;"></div><span style="font-size:12px;">Trigger</span></div>
+    <div style="display:flex;align-items:center;gap:6px;"><div style="width:14px;height:14px;border-radius:3px;background:#e8f5e9;border:1px solid #a5d6a7;"></div><span style="font-size:12px;">Add Tag</span></div>
+    <div style="display:flex;align-items:center;gap:6px;"><div style="width:14px;height:14px;border-radius:3px;background:#f3e5f5;border:1px solid #ce93d8;"></div><span style="font-size:12px;">Send SMS</span></div>
+    <div style="display:flex;align-items:center;gap:6px;"><div style="width:14px;height:14px;border-radius:3px;background:#fff8e1;border:1px solid #ffcc02;"></div><span style="font-size:12px;">Send Email → Client</span></div>
+    <div style="display:flex;align-items:center;gap:6px;"><div style="width:14px;height:14px;border-radius:3px;background:#fafafa;border:2px dashed #ccc;"></div><span style="font-size:12px;">Wait</span></div>
+    <div style="display:flex;align-items:center;gap:6px;"><div style="width:14px;height:14px;border-radius:3px;background:#fff;border:2px solid #5c35d4;"></div><span style="font-size:12px;">IF/ELSE — Stop condition</span></div>
+    <div style="display:flex;align-items:center;gap:6px;"><div style="width:14px;height:14px;border-radius:3px;background:#fbe9e7;border:1px solid #ffab91;"></div><span style="font-size:12px;">Alerte Lead Froid</span></div>
+  </div>
+  <div style="margin-top:16px;padding-top:14px;border-top:1px solid #eee;font-size:11.5px;color:#5d4037;line-height:1.8;">
+    <b>Stop automatique :</b> à chaque étape, si le stage a changé (devis accepté, perdu, ou autre) → le workflow s'arrête. Aucune relance inutile.<br>
+    <b>Déclencher manuellement :</b> l'équipe déplace l'opportunité à "Devis Envoyé" dans le pipeline KC_Entretien → ce workflow démarre automatiquement.
+  </div>
+</div>
+<div style="height:40px;"></div>
+</body>
+</html>

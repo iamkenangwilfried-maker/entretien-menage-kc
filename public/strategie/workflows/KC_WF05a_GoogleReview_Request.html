@@ -1,0 +1,299 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<title>KC WF-05a — ReviewRequest Sequence</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; background: #f0f2f5; padding: 40px 20px; }
+  h1 { text-align: center; color: #1a1a2e; font-size: 22px; margin-bottom: 4px; }
+  .subtitle { text-align: center; color: #888; font-size: 13px; margin-bottom: 8px; }
+  .badge-source { text-align: center; margin-bottom: 36px; }
+  .badge-source span { background: #1565c0; color: #fff; font-size: 11px; font-weight: 700; padding: 4px 14px; border-radius: 20px; letter-spacing: 0.5px; }
+
+  .flow { display: flex; flex-direction: column; align-items: center; gap: 0; }
+  .row { display: flex; align-items: flex-start; justify-content: center; gap: 12px; }
+
+  .node { border-radius: 10px; padding: 10px 18px; font-size: 13px; font-weight: 600; text-align: center; min-width: 220px; max-width: 260px; box-shadow: 0 2px 8px rgba(0,0,0,0.10); position: relative; }
+  .node small { display: block; font-size: 11px; font-weight: 400; margin-top: 3px; opacity: 0.8; }
+
+  .trigger   { background: #1565c0; color: #fff; border-radius: 30px; min-width: 320px; }
+  .tag-add   { background: #e8f5e9; color: #2e7d32; border: 2px solid #a5d6a7; }
+  .sms       { background: #f3e5f5; color: #6a1b9a; border: 2px solid #ce93d8; }
+  .email-node{ background: #fff8e1; color: #e65100; border: 2px solid #ffcc02; }
+  .wait      { background: #fafafa; color: #555; border: 2px dashed #ccc; }
+  .condition { background: #fff; color: #5c35d4; border: 2px solid #5c35d4; min-width: 300px; max-width: 360px; }
+  .end-node  { background: #455a64; color: #fff; border-radius: 30px; min-width: 70px; max-width: 80px; padding: 6px 16px; font-size: 12px; text-align: center; }
+  .remove-wf { background: #f5f5f5; color: #555; border: 2px solid #bbb; }
+
+  .instr { background: #fffde7; border: 1.5px solid #f9a825; border-radius: 8px; padding: 10px 14px; font-size: 11.5px; color: #5d4037; min-width: 260px; max-width: 420px; line-height: 1.7; }
+  .instr strong { display: block; font-size: 11px; color: #e65100; text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 6px; }
+  .instr code { background: #fff3cd; padding: 2px 6px; border-radius: 4px; font-family: monospace; font-size: 10.5px; word-break: break-all; display: block; margin-top: 3px; white-space: pre-line; }
+
+  .arrow { width: 2px; height: 20px; background: #bbb; margin: 0 auto; }
+  .arrow-c { display: flex; justify-content: center; }
+  .yes-b { background: #2e7d32; color: #fff; font-size: 10px; font-weight: 700; padding: 2px 10px; border-radius: 10px; display: inline-block; }
+  .no-b  { background: #c62828; color: #fff; font-size: 10px; font-weight: 700; padding: 2px 10px; border-radius: 10px; display: inline-block; }
+
+  .divider { width: 100%; max-width: 700px; height: 2px; background: linear-gradient(to right, transparent, #ddd, transparent); margin: 18px auto; }
+  .day-label { font-size: 11px; font-weight: 800; color: #1565c0; background: #e3f2fd; padding: 3px 14px; border-radius: 20px; border: 1.5px solid #90caf9; display: inline-block; margin: 6px auto; }
+  .node-num { position: absolute; top: -8px; left: -8px; background: #1a1a2e; color: #fff; font-size: 9px; font-weight: 700; width: 18px; height: 18px; border-radius: 50%; display: flex; align-items: center; justify-content: center; }
+  .stop-note { font-size: 10px; color: #c62828; text-align: center; margin-top: 4px; font-style: italic; }
+
+  /* Cycle block */
+  .cycle { background: #fff; border: 1.5px solid #e0e0e0; border-radius: 12px; padding: 18px 22px; max-width: 860px; width: 100%; margin: 0 auto; }
+  .cycle-label { font-size: 10px; font-weight: 800; color: #888; text-transform: uppercase; letter-spacing: 1.2px; margin-bottom: 14px; }
+
+  .setup-box { background: #e8eaf6; border: 2px solid #7986cb; border-radius: 12px; padding: 18px 22px; max-width: 900px; margin: 0 auto 28px; }
+  .setup-box h3 { font-size: 12px; font-weight: 800; color: #3949ab; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 12px; }
+  .setup-step { font-size: 12px; color: #283593; line-height: 1.9; }
+  .setup-step b { color: #1a237e; }
+  .setup-step code { background: #c5cae9; padding: 1px 6px; border-radius: 4px; font-family: monospace; font-size: 11px; }
+</style>
+</head>
+<body>
+
+<h1>WF-05a — KC_ReviewRequest_Sequence</h1>
+<p class="subtitle">Séquence 6 touchpoints avec Trigger Link gating — arrêt automatique dès le premier clic</p>
+<div class="badge-source"><span>⭐ TRIGGER : OPPORTUNITY STAGE → SERVICE COMPLÉTÉ</span></div>
+
+<!-- SETUP BOX -->
+<div class="setup-box">
+  <h3>Prérequis — à créer dans GHL avant de construire ce workflow</h3>
+  <div class="setup-step">
+    <b>1. Custom Contact Fields</b> (Settings → Custom Fields → Contact) :<br>
+    &nbsp;&nbsp;— <code>KC_rate_us</code> (type : Number) | <code>KC_your_feedback</code> (type : Textarea)<br><br>
+    <b>2. Survey "KC_Review_Survey"</b> (Sites → Surveys → + New Survey) :<br>
+    &nbsp;&nbsp;— Q1 : "Notez votre expérience" (Star Rating) → custom field : KC_rate_us<br>
+    &nbsp;&nbsp;— Q2 : "Votre commentaire" (Textarea) → custom field : KC_your_feedback<br><br>
+    <b>3. Trigger Link "KC_Review_Request"</b> (Marketing → Trigger Links → + New) :<br>
+    &nbsp;&nbsp;— Action : Add Tag → <code>KC_review-link-clicked</code><br>
+    &nbsp;&nbsp;— Redirect URL : URL de la page de notation KC (funnel avec étoiles 1-5)<br>
+    &nbsp;&nbsp;— Variable GHL : <code>{{trigger_link.KC_Review_Request}}</code><br><br>
+    <b>4. Page de notation KC</b> (Site KC ou GHL Funnel) :<br>
+    &nbsp;&nbsp;— Étoiles 4-5 → lien direct Google Review KC (s'ouvre automatiquement)<br>
+    &nbsp;&nbsp;— Étoiles 1-3 → affiche le Survey KC_Review_Survey
+  </div>
+</div>
+
+<div class="flow">
+
+  <!-- TRIGGER -->
+  <div class="row">
+    <div class="node trigger">⭐ TRIGGER<small>Opportunity Stage → "Service Complété" — Pipeline KC_Entretien</small></div>
+    <div class="instr"><strong>Créer le trigger</strong>Type : <code>Opportunity Stage Changed</code>Pipeline : <code>KC_Entretien</code>Stage : <code>Service Complété</code></div>
+  </div>
+  <div class="arrow-c"><div class="arrow"></div></div>
+
+  <div class="row">
+    <div class="node tag-add"><div class="node-num">1</div>🏷 Add Tag<small>KC_service-complete</small></div>
+    <div class="instr"><strong>+ → Add Tag</strong>Tag : <code>KC_service-complete</code></div>
+  </div>
+  <div class="arrow-c"><div class="arrow"></div></div>
+
+  <div class="row">
+    <div class="node tag-add"><div class="node-num">2</div>🏷 Add Tag<small>KC_avis-demande</small></div>
+    <div class="instr"><strong>+ → Add Tag</strong>Tag : <code>KC_avis-demande</code>Marque que la séquence d'avis est démarrée.</div>
+  </div>
+  <div class="arrow-c"><div class="arrow"></div></div>
+
+  <!-- ═══ TOUCHPOINT 1 ═══ -->
+  <div class="divider"></div>
+  <div class="day-label">Touchpoint 1 — J0 + 10 min</div>
+  <div class="arrow-c"><div class="arrow" style="height:8px;"></div></div>
+
+  <div class="row">
+    <div class="node wait"><div class="node-num">3</div>⏱ Wait — 10 min</div>
+    <div class="instr"><strong>+ → Wait</strong>Durée : <code>10 minutes</code></div>
+  </div>
+  <div class="arrow-c"><div class="arrow"></div></div>
+
+  <div class="row">
+    <div class="node sms"><div class="node-num">4</div>💬 SMS 1 + Email → Client<small>Trigger link inclus</small></div>
+    <div class="instr"><strong>+ → Send SMS</strong><code>Bonjour {{contact.first_name}}! Merci d'avoir choisi KC pour votre nettoyage. Si vous avez 30 secondes, votre avis nous aide enormement: {{trigger_link.KC_Review_Request}} Equipe KC (514) 591-6202</code>
+<strong style="margin-top:10px;">+ → Send Email</strong>Subject : <code>Merci {{contact.first_name}} — votre avis nous ferait vraiment plaisir</code>Corps :<code>Bonjour {{contact.first_name}},
+
+Merci de nous avoir fait confiance pour votre nettoyage! On espere que le resultat vous satisfait pleinement.
+
+Si vous avez quelques secondes, un avis Google aide enormement KC a grandir dans votre region:
+{{trigger_link.KC_Review_Request}}
+
+Ca prend moins de 30 secondes — c'est vraiment apprecie!
+
+L'equipe Entretiens Menager KC
+(514) 591-6202 | kcglobalservice.inc@gmail.com</code></div>
+  </div>
+  <div class="arrow-c"><div class="arrow"></div></div>
+
+  <div class="row">
+    <div class="node condition" style="min-width:340px;"><div class="node-num">5</div>◆ IF/ELSE — Lien cliqué?<small>Tags contient KC_review-link-clicked</small></div>
+    <div class="instr"><strong>+ → IF/ELSE Condition</strong>Champ : <code>Tags</code> | Opérateur : <code>contains</code> | Valeur : <code>KC_review-link-clicked</code></div>
+  </div>
+  <div style="display:flex;gap:40px;justify-content:center;align-items:flex-start;max-width:900px;margin:0 auto;">
+    <div style="display:flex;flex-direction:column;align-items:center;">
+      <div class="arrow-c"><div class="arrow"></div></div>
+      <span class="yes-b">OUI — déjà cliqué → fin</span>
+      <div class="arrow-c"><div class="arrow" style="height:16px;"></div></div>
+      <div class="end-node">END</div>
+    </div>
+    <div style="display:flex;flex-direction:column;align-items:center;">
+      <div class="arrow-c"><div class="arrow"></div></div>
+      <span class="no-b">NON → continuer</span>
+      <div class="arrow-c"><div class="arrow" style="height:8px;"></div></div>
+
+      <!-- ═══ TOUCHPOINTS 2-6 EN COLONNE ═══ -->
+
+      <div class="divider" style="width:400px;"></div>
+      <div class="day-label">Touchpoint 2 — J0 + 3h</div>
+      <div class="arrow-c"><div class="arrow" style="height:8px;"></div></div>
+      <div class="row">
+        <div class="node wait"><div class="node-num">6</div>⏱ Wait — 2h 50min</div>
+        <div class="instr"><strong>+ → Wait</strong>Durée : <code>2 heures 50 minutes</code></div>
+      </div>
+      <div class="arrow-c"><div class="arrow"></div></div>
+      <div class="row">
+        <div class="node sms"><div class="node-num">7</div>💬 SMS 2 → Client</div>
+        <div class="instr"><strong>+ → Send SMS</strong><code>Bonjour {{contact.first_name}}! On voulait juste s'assurer que tout etait parfait. Si vous avez 30 sec pour un avis: {{trigger_link.KC_Review_Request}} Merci! KC</code></div>
+      </div>
+      <div class="arrow-c"><div class="arrow"></div></div>
+      <div class="row">
+        <div class="node condition" style="min-width:280px;"><div class="node-num">8</div>◆ IF/ELSE — Lien cliqué?</div>
+      </div>
+      <div style="display:flex;gap:24px;justify-content:center;">
+        <div style="display:flex;flex-direction:column;align-items:center;">
+          <div class="arrow-c"><div class="arrow"></div></div>
+          <span class="yes-b">OUI → END</span>
+          <div class="arrow-c"><div class="arrow" style="height:12px;"></div></div>
+          <div class="end-node">END</div>
+        </div>
+        <div style="display:flex;flex-direction:column;align-items:center;">
+          <div class="arrow-c"><div class="arrow"></div></div>
+          <span class="no-b">NON → continuer</span>
+          <div class="arrow-c"><div class="arrow" style="height:8px;"></div></div>
+
+          <div class="divider" style="width:300px;"></div>
+          <div class="day-label">Touchpoint 3 — J+1 (24h)</div>
+          <div class="arrow-c"><div class="arrow" style="height:8px;"></div></div>
+          <div class="row">
+            <div class="node wait"><div class="node-num">9</div>⏱ Wait — 21h</div>
+          </div>
+          <div class="arrow-c"><div class="arrow"></div></div>
+          <div class="row">
+            <div class="node sms"><div class="node-num">10</div>💬 SMS 3 → Client</div>
+            <div class="instr"><strong>+ → Send SMS</strong><code>{{contact.first_name}}, merci encore! Votre avis compte vraiment pour notre equipe: {{trigger_link.KC_Review_Request}} KC (514) 591-6202</code></div>
+          </div>
+          <div class="arrow-c"><div class="arrow"></div></div>
+          <div class="row">
+            <div class="node condition" style="min-width:260px;"><div class="node-num">11</div>◆ IF/ELSE — Lien cliqué?</div>
+          </div>
+          <div style="display:flex;gap:20px;justify-content:center;">
+            <div style="display:flex;flex-direction:column;align-items:center;">
+              <div class="arrow-c"><div class="arrow"></div></div>
+              <span class="yes-b">OUI → END</span>
+              <div class="arrow-c"><div class="arrow" style="height:12px;"></div></div>
+              <div class="end-node">END</div>
+            </div>
+            <div style="display:flex;flex-direction:column;align-items:center;">
+              <div class="arrow-c"><div class="arrow"></div></div>
+              <span class="no-b">NON → continuer</span>
+              <div class="arrow-c"><div class="arrow" style="height:8px;"></div></div>
+
+              <div class="divider" style="width:260px;"></div>
+              <div class="day-label">Touchpoint 4 — J+2 (48h)</div>
+              <div class="arrow-c"><div class="arrow" style="height:8px;"></div></div>
+              <div class="row">
+                <div class="node wait"><div class="node-num">12</div>⏱ Wait — 24h</div>
+              </div>
+              <div class="arrow-c"><div class="arrow"></div></div>
+              <div class="row">
+                <div class="node sms"><div class="node-num">13</div>💬 SMS 4 → Client</div>
+                <div class="instr"><strong>+ → Send SMS</strong><code>Bonjour {{contact.first_name}}! Un avis Google ferait une grande difference pour KC: {{trigger_link.KC_Review_Request}} Merci!</code></div>
+              </div>
+              <div class="arrow-c"><div class="arrow"></div></div>
+              <div class="row">
+                <div class="node condition" style="min-width:240px;"><div class="node-num">14</div>◆ IF/ELSE — Lien cliqué?</div>
+              </div>
+              <div style="display:flex;gap:16px;justify-content:center;">
+                <div style="display:flex;flex-direction:column;align-items:center;">
+                  <div class="arrow-c"><div class="arrow"></div></div>
+                  <span class="yes-b">OUI → END</span>
+                  <div class="arrow-c"><div class="arrow" style="height:12px;"></div></div>
+                  <div class="end-node">END</div>
+                </div>
+                <div style="display:flex;flex-direction:column;align-items:center;">
+                  <div class="arrow-c"><div class="arrow"></div></div>
+                  <span class="no-b">NON → continuer</span>
+                  <div class="arrow-c"><div class="arrow" style="height:8px;"></div></div>
+
+                  <div class="divider" style="width:220px;"></div>
+                  <div class="day-label">Touchpoint 5 — J+3 (72h)</div>
+                  <div class="arrow-c"><div class="arrow" style="height:8px;"></div></div>
+                  <div class="row">
+                    <div class="node wait"><div class="node-num">15</div>⏱ Wait — 24h</div>
+                  </div>
+                  <div class="arrow-c"><div class="arrow"></div></div>
+                  <div class="row">
+                    <div class="node sms"><div class="node-num">16</div>💬 SMS 5 → Client</div>
+                    <div class="instr"><strong>+ → Send SMS</strong><code>{{contact.first_name}}, notre equipe serait vraiment touchee. 30 secondes suffisent: {{trigger_link.KC_Review_Request}} Merci de votre cote!</code></div>
+                  </div>
+                  <div class="arrow-c"><div class="arrow"></div></div>
+                  <div class="row">
+                    <div class="node condition" style="min-width:220px;"><div class="node-num">17</div>◆ IF/ELSE — Lien cliqué?</div>
+                  </div>
+                  <div style="display:flex;gap:14px;justify-content:center;">
+                    <div style="display:flex;flex-direction:column;align-items:center;">
+                      <div class="arrow-c"><div class="arrow"></div></div>
+                      <span class="yes-b">OUI → END</span>
+                      <div class="arrow-c"><div class="arrow" style="height:12px;"></div></div>
+                      <div class="end-node">END</div>
+                    </div>
+                    <div style="display:flex;flex-direction:column;align-items:center;">
+                      <div class="arrow-c"><div class="arrow"></div></div>
+                      <span class="no-b">NON → dernier rappel</span>
+                      <div class="arrow-c"><div class="arrow" style="height:8px;"></div></div>
+
+                      <div class="divider" style="width:200px;"></div>
+                      <div class="day-label">Touchpoint 6 — J+7 (QR code)</div>
+                      <div class="arrow-c"><div class="arrow" style="height:8px;"></div></div>
+                      <div class="row">
+                        <div class="node wait"><div class="node-num">18</div>⏱ Wait — 4 jours</div>
+                      </div>
+                      <div class="arrow-c"><div class="arrow"></div></div>
+                      <div class="row">
+                        <div class="node sms" style="background:#ede7f6;"><div class="node-num">19</div>💬 SMS 6 — Final<small>+ QR code en pièce jointe</small></div>
+                        <div class="instr"><strong>+ → Send SMS (+ image QR)</strong><code>Bonjour {{contact.first_name}}, dernier message! Votre avis compte vraiment pour KC. Cliquez ou scannez le QR: {{trigger_link.KC_Review_Request}} Merci pour tout! KC (514) 591-6202</code>⚠️ Joindre l'image QR code Google Review de KC (PNG obtenu dans Google Business Profile → Obtenir plus d'avis → Partager).</div>
+                      </div>
+                      <div class="arrow-c"><div class="arrow"></div></div>
+                      <div class="row">
+                        <div class="node remove-wf"><div class="node-num">20</div>⛔ Remove from Workflow<small>Current workflow</small></div>
+                        <div class="instr"><strong>+ → Remove from Workflow</strong>Workflow : <code>Current workflow</code></div>
+                      </div>
+                      <div class="arrow-c"><div class="arrow"></div></div>
+                      <div class="end-node">END</div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div style="height:60px;"></div>
+</div>
+
+<!-- NOTES -->
+<div style="max-width:900px;margin:0 auto 40px;background:#fff;border-radius:12px;padding:20px 24px;box-shadow:0 2px 8px rgba(0,0,0,0.08);">
+  <div style="font-size:11px;font-weight:700;color:#999;text-transform:uppercase;letter-spacing:1px;margin-bottom:10px;">Notes importantes</div>
+  <div style="font-size:11.5px;color:#5d4037;line-height:1.9;">
+    <b>Trigger Link :</b> quand le client clique <code>{{trigger_link.KC_Review_Request}}</code>, GHL ajoute automatiquement le tag <code>KC_review-link-clicked</code> et redirige vers la page de notation. Chaque IF/ELSE détecte ce tag → arrêt immédiat des relances.<br>
+    <b>Page de notation :</b> 5 étoiles — boutons 4-5⭐ → Google Review KC directement. Boutons 1-3⭐ → Survey KC_Review_Survey (géré par WF-05b).<br>
+    <b>WF-05b :</b> s'active automatiquement quand le survey 1-3 étoiles est soumis — notif interne + email client.<br>
+    <b>QR code :</b> SMS 6 a un QR code en pièce jointe — obtenir depuis Google Business Profile → "Obtenir plus d'avis" → télécharger le QR PNG.
+  </div>
+</div>
+<div style="height:40px;"></div>
+</body>
+</html>

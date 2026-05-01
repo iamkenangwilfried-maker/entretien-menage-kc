@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>WF-05a — KC_ReviewRequest_Sequence</title>
+<style>
+  :root{--kc:#1f6996;--kc3:#e8f4fc;--green:#16a34a;--gbg:#f0fdf4;--gbd:#bbf7d0;--amber:#d97706;--navy:#0f172a;--gray:#64748b;--light:#f8fafc;--r:12px;--rl:18px;--s1:0 1px 4px rgba(0,0,0,.07);--s2:0 4px 18px rgba(0,0,0,.1);}
+  *{margin:0;padding:0;box-sizing:border-box;}
+  body{font-family:'Segoe UI',system-ui,sans-serif;background:#f0f4f8;color:var(--navy);}
+  .topbar{background:white;border-bottom:2px solid #e2e8f0;padding:14px 32px;display:flex;align-items:center;gap:16px;position:sticky;top:0;z-index:50;}
+  .back{display:inline-flex;align-items:center;gap:6px;color:var(--kc);font-weight:600;font-size:.88em;text-decoration:none;padding:7px 14px;border-radius:8px;background:var(--kc3);transition:.2s;}
+  .back:hover{background:#d0eaf7;}
+  .topbar-title{font-size:1em;font-weight:700;color:var(--navy);}
+  .topbar-sub{font-size:.8em;color:var(--gray);}
+  .wrap{max-width:1100px;margin:0 auto;padding:36px 20px;}
+  .hero{background:linear-gradient(135deg,#713f12,#d97706,#fbbf24);color:white;border-radius:var(--rl);padding:40px;margin-bottom:28px;}
+  .hero-id{font-size:.78em;font-weight:700;text-transform:uppercase;letter-spacing:2px;opacity:.65;margin-bottom:8px;}
+  .hero-name{font-size:2em;font-weight:900;margin-bottom:8px;}
+  .hero-desc{font-size:1em;opacity:.75;margin-bottom:20px;}
+  .hero-badges{display:flex;gap:10px;flex-wrap:wrap;}
+  .hbadge{padding:6px 16px;border-radius:50px;font-size:.8em;font-weight:700;border:1px solid rgba(255,255,255,.3);background:rgba(255,255,255,.12);}
+  .section{background:white;border-radius:var(--rl);padding:32px;margin-bottom:22px;box-shadow:var(--s1);}
+  .sec-title{font-size:1.05em;font-weight:800;color:var(--kc);margin-bottom:18px;padding-bottom:10px;border-bottom:2px solid var(--kc3);}
+  .g2{display:grid;grid-template-columns:1fr 1fr;gap:16px;}
+  @media(max-width:640px){.g2{grid-template-columns:1fr;}}
+  .card{background:var(--light);border-radius:var(--r);padding:18px;border:1px solid #e2e8f0;margin-bottom:12px;}
+  .card:last-child{margin-bottom:0;}
+  .card h4{font-size:.88em;font-weight:700;color:var(--navy);margin-bottom:6px;}
+  .card p,.card li{font-size:.83em;color:#475569;line-height:1.65;}
+  .trigger-box{background:#fffbeb;border:2px solid #fde68a;border-radius:var(--r);padding:20px 24px;}
+  .trigger-box .label{font-size:.75em;font-weight:700;text-transform:uppercase;letter-spacing:1.5px;color:var(--amber);margin-bottom:6px;}
+  .trigger-box .value{font-size:1.05em;font-weight:700;color:var(--navy);}
+  .trigger-box .sub{font-size:.82em;color:var(--gray);margin-top:4px;}
+  .sms-seq{display:flex;flex-direction:column;gap:8px;}
+  .sms-item{display:grid;grid-template-columns:70px 1fr;gap:0;border-radius:var(--r);overflow:hidden;border:1px solid #e2e8f0;}
+  .sms-day{background:#f8f9fa;padding:14px 10px;text-align:center;font-size:.78em;font-weight:800;color:var(--kc);border-right:1px solid #e2e8f0;display:flex;align-items:center;justify-content:center;}
+  .sms-content{padding:12px 16px;font-size:.83em;}
+  .sms-content h4{font-weight:700;color:var(--navy);margin-bottom:3px;}
+  .sms-content p{color:#475569;}
+  .flow-arch{display:grid;grid-template-columns:1fr auto 1fr;gap:12px;align-items:center;}
+  .flow-node{border-radius:var(--r);padding:16px;text-align:center;font-size:.82em;font-weight:600;}
+  .flow-arrow{font-size:1.4em;color:var(--gray);text-align:center;}
+  .fn-link{background:#fef3c7;border:2px solid #fde68a;color:#92400e;}
+  .fn-good{background:var(--gbg);border:2px solid var(--gbd);color:#15803d;}
+  .fn-bad{background:#fef2f2;border:2px solid #fecaca;color:#991b1b;}
+  .tag{display:inline-block;padding:4px 11px;border-radius:50px;font-size:.76em;font-weight:600;font-family:'Courier New',monospace;background:#fff7ed;color:#c2410c;margin:3px;}
+  .badge-live{display:inline-flex;align-items:center;gap:5px;background:var(--gbg);color:var(--green);border:1px solid var(--gbd);padding:4px 12px;border-radius:50px;font-size:.8em;font-weight:700;}
+  .badge-live::before{content:'●';font-size:7px;}
+  .url-box{background:var(--kc);color:white;padding:12px 18px;border-radius:var(--r);font-family:'Courier New',monospace;font-size:.85em;margin-bottom:12px;}
+  .url-box a{color:rgba(255,255,255,.8);}
+  .stop-box{background:var(--gbg);border:2px solid var(--gbd);border-radius:var(--r);padding:14px 18px;font-size:.84em;color:#15803d;margin-top:16px;}
+  .visual-frame{width:100%;height:700px;border:none;border-radius:var(--r);background:white;}
+  .frame-wrap{border:1px solid #e2e8f0;border-radius:var(--rl);overflow:hidden;box-shadow:var(--s2);}
+</style>
+</head>
+<body>
+
+<div class="topbar">
+  <a href="/strategie/" class="back">← Récapitulatif</a>
+  <div>
+    <div class="topbar-title">WF-05a — KC_ReviewRequest_Sequence</div>
+    <div class="topbar-sub">Sollicitation automatique des avis Google après chaque service</div>
+  </div>
+  <span class="badge-live" style="margin-left:auto;">Live</span>
+</div>
+
+<div class="wrap">
+
+  <div class="hero">
+    <div class="hero-id">Workflow 05a</div>
+    <div class="hero-name">KC_ReviewRequest_Sequence</div>
+    <div class="hero-desc">Dès qu'un service est complété, ce workflow envoie jusqu'à 5 SMS pour inviter le client à noter KC. Les 4-5 étoiles vont directement sur Google, les avis négatifs sont capturés en privé.</div>
+    <div class="hero-badges">
+      <span class="hbadge">✅ Statut : Live</span>
+      <span class="hbadge">⭐ Google Reviews</span>
+      <span class="hbadge">5 SMS max</span>
+    </div>
+  </div>
+
+  <!-- PAGE AVIS -->
+  <div class="section">
+    <div class="sec-title">🌐 Page d'avis KC — À montrer à la cliente</div>
+    <div class="url-box">
+      https://entretien-menage-kc.vercel.app/demande-avis
+      <a href="https://entretien-menage-kc.vercel.app/demande-avis" target="_blank" style="margin-left:12px;">Ouvrir →</a>
+    </div>
+    <div class="g2">
+      <div class="card">
+        <h4>⭐⭐⭐⭐⭐ Avis 4-5 étoiles</h4>
+        <p>Le client clique sur 4 ou 5 étoiles → redirigé directement vers la page Google Review de KC pour laisser un avis public.</p>
+      </div>
+      <div class="card">
+        <h4>⭐⭐⭐ Avis 1-3 étoiles</h4>
+        <p>Formulaire de feedback privé → envoyé à l'équipe KC via webhook → WF-05b gère l'alerte interne. L'avis négatif ne va PAS sur Google.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- TRIGGER -->
+  <div class="section">
+    <div class="sec-title">⚡ Déclencheur</div>
+    <div class="trigger-box">
+      <div class="label">Type de trigger</div>
+      <div class="value">Opportunity Stage Changed → "Service Complété"</div>
+      <div class="sub">Dès que l'équipe KC marque un service comme complété dans le pipeline, la séquence de demande d'avis démarre automatiquement.</div>
+    </div>
+  </div>
+
+  <!-- SÉQUENCE SMS -->
+  <div class="section">
+    <div class="sec-title">📱 Séquence de 5 SMS</div>
+    <div class="sms-seq">
+      <div class="sms-item"><div class="sms-day">Immédiat</div><div class="sms-content"><h4>SMS 1 — Premier contact</h4><p>SMS chaleureux avec le Trigger Link vers /demande-avis. Si le client clique → stop.</p></div></div>
+      <div class="sms-item"><div class="sms-day">J+2</div><div class="sms-content"><h4>SMS 2 — Rappel doux</h4><p>Deuxième invitation. Vérification : si KC_review-link-clicked → skip ce SMS.</p></div></div>
+      <div class="sms-item"><div class="sms-day">J+5</div><div class="sms-content"><h4>SMS 3 — Suivi</h4><p>Troisième invitation avec une formulation différente. Stop si déjà cliqué.</p></div></div>
+      <div class="sms-item"><div class="sms-day">J+10</div><div class="sms-content"><h4>SMS 4 — Rappel final</h4><p>Dernier SMS avant clôture de la séquence. Formulation urgente mais respectueuse.</p></div></div>
+      <div class="sms-item"><div class="sms-day">J+14</div><div class="sms-content"><h4>SMS 5 — Dernier recours</h4><p>SMS de clôture. Après ce message la séquence se termine automatiquement.</p></div></div>
+    </div>
+    <div class="stop-box">🛑 <strong>Stop automatique</strong> : à chaque SMS, le workflow vérifie si le tag <code>KC_review-link-clicked</code> est présent. Si oui, la séquence s'arrête immédiatement — aucun SMS supplémentaire.</div>
+  </div>
+
+  <!-- ARCHITECTURE -->
+  <div class="section">
+    <div class="sec-title">🔀 Architecture de gating (filtrage des avis)</div>
+    <div class="flow-arch">
+      <div class="flow-node fn-link">📱 Client reçoit le Trigger Link SMS → clique</div>
+      <div class="flow-arrow">→</div>
+      <div>
+        <div class="flow-node fn-good" style="margin-bottom:10px;">⭐⭐⭐⭐⭐ 4-5 étoiles → Google Review public</div>
+        <div class="flow-node fn-bad">⭐⭐⭐ 1-3 étoiles → Formulaire privé → WF-05b → alerte interne</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- TAGS -->
+  <div class="section">
+    <div class="sec-title">🏷️ Tags utilisés</div>
+    <span class="tag">KC_avis-demande</span>
+    <span class="tag">KC_review-link-clicked</span>
+    <span class="tag">KC_avis-recu</span>
+    <span class="tag">KC_avis-5etoiles</span>
+    <span class="tag">KC_avis-negatif</span>
+  </div>
+
+  <!-- VISUEL -->
+  <div class="section">
+    <div class="sec-title">🗺️ Visuel du workflow</div>
+    <div class="frame-wrap">
+      <iframe src="workflows/KC_WF05a_GoogleReview_Request.html" class="visual-frame" title="WF-05a Visual"></iframe>
+    </div>
+  </div>
+
+</div>
+</body>
+</html>
